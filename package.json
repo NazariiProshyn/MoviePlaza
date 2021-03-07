@@ -8,7 +8,6 @@
     "prepare": "husky install",
     "eslint": "node_modules/.bin/eslint front/src"
   },
-
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NazariyProshyn/MoviePlaza.git"
@@ -20,6 +19,7 @@
   },
   "homepage": "https://github.com/NazariyProshyn/MoviePlaza#readme",
   "dependencies": {
+    "eslint": "^7.21.0",
     "lint-staged": "^10.5.4"
   },
   "devDependencies": {
