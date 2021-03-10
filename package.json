@@ -7,6 +7,13 @@
     "test": "echo Success!!!",
     "eslint": "eslint front/src back/server.js",
     "prettier": "prettier --write front/src back/server.js"
+
+  },
+  "husky":{
+    "hooks":{
+      "pre-commit": "echo Fuck",
+      "pre-push": "test && eslint"
+    }
   },
   "repository": {
     "type": "git",
