@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo Success!!!",
-    "prepare": "husky install",
-    "eslint": "node_modules/.bin/eslint front/src"
+    "eslint": "eslint front/src back/server.js",
+    "prettier": "prettier --write front/src back/server.js"
   },
   "repository": {
     "type": "git",

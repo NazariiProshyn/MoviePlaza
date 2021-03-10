@@ -4,7 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Success back!\""
+    "test": "echo \"Success back!\"",
+    "eslint": "eslint server.js",
+    "prettier": "prettier --write ."
   },
   "author": "",
   "license": "ISC",

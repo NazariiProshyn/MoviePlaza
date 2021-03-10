@@ -8,25 +8,11 @@
         "ecmaVersion": 12,
         "sourceType": "module"
     },
-    "plugins":[
-        "prettier"
-    ],
+    "plugins": ["prettier"],
     "rules": {
-        "indent": [
-            "error",
-            4
-        ],
-        "linebreak-style": [
-            "error",
-            "windows"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ]
+        "indent": ["error", 4],
+        "linebreak-style": ["error", "windows"],
+        "quotes": ["error", "single"],
+        "semi": ["error", "always"]
     }
 }
