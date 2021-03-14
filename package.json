@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "cd back && npm test && cd .. && cd front && npm test",
+    "start:front": "cd front && npm run start",
+    "start:back": "cd back && npm run start",
+    "start": "npm run start:front && npm run start:back",
     "lint:front": "cd front && npm run lint",
     "lint:back": "cd back && npm run lint",
     "lint": "npm run lint:back && npm run lint:back",
