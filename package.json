@@ -4,17 +4,14 @@
   "description": "-viewing information about movies;\r     -opportunity to search for movies by filters;\r     -availability to comment on movies;\r     -opportunity to rate movies;\r     -possibility of synchronous viewing;\r     -opportunity to watch movies online with other participant.",
   "main": "index.js",
   "scripts": {
-    "test": "echo Success!!!",
-    "eslint": "eslint front/src back/server.js",
-    "prettier": "prettier --write front/src back/server.js",
-    "precommit": "echo Test"
+    "test": "cd back && npm test && cd .. && cd front && npm test",
+    "lint:front": "cd front && npm run lint",
+    "lint:back": "cd back && npm run lint",
+    "lint": "npm run lint:back && npm run lint:back",
+    "lint:fix": "cd back && npm run lint:fix && cd .. && cd front && npm run lint:fix",
+    "check-format": "cd back && npm run check-format && cd .. && cd front && npm run check-format",
+    "format": "cd back && npm run format && cd .. && cd front && npm run format"
 
-  },
-  "husky":{
-    "hooks":{
-      "pre-commit": "eslint --fix",
-      "pre-push": "test && eslint"
-    }
   },
   "repository": {
     "type": "git",
@@ -34,7 +31,6 @@
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
     "husky": "^5.1.3",
-    "lint-staged": "^10.5.4",
     "prettier": "^2.2.1"
   }
 }
