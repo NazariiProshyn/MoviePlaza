@@ -4,7 +4,9 @@
   "description": "-viewing information about movies;\r     -opportunity to search for movies by filters;\r     -availability to comment on movies;\r     -opportunity to rate movies;\r     -possibility of synchronous viewing;\r     -opportunity to watch movies online with other participant.",
   "main": "index.js",
   "scripts": {
-    "test": "cd back && npm test && cd .. && cd front && npm test",
+    "test:front": "cd front && npm test",
+    "test:back": "cd back && npm test",
+    "test": "npm run test:front && npm run test:back",
     "start:front": "cd front && npm run start",
     "start:back": "cd back && npm run start",
     "start": "npm run start:front && npm run start:back",
