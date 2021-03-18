@@ -1,0 +1,54 @@
+Сценарій 1:
+Реєстрація користувача:
+-генерується новий id User.UserId;
+-додається нове ім'я User.Name;
+-додається нове прізвише User.SecondName;
+-додається нова дата народження User.BDate;
+-встановлюється розмір гаманця (0) User.Money;
+-встановлюється Login UserInformation.Login;
+-встановлюється хеш пароля UserInformation.Password.
+
+Сценарій 2:
+Поповнення рахунку:
+-оновлюється розмір гаманця User.Money, збільшуючись на значення Details.Amount;
+-додається номер рахунку Details.Number;
+-додається дата оплати Details.DateOfPayment;
+-додається розмір оплати Details.Amount.
+
+Сценарій 3:
+Купівля фільму:
+-оновлюється розмір гаманця User.Money, зменшуючись на значення вартості фільму FilmInfo.Price;
+-додається запис про володіння юзером фільму BoughtFims.Userid, BoughtFims.FilmId.
+
+Сценарій 4:
+Оновлення інформації про користувача:
+-оновлення даних,які були додані в сценарії 1.
+
+Сценарій 5:
+Додавання фільму:
+-генерується новий id FilmInfo.FilmId;
+-додається жанр фільму
+-встановлюється рейтинг фільму (0) Reits.Rait, Reits.NumOfVoices;
+-додається нове назва фільму FilmInfo.FilmName;
+-встановлюється ціна фільму FilmInfo.Price;
+-додається інформація про фільм FilmInfo.InformationAboutFilm;
+-додається референс на фільм FilmInfo.Film.
+
+Сценарій 6:
+Додавання коментаря:
+-додавання коментаря до фільму з відповідним id(FilmInfo.id), Comments.Comment;
+
+Сценарій 7:
+Оцінка фільму
+-додавання оцінки  фільму з відповідним id(FilmInfo.id), Reits.Reit, вичисляєтьч за формулою:
+Reit= ((Reits.REit * Reits.NumOfVoices) + YOUR_REIT) / (Reits.NumOfVoices + 1).
+
+Сценарій 8:
+Пошук фільму за жанрому:
+-створються View - ListOFFilms , яке збирає інформацію з таблиць Genres та FilmInfo та
+повертає FilmInfo.FilmName , FilmInfo.Price.
+
+Сценарій 9:
+Вхід користувача:
+-порівнюються введений Login та UserInformation.Login;
+-порівнюються введений хеш пароля та UserInformation.Password.
