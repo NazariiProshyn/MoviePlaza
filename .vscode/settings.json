@@ -2,7 +2,7 @@
 "editor.formatOnPaste": false,
 "editor.formatOnSave": true,
 "[javascript]": {
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
 },
 "[html]": {
   "editor.formatOnSave": false,
