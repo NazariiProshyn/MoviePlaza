@@ -1,7 +1,7 @@
 .header {
-    list-style: none; /*убираем маркеры списка*/
-    margin: 0; /*убираем верхнее и нижнее поле, равное 1em*/
-    padding-left: 0; /*убираем левый отступ, равный 40px*/
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
     display: flex;
     align-items: center;
     background-color: black;
@@ -10,6 +10,7 @@
 li {
     display: flex;
     align-items: center;
+    margin-left: 3vw;
     color: crimson;
     height: 65px;
 }
@@ -17,7 +18,6 @@ a {
     text-decoration: none;
 
     display: flex;
-    margin-left: 3vw;
     color: crimson;
     align-items: center;
     white-space: nowrap;
@@ -39,7 +39,6 @@ a {
 }
 
 #filmsearch {
-    margin-left: 2vw;
     height: 30px;
     outline: none;
 }

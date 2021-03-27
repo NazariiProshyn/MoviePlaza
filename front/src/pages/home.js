@@ -1,4 +1,6 @@
+import Slider from '../components/Slider/Slider';
+
 function Home() {
-    return <h1>Welcome home</h1>;
+    return <Slider></Slider>;
 }
 export default Home;
