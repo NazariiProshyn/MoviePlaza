@@ -6,11 +6,12 @@ import Catalog from './pages/catalog';
 import Room from './pages/room';
 import User from './pages/user';
 import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 
 function App() {
     return (
         <div className="App">
-            <Header></Header>
+            <Header />
             <div className="content">
                 <Switch>
                     <Route exact path="/" component={Home} />
@@ -19,6 +20,7 @@ function App() {
                     <Route path="/user" component={User} />
                 </Switch>
             </div>
+            <Footer />
         </div>
     );
 }
