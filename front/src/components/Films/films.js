@@ -1,9 +1,10 @@
 import React from 'react';
 import './Films.css';
+import { Link } from 'react-router-dom';
 
 function Films({ work }) {
     return (
-        <a href={work.link} className="film-item">
+        <Link to={`/catalog/${work.id}`} className="film-item">
             <div className="film-img-div">
                 <img
                     className="film-item-img"
@@ -17,7 +18,7 @@ function Films({ work }) {
             <div className="film-desc">
                 <p>{work.description}</p>
             </div>
-        </a>
+        </Link>
     );
 }
 export default Films;

@@ -1,5 +1,5 @@
 import Slider from '../components/Slider/Slider';
-import newfilm from './newfilm';
+import newfilm from '../staticStorage/newfilm';
 import Films from '../components/Films/Films';
 function Home() {
     return (
