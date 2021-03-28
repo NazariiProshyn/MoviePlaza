@@ -12,6 +12,7 @@ a {
     margin: 0 auto;
     padding-top: 5vh;
     padding-bottom: 5vh;
+    z-index: 5;
     margin-bottom: 100px;
     overflow: hidden;
     align-items: center;
@@ -23,6 +24,7 @@ a {
     flex-direction: column;
     position: relative;
     align-items: center;
+    background-color: white;
     width: 100%;
     height: 70vh;
 }
@@ -31,7 +33,7 @@ a {
     content: '';
     opacity: 0.5;
     position: absolute;
-    z-index: -1;
+    z-index: 2;
     top: 0;
     left: 0;
     bottom: 0;
@@ -101,4 +103,5 @@ a {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
+    z-index: 5;
 }

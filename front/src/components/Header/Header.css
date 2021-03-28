@@ -14,13 +14,16 @@ li {
     color: crimson;
     height: 65px;
 }
-a {
+.header a {
     text-decoration: none;
 
     display: flex;
     color: crimson;
     align-items: center;
     white-space: nowrap;
+}
+a {
+    text-decoration: none;
 }
 
 #userImg {
