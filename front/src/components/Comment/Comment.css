@@ -1,0 +1,30 @@
+.comment {
+    display: grid;
+    grid-template-columns: 15% 75%;
+    grid-template-rows: 3vw 7vw;
+    margin-top: 2vh;
+    margin-left: 20px;
+    width: 90%;
+    background-color: red;
+}
+.commenttext {
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+.avatarCom {
+    grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 1;
+}
+.avtor p {
+    color: white;
+    font-weight: bold;
+    font-size: large;
+}
+.avatarImg {
+    width: 10vw;
+    height: 10vw;
+}

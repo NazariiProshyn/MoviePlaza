@@ -1,10 +1,29 @@
 import films from '../staticStorage/allfilm';
-
+import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
 import './filmpage.css';
+import './../components/Comment/Comment.css';
 import { Link } from 'react-router-dom';
-
+import Comment from '../components/Comment/Comment';
+import userImg from './../images/user.png';
 class Filmpage extends Component {
+    addComment() {
+        let container = document.getElementsByClassName('container')[0];
+        const com = document.getElementById('addComment').value;
+        let div = document.createElement('div');
+        div.className = 'commentcont';
+        let work = {
+            nikname: 'userAdder',
+            avatar: userImg,
+            comment: com,
+        };
+
+        if (com.trim().length > 0) {
+            container.prepend(div);
+            let a = Comment({ work });
+            ReactDOM.render(a, div);
+        }
+    }
     render() {
         const id = this.props.match.params.id;
         const film = films.find((film) => film.id === id);
@@ -98,6 +117,30 @@ class Filmpage extends Component {
                         </div>
                         <p>Описання:</p>
                         <div className="desc">{film.description}</div>
+                    </div>
+
+                    <div className="filmComment">
+                        <p className="commentP">Коментарі:</p>
+                        <div className="commentSection">
+                            <textarea id="addComment"></textarea>
+                            <button
+                                type="submit"
+                                id="addCommentBtn"
+                                onClick={this.addComment}
+                            >
+                                Додати коментар
+                            </button>
+                        </div>
+                        <div className="container">
+                            {film.comment.map((commentar) => (
+                                <div className="commentcont" key={commentar.id}>
+                                    <Comment
+                                        key={commentar.id}
+                                        work={commentar}
+                                    />
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

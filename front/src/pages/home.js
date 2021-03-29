@@ -7,8 +7,8 @@ function Home() {
             <Slider></Slider>
             <div className="newcatalog">
                 <div className="container">
-                    {newfilm.map((work) => (
-                        <Films key={work.id} work={work} />
+                    {newfilm.map((film) => (
+                        <Films key={film.id} work={film} />
                     ))}
                 </div>
             </div>

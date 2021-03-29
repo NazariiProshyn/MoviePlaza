@@ -6,6 +6,9 @@ import searchimg from './../../images/searc.png';
 import { Link } from 'react-router-dom';
 
 class Header extends Component {
+    test() {
+        console.log('+');
+    }
     render() {
         return (
             <ul className="header">
@@ -32,7 +35,12 @@ class Header extends Component {
                         placeholder="Пошук фільму"
                     ></input>
                     {/*добавити onclick для img або замінити img на button i знайти спосіб як поставити на фон кнопки картинку */}
-                    <img src={searchimg} alt="search" id="searchImg"></img>
+                    <img
+                        src={searchimg}
+                        alt="search"
+                        id="searchImg"
+                        onClick={this.test}
+                    ></img>
                 </li>
                 <li>
                     <Link to="/balancerefill" className="navlink">
