@@ -1,11 +1,23 @@
 import React, { Component } from 'react';
 import './filter.css';
 import searchimg from './../../images/searc.png';
+import films from './../../staticStorage/allfilm';
 class Filter extends Component {
     filtring() {
         const genre = document.getElementById('selGenre').value;
 
         console.log(genre);
+        const start_rate = document.getElementById('startrate').value;
+        const end_rate = document.getElementById('endrate').value;
+        let x = document.getElementsByClassName('film-item');
+        for (let i = 0; i < x.length; i++) {
+            let temp = films.find((film) => film.id === x[i].id);
+            if (temp.rate < start_rate || temp.rate > end_rate) {
+                x[i].style.display = 'none';
+            } else {
+                x[i].style.display = 'grid';
+            }
+        }
     }
     test() {
         console.log('search');

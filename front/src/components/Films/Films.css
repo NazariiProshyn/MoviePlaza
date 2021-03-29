@@ -46,3 +46,8 @@
 .film-title p {
     margin: 0;
 }
+
+.film-desc p {
+    text-align: left;
+    margin-left: 10px;
+}

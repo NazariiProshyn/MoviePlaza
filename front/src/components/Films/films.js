@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function Films({ work }) {
     return (
-        <Link to={`/catalog/${work.id}`} className="film-item">
+        <Link to={`/catalog/${work.id}`} className="film-item" id={work.id}>
             <div className="film-img-div">
                 <img
                     className="film-item-img"
@@ -16,6 +16,7 @@ function Films({ work }) {
                 <p>{work.title}</p>
             </div>
             <div className="film-desc">
+                <p className="catalog_rate">Рейтинг фільму:{work.rate}</p>
                 <p>{work.description}</p>
             </div>
         </Link>
