@@ -1,4 +1,12 @@
-function Room() {
-    return <h1>This is Room</h1>;
+import { Component } from 'react';
+import Watchroom from '../components/Watchroom/Watchroom';
+
+
+class Room extends Component {
+    render() {
+        return (
+            <Watchroom/>
+        );
+    }  
 }
 export default Room;
