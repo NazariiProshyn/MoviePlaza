@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Films({ work }) {
     return (
-        <Link to={`/catalog/${work.id}`} className={f['film-item']} id={work.id}>
+        <Link to={`/catalog/${work.id}`} className={f['film-item']} id={work.id} data-item="film">
             <div className={f['item-picture']}>
                 <img className={f['item-picture__img']} src={work.screenshot} alt={work.title}/>
             </div>

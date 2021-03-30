@@ -1,5 +1,5 @@
 import Filter from '../components/Filter/Filter';
-import allfilm from '../staticStorage/allfilm';
+import all_films from '../staticStorage/all_films';
 import Films from '../components/Films/Films';
 
 function Catalog() {
@@ -8,7 +8,7 @@ function Catalog() {
             <Filter />
             <div className="newcatalog">
                 <div className="container">
-                    {allfilm.map((film) => (
+                    {all_films.map((film) => (
                         <Films key={film.id} work={film} />
                     ))}
                 </div>

@@ -1,4 +1,4 @@
-import films from '../staticStorage/allfilm';
+import films from '../staticStorage/all_films';
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
 import './filmpage.css';

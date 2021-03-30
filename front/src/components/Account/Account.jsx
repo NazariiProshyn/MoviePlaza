@@ -20,12 +20,12 @@ function Account(params) {
                     </div>
                     
                     <div className={a['user-favourites']}>
-                        <span>Предпочтения:</span>
+                        <span>Уподобання:</span>
                         <ul>
-                            <li>Любимый жанр: {params.user.favourites.genre}</li>
-                            <li>Любимый режиссер: {params.user.favourites.producer}</li>
-                            <li>Любимый актер: {params.user.favourites.actor}</li>
-                            <li>Любимый фильм: {params.user.favourites.film}</li>
+                            <li>Улюблений жанр: {params.user.favourites.genre}</li>
+                            <li>Улюблений режисер: {params.user.favourites.producer}</li>
+                            <li>Улюблений актер: {params.user.favourites.actor}</li>
+                            <li>Улюблений фільм: {params.user.favourites.film}</li>
                         </ul>
                     </div>
                 </div>

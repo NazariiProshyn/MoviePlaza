@@ -1,5 +1,5 @@
 import Slider from '../components/Slider/Slider';
-import newfilm from '../staticStorage/newfilm';
+import new_films from '../staticStorage/new_films';
 import Films from '../components/Films/Films';
 
 function Home() {
@@ -8,7 +8,7 @@ function Home() {
             <Slider></Slider>
             <div className="newcatalog">
                 <div className="container">
-                    {newfilm.map((film) => (
+                    {new_films.map((film) => (
                         <Films key={film.id} work={film} />
                     ))}
                 </div>
