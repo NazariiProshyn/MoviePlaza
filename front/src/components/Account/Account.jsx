@@ -15,7 +15,7 @@ function Account(params) {
                 
                 <div className={a['profile-description']}>
                     <div className={a['user-description']}>
-                        <span>О себе:</span>
+                        <span>Про себе:</span>
                         <textarea className={a['user-about']} readOnly="true" value={params.user.about}></textarea>
                     </div>
                     

@@ -1,19 +1,71 @@
-.header {
-    list-style: none;
-    margin: 0;
-    padding-left: 0;
-    display: flex;
-    align-items: center;
+header {
+    height: 10vh;
+    width: 100%;
     background-color: black;
 }
 
-li {
+.header-wrapper {
+    width: 98%;
+    height: 100%;
+    margin: 0 auto;
     display: flex;
     align-items: center;
-    margin-left: 3vw;
-    color: crimson;
-    height: 65px;
+    flex-direction: row;
 }
+
+.navbar {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    padding-right: 20px;
+}
+
+.search-bar {
+    width: 50%;
+}
+
+.user-bar {
+    width: 20%;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: row;
+}
+
+.header-logo {
+    margin-right: 25px;
+}
+
+.header-link {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: crimson;
+    height: 100%;
+    width: 100%;
+    transition: all 0.5s;
+    margin: 0 2px;
+}
+
+.header-link:hover {
+    color: black;
+    background-color: white;
+}
+
+.header-search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: crimson;
+    height: 100%;
+    width: 100%;
+}
+
 .header a {
     text-decoration: none;
     display: flex;
@@ -22,18 +74,17 @@ li {
     white-space: nowrap;
 }
 
-a {
-    text-decoration: none;
-}
-
-#user_img {
-    height: 30px;
-    width: 30px;
-}
-
 #logo_img {
-    height: 40px;
-    width: 40px;
+    height: 9vh;
+    width: 9vh;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+#film-search {
+    height: 30px;
+    outline: none;
+    width: 100%;
 }
 
 #search_img {
@@ -46,6 +97,26 @@ a {
     outline: none;
 }
 
-#balance {
-    white-space: nowrap;
+@media screen and (max-width: 1440px) {
+    .navbar {
+        width: 40%;
+    }
+    .search-bar {
+        width: 40%;
+    }
+    .user-bar {
+        width: 20%;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .navbar {
+        width: 50%;
+    }
+    .search-bar {
+        width: 30%;
+    }
+    .user-bar {
+        width: 20%;
+    }
 }

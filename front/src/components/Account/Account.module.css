@@ -79,14 +79,14 @@
     outline: none;
     border-radius: 5px;
     border: none;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .user-favourites {
     box-sizing: border-box;
     margin-top: 20px;
     height: 70%;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .user-favourites span {
