@@ -77,6 +77,11 @@
     width: 32px;
 }
 
+.message-avatar img {
+    height: 100%;
+    width: 100%;
+}
+
 .message-content {
     flex: 1;
     font-weight: 400;
