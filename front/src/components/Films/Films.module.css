@@ -9,7 +9,7 @@
     background-color: red;
 }
 
-.film-desc {
+.item-desc {
     grid-column-start: 2;
     grid-row-start: 2;
     text-align: center;
@@ -21,18 +21,18 @@
     white-space: normal;
 }
 
-.film-item-img {
+.item-picture__img {
     width: 10vw;
     height: 10vw;
 }
 
-.film-img-div {
+.item-picture {
     width: 10vw;
     height: 10vw;
     vertical-align: bottom;
     grid-area: 1/1/3/1;
 }
-.film-title {
+.item-title {
     height: 3vw;
     text-align: center;
     font-size: 2vw;
@@ -43,11 +43,11 @@
     grid-row-end: 1;
 }
 
-.film-title p {
+.item-title p {
     margin: 0;
 }
 
-.film-desc p {
+.item-desc p {
     text-align: left;
     margin-left: 10px;
 }

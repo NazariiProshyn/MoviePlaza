@@ -1,13 +1,14 @@
-import Filter from '../components/Filter/Filter';
-import allfilm from '../staticStorage/allfilm';
+import Slider from '../components/Slider/Slider';
+import newfilm from '../staticStorage/newfilm';
 import Films from '../components/Films/Films';
-function Catalog() {
+
+function Home() {
     return (
-        <div className="Catalog">
-            <Filter />
+        <div className="Home">
+            <Slider></Slider>
             <div className="newcatalog">
                 <div className="container">
-                    {allfilm.map((film) => (
+                    {newfilm.map((film) => (
                         <Films key={film.id} work={film} />
                     ))}
                 </div>
@@ -15,4 +16,4 @@ function Catalog() {
         </div>
     );
 }
-export default Catalog;
+export default Home;

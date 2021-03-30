@@ -1,5 +1,6 @@
 import './App.css';
 
+
 import { Route, Switch } from 'react-router-dom';
 import Home from './pages/home';
 import Catalog from './pages/catalog';
@@ -19,7 +20,7 @@ function App() {
                     <Route path="/catalog/:id" component={Filmpage} />
                     <Route path="/catalog" component={Catalog} />
                     <Route path="/room" component={Room} />
-                    <Route path="/user" component={User} />
+                    <Route path="/user/:id" component={User} />
                 </Switch>
             </div>
             <Footer />

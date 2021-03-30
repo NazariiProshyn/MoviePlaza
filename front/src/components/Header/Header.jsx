@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Header.css';
 import user from './../../images/user.png';
 import logo from './../../images/Logo.png';
-import searchimg from './../../images/searc.png';
+import search_img from './../../images/search.png';
 import { Link } from 'react-router-dom';
 
 class Header extends Component {
@@ -36,7 +36,7 @@ class Header extends Component {
                     ></input>
                     {/*добавити onclick для img або замінити img на button i знайти спосіб як поставити на фон кнопки картинку */}
                     <img
-                        src={searchimg}
+                        src={search_img}
                         alt="search"
                         id="searchImg"
                         onClick={this.test}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './filter.css';
-import searchimg from './../../images/searc.png';
-import films from './../../staticStorage/allfilm';
+import search_img from './../../images/search.png';
+import films from '../../staticStorage/allfilm';
 class Filter extends Component {
     filtring() {
         const genre = document.getElementById('selGenre').value;
@@ -34,7 +34,7 @@ class Filter extends Component {
                     ></input>
                     {/*добавити onclick для img або замінити img на button i знайти спосіб як поставити на фон кнопки картинку */}
                     <img
-                        src={searchimg}
+                        src={search_img}
                         alt="search"
                         id="searchImg"
                         onClick={this.test}

@@ -2,10 +2,11 @@ import films from '../staticStorage/allfilm';
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
 import './filmpage.css';
-import './../components/Comment/Comment.css';
+
 import { Link } from 'react-router-dom';
 import Comment from '../components/Comment/Comment';
 import userImg from './../images/user.png';
+
 class Filmpage extends Component {
     addComment() {
         let container = document.getElementsByClassName('container')[0];
@@ -13,7 +14,7 @@ class Filmpage extends Component {
         let div = document.createElement('div');
         div.className = 'commentcont';
         let work = {
-            nikname: 'userAdder',
+            nickname: 'userAdder',
             avatar: userImg,
             comment: com,
         };
