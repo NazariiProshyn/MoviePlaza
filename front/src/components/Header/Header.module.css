@@ -16,32 +16,32 @@ li {
 }
 .header a {
     text-decoration: none;
-
     display: flex;
     color: crimson;
     align-items: center;
     white-space: nowrap;
 }
+
 a {
     text-decoration: none;
 }
 
-#userImg {
+#user_img {
     height: 30px;
     width: 30px;
 }
 
-#logoImg {
+#logo_img {
     height: 40px;
     width: 40px;
 }
 
-#searchImg {
+#search_img {
     height: 30px;
     width: 30px;
 }
 
-#filmsearch {
+#film_search {
     height: 30px;
     outline: none;
 }
