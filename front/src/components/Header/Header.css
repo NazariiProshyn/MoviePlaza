@@ -1,0 +1,51 @@
+.header {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+    display: flex;
+    align-items: center;
+    background-color: black;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    margin-left: 3vw;
+    color: crimson;
+    height: 65px;
+}
+.header a {
+    text-decoration: none;
+
+    display: flex;
+    color: crimson;
+    align-items: center;
+    white-space: nowrap;
+}
+a {
+    text-decoration: none;
+}
+
+#userImg {
+    height: 30px;
+    width: 30px;
+}
+
+#logoImg {
+    height: 40px;
+    width: 40px;
+}
+
+#searchImg {
+    height: 30px;
+    width: 30px;
+}
+
+#filmsearch {
+    height: 30px;
+    outline: none;
+}
+
+#balance {
+    white-space: nowrap;
+}
