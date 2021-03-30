@@ -1,11 +1,11 @@
-import films from '../staticStorage/all_films';
+import films from '../../staticStorage/all_films';
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
 import './filmpage.css';
 
 import { Link } from 'react-router-dom';
-import Comment from '../components/Comment/Comment';
-import userImg from './../images/user.png';
+import Comment from '../../components/Comment/Comment';
+import userImg from '../../images/user.png';
 
 class Filmpage extends Component {
     addComment() {

@@ -3,12 +3,12 @@ import './App.css';
 
 import { Route, Switch } from 'react-router-dom';
 import Home from './pages/home';
-import Catalog from './pages/catalog';
+import Catalog from './components/Catalog/Catalog';
 import Room from './pages/room';
 import User from './pages/user';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
-import Filmpage from './pages/filmpage';
+import Filmpage from './pages/filmpage/filmpage';
 
 function App() {
     return (
