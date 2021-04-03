@@ -12,7 +12,7 @@ class Header extends Component {
                 <div className={h['header-wrapper']}>
                     <div className={h.navbar}>
                         <Link to="/" className={h['header-logo']}>
-                            <img src={logo} alt="logo" id={h.logo_img}/>
+                            <img src={logo} alt="logo" id={h.logo_img} />
                             <span>MoviePlaza</span>
                         </Link>
                         <Link to="/catalog" className={h['header-link']}>
@@ -20,20 +20,29 @@ class Header extends Component {
                         </Link>
                         <Link to="/room" className={h['header-link']}>
                             <span>Створити кімнату</span>
-                        </Link>                   
+                        </Link>
                     </div>
                     <div className={h['search-bar']}>
                         <div className={h['header-search']}>
-                            <input id={h['film-search']} type="search" placeholder="Пошук фільму"></input>
+                            <input
+                                id={h['film-search']}
+                                type="search"
+                                placeholder="Пошук фільму"
+                            ></input>
                             {/*добавити onclick для img або замінити img на button i знайти спосіб як поставити на фон кнопки картинку */}
-                            <img src={search_img} alt="search" id={h.search_img} onClick={this.test}/>
-                        </div>   
+                            <img
+                                src={search_img}
+                                alt="search"
+                                id={h.search_img}
+                                onClick={this.test}
+                            />
+                        </div>
                     </div>
                     <div className={h['user-bar']}>
-                        <Link to="/user" className={h['header-link']}>
+                        <Link to="/login" className={h['header-link']}>
                             <div id={h.enter}>Увійти</div>
                         </Link>
-                        <Link to="/user" className={h['header-link']}>
+                        <Link to="/registration" className={h['header-link']}>
                             <div id={h.register}>Зареєструватися</div>
                         </Link>
                     </div>

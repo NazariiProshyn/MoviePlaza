@@ -9,6 +9,8 @@ import User from './pages/user';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Filmpage from './pages/filmpage/filmpage';
+import Registration from './components/Registration/Registration';
+import Authorization from './components/Authorization/Authorization';
 
 function App() {
     return (
@@ -21,6 +23,8 @@ function App() {
                     <Route path="/catalog" component={Catalog} />
                     <Route path="/room" component={Room} />
                     <Route path="/user/:id" component={User} />
+                    <Route path="/registration" component={Registration} />
+                    <Route path="/login" component={Authorization} />
                 </Switch>
             </div>
             <Footer />
