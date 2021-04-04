@@ -9,7 +9,7 @@ const cors = require('koa-cors');
 const home = require('./routes/index');
 const users = require('./routes/users');
 const films = require('./routes/films');
-
+const filmsImg = require('./routes/filmImg');
 const app = new Koa();
 
 app.use(BodyParser());
@@ -18,4 +18,5 @@ app.use(cors());
 app.use(home.routes());
 app.use(users.routes());
 app.use(films.routes());
+app.use(filmsImg.routes());
 app.listen(3001);

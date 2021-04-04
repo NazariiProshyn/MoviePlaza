@@ -2,7 +2,7 @@
     {
         "id": "film-1",
         "title": "FilmName1",
-        "screenshot": "./../images/film.png",        
+        "screenshot": "film.png",        
         "rate": 9.1,
         "release_year": 2011,
         "length": 111,
@@ -11,31 +11,31 @@
             {
                 "id": "1",
                 "nickname": "user1",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "1"
             },
             {
                 "id": "2",
                 "nickname": "user2",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "2"
             },
             {
                 "id": "3",
                 "nickname": "user2",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "fsdsddskdksk"
             },
             {
                 "id": "4",
                 "nickname": "user1",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "46753"
             },
             {
                 "id": "5",
                 "nickname": "user3",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "spam"
             }
         ],
@@ -45,7 +45,7 @@
     {
         "id": "film-2",
         "title": "FilmName2",
-        "screenshot": "./../images/film.png",        
+        "screenshot": "film.png",        
         "rate": 5.1,
         "release_year": 2012,
         "length": 112,
@@ -54,31 +54,31 @@
             {
                 "id": "1",
                 "nickname": "user1",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "1"
             },
             {
                 "id": "2",
                 "nickname": "user2",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "2"
             },
             {
                 "id": "3",
                 "nickname": "user2",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "fsdsddskdkskdsssssssssssssssssssssssssasasasasa asasasjasj ajsaj sjasjca cjs cajs js ajs jas js jadsjdjsdjsjdjsdsdsd sjds djs djs jd sjdjsd sdj asajsjasjajsjajsjajsjasasaj sj"
             },
             {
                 "id": "4",
                 "nickname": "user1",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "46753"
             },
             {
                 "id": "5",
                 "nickname": "user3",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "spam"
             }
         ],
@@ -88,7 +88,7 @@
     {
         "id": "film-3",
         "title": "FilmName3",
-        "screenshot": "./../images/film.png",        
+        "screenshot": "film.png",        
         "rate": 9.4,
         "release_year": 2013,
         "length": 113,
@@ -97,31 +97,31 @@
             {
                 "id": "1",
                 "nickname": "user1",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "1"
             },
             {
                 "id": "2",
                 "nickname": "user2",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "2"
             },
             {
                 "id": "3",
                 "nickname": "user2",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "fsdsddskdksk"
             },
             {
                 "id": "4",
                 "nickname": "user1",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "46753"
             },
             {
                 "id": "5",
                 "nickname": "user3",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "spam"
             }
         ],
@@ -131,7 +131,7 @@
     {
         "id": "film-4",
         "title": "FilmName4",
-        "screenshot": "./../images/film.png",        
+        "screenshot": "film.png",        
         "rate": 7.1,
         "release_year": 2014,
         "length": 114,
@@ -140,31 +140,31 @@
             {
                 "id": "1",
                 "nickname": "user1",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "1"
             },
             {
                 "id": "2",
                 "nickname": "user2",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "2"
             },
             {
                 "id": "3",
                 "nickname": "user2",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "fsdsddskdksk"
             },
             {
                 "id": "4",
                 "nickname": "user1",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "46753"
             },
             {
                 "id": "5",
                 "nickname": "user3",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "spam"
             }
         ],
@@ -174,7 +174,7 @@
     {
         "id": "film-5",
         "title": "FilmName5",
-        "screenshot": "./../images/film.png",        
+        "screenshot": "film.png",        
         "rate": 8.1,
         "release_year": 2015,
         "length": 115,
@@ -183,31 +183,31 @@
             {
                 "id": "1",
                 "nickname": "user1",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "1"
             },
             {
                 "id": "2",
                 "nickname": "user2",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "2"
             },
             {
                 "id": "3",
                 "nickname": "user2",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "fsdsddskdksk"
             },
             {
                 "id": "4",
                 "nickname": "user1",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "46753"
             },
             {
                 "id": "5",
                 "nickname": "user3",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "spam"
             }
         ],
@@ -217,7 +217,7 @@
     {
         "id": "film-6",
         "title": "FilmName6",
-        "screenshot": "./../images/film.png",        
+        "screenshot": "film.png",        
         "rate": 9.1,
         "release_year": 2016,
         "length": 116,
@@ -226,31 +226,31 @@
             {
                 "id": "1",
                 "nickname": "user1",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "1"
             },
             {
                 "id": "2",
                 "nickname": "user2",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "2"
             },
             {
                 "id": "3",
                 "nickname": "user2",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "fsdsddskdksk"
             },
             {
                 "id": "4",
                 "nickname": "user1",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "46753"
             },
             {
                 "id": "5",
                 "nickname": "user3",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "spam"
             }
         ],
@@ -260,7 +260,7 @@
     {
         "id": "film-7",
         "title": "FilmName7",
-        "screenshot": "./../images/film.png",        
+        "screenshot": "film.png",        
         "rate": 9.8,
         "release_year": 2017,
         "length": 117,
@@ -269,31 +269,31 @@
             {
                 "id": "1",
                 "nickname": "user1",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "1"
             },
             {
                 "id": "2",
                 "nickname": "user2",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "2"
             },
             {
                 "id": "3",
                 "nickname": "user2",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "fsdsddskdksk"
             },
             {
                 "id": "4",
                 "nickname": "user1",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "46753"
             },
             {
                 "id": "5",
                 "nickname": "user3",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "spam"
             }
         ],
@@ -303,7 +303,7 @@
     {
         "id": "film-8",
         "title": "FilmName8",
-        "screenshot": "./../images/film.png",          
+        "screenshot": "film.png",          
         "rate": 9.6,
         "release_year": 2018,
         "length": 118,
@@ -312,31 +312,31 @@
             {
                 "id": "1",
                 "nickname": "user1",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "1"
             },
             {
                 "id": "2",
                 "nickname": "user2",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "2"
             },
             {
                 "id": "3",
                 "nickname": "user2",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "fsdsddskdksk"
             },
             {
                 "id": "4",
                 "nickname": "user1",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "46753"
             },
             {
                 "id": "5",
                 "nickname": "user3",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "spam"
             }
         ],
@@ -346,7 +346,7 @@
     {
         "id": "film-9",
         "title": "FilmName9",
-        "screenshot": "./../images/film.png",        
+        "screenshot": "film.png",        
         "rate": 9.1,
         "release_year": 2019,
         "length": 119,
@@ -355,31 +355,31 @@
             {
                 "id": "1",
                 "nickname": "user1",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "1"
             },
             {
                 "id": "2",
                 "nickname": "user2",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "2"
             },
             {
                 "id": "3",
                 "nickname": "user2",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "fsdsddskdksk"
             },
             {
                 "id": "4",
                 "nickname": "user1",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "46753"
             },
             {
                 "id": "5",
                 "nickname": "user3",
-                "avatar": "./../images/user.png",
+                "avatar": "user.png",
                 "comment": "spam"
             }
         ],
