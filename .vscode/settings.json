@@ -11,4 +11,5 @@
   "editor.formatOnSave": false,
 },
 "eslint.alwaysShowStatus": true,
+"files.eol": "\n"
 }

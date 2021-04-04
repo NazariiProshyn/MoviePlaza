@@ -1,0 +1,98 @@
+.watchroom-chat {
+    width: 300px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #36393f;
+}
+
+.chat-buttons {
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.chat-buttons__copy {
+    background-color: rgb(0, 0, 0, 0.5);
+    color: #c9cbcc;
+    padding: 5px 7px;
+    border-radius: 5px;
+    font-size: 13px;
+    text-decoration: none;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+}
+
+.chat-messages {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    flex: 1;
+}
+
+.chat-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    width: 300px;
+    height: 60px;
+    background-color: #36393f;
+}
+
+.message {
+    margin-top: 5px;
+    word-break: break-all;
+    padding: 3px 5px;
+    border-radius: 5px;
+    display: flex;
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #c9cbcc;
+    text-align: left;
+}
+
+.message-avatar {
+    height: 32px;
+    width: 32px;
+}
+
+.message-avatar img {
+    height: 100%;
+    width: 100%;
+}
+
+.message-content {
+    flex: 1;
+    font-weight: 400;
+    font-size: 15px;
+    margin-left: 5px;
+}
+
+.message-content__username {
+    color: #212529;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.message-content__text {
+    color: #c9cbcc;
+    font-size: 14px;
+}
+
+.link-to-user {
+    color: #8e9297;
+    text-decoration: none;
+}
+
+.current-time {
+    font-size: 80%;
+    font-weight: 400;
+    color: #72767d;
+}
