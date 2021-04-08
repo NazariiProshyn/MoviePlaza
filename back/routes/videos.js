@@ -18,21 +18,15 @@ router.get('/videos/1', async (ctx) => {
         ctx.set('Accept-Ranges', 'bytes');
         ctx.set('Content-Length', chunksize);
         ctx.set('Cache-Control', 'no-cache');
-        console.log(206);
         ctx.status = 206;
         ctx.body = file;
-        console.log(ctx.head);
     } else {
         ctx.set('Content-Type', 'video/mp4');
-
         ctx.set('Accept-Ranges', 'bytes');
         ctx.set('Content-Length', fileSize);
         ctx.set('Cache-Control', 'no-cache');
-
-        console.log(200);
         ctx.status = 200;
         ctx.body = fs.createReadStream(path);
-        console.log(ctx.head);
     }
 });
 

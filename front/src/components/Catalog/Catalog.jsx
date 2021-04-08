@@ -1,6 +1,5 @@
 import Filter from '../Filter/Filter';
 import Films from '../Films/Films';
-//import all_films from '../../staticStorage/all_films';
 import c from './Catalog.module.css';
 import React, { Component } from 'react';
 import axios from 'axios';
@@ -12,7 +11,6 @@ class Catalog extends Component {
             films:[],
         };
         this.loadFilms = this.loadFilms.bind(this);
-        //this.getDerivedStateFromProps = this.getDerivedStateFromProps(this);
         
     }
     
