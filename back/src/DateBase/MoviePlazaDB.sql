@@ -12,6 +12,7 @@
  *
  *******************************/
  
+ 
  /******************************
  *
  * DB name:             MoviePlaza
@@ -56,7 +57,7 @@
 	"Money"      money,
 	CONSTRAINT "User_pk" PRIMARY KEY ("UserId")
  ) WITH (
-  OIDS=FALSE
+  OIDS = FALSE
  );
 
  /*
@@ -69,5 +70,5 @@
 	"Password" varchar(255) NOT NULL,
 	CONSTRAINT "UserInformation_pk" PRIMARY KEY ("UserId")
 ) WITH (
-  OIDS=FALSE
+  OIDS = FALSE
 );
