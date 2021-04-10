@@ -1,13 +1,42 @@
-import films from '../../staticStorage/all_films';
+//import films from '../../staticStorage/all_films';
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
 import './filmpage.css';
 
 import { Link } from 'react-router-dom';
 import Comment from '../../components/Comment/Comment';
-import userImg from '../../images/user.png';
+//import userImg from '../../images/user.png';
+import axios from 'axios';
 
 class Filmpage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            films:[],
+            film:{},
+            comment:[]
+        };
+        this.loadFilms = this.loadFilms.bind(this);
+        
+    }
+    
+    componentDidMount() {
+        this.loadFilms();
+    }
+    
+    async loadFilms()
+    {
+        const promise = await axios.get('http://localhost:3001/catalog');
+        const status = promise.status;
+        if(status===200)
+        {
+            const data = promise.data;
+            this.setState({films:data});
+            this.setState({film:data.find((film) => film.id === this.props.match.params.id)});
+            this.setState({comment:this.state.film.comment});
+            //console.log(this.state);
+        }
+    }
     addComment() {
         let container = document.getElementsByClassName('container')[0];
         const com = document.getElementById('addComment').value;
@@ -15,7 +44,7 @@ class Filmpage extends Component {
         div.className = 'commentcont';
         let work = {
             nickname: 'userAdder',
-            avatar: userImg,
+            avatar: 'user.png',
             comment: com,
         };
 
@@ -23,22 +52,25 @@ class Filmpage extends Component {
             container.prepend(div);
             let a = Comment({ work });
             ReactDOM.render(a, div);
+            
         }
     }
     render() {
-        const id = this.props.match.params.id;
-        const film = films.find((film) => film.id === id);
+        //        const id = this.props.match.params.id;
+        //        console.log(id);
+        //        console.log(this.state.films);
+        //        const film = this.state.films.find((film) => film.id === id);
         return (
             <div className="FilmContain">
                 <div className="Filmpage">
-                    <h1>{film.title}</h1>
+                    <h1>{this.state.film.title}</h1>
                     <img
-                        src={film.screenshot}
+                        src={'http://localhost:3001/images/'+this.state.film.screenshot}
                         alt="titleImg"
                         className="titleImg"
                     ></img>
                     <div className="buttonsMenu">
-                        <button type="submit">Купити: {film.price}$</button>
+                        <button type="submit">Купити: {this.state.film.price}$</button>
                         <Link to="/room" className="watchroom disabled">
                             <div className="watch">
                                 <p>Дивитися зараз</p>
@@ -59,7 +91,7 @@ class Filmpage extends Component {
                         <div className="filmRate">
                             <p>Оцінка фільма: </p>
                             <div className="star"></div>
-                            <div className="rate">{film.rate}</div>
+                            <div className="rate">{this.state.film.rate}</div>
                         </div>
                         <div className="yourRate">
                             <p>Ваша оцінка: </p>
@@ -117,7 +149,7 @@ class Filmpage extends Component {
                             </div>
                         </div>
                         <p>Описання:</p>
-                        <div className="desc">{film.description}</div>
+                        <div className="desc">{this.state.film.description}</div>
                     </div>
 
                     <div className="filmComment">
@@ -133,7 +165,7 @@ class Filmpage extends Component {
                             </button>
                         </div>
                         <div className="container">
-                            {film.comment.map((commentar) => (
+                            {this.state.comment.map((commentar) => (
                                 <div className="commentcont" key={commentar.id}>
                                     <Comment
                                         key={commentar.id}
