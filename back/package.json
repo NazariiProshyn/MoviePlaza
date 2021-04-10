@@ -17,6 +17,7 @@
         "axios": "^0.21.1",
         "eslint": "^7.21.0",
         "eslint-config-prettier": "^8.1.0",
+        "fastify": "^3.14.2",
         "http-status": "^1.5.0",
         "koa": "^2.13.1",
         "koa-bodyparser": "^4.3.0",
@@ -28,6 +29,5 @@
         "nodemon": "^2.0.7",
         "prettier": "^2.2.1"
     },
-    "devDependencies": {
-    }
+    "devDependencies": {}
 }

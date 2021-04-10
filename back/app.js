@@ -1,4 +1,16 @@
-const Koa = require('koa');
+//const Koa = require('koa');
+//const HttpStatus = require('http-status');
+//const fs = require('fs');
+const fastify = require('fastify')({
+    logger: true,
+});
+
+fastify.register(require('./routes/index'));
+fastify.register(require('./routes/filmImg'));
+fastify.register(require('./routes/films'));
+fastify.register(require('./routes/users'));
+fastify.register(require('./routes/videos'));
+/*
 const BodyParser = require('koa-bodyparser');
 const Logger = require('koa-logger');
 const cors = require('koa-cors');
@@ -17,4 +29,13 @@ app.use(users.routes());
 app.use(films.routes());
 app.use(video.routes());
 app.use(filmsImg.routes());
-app.listen(3001);
+*/
+const start = async () => {
+    try {
+        await fastify.listen(3001);
+    } catch (err) {
+        fastify.log.error(err);
+        process.exit(1);
+    }
+};
+start();

@@ -1,13 +1,14 @@
-const Router = require('koa-router');
-const router = new Router();
 const HttpStatus = require('http-status');
 const fs = require('fs');
-router.get('/images/:name', async (ctx) => {
-    const name = ctx.params.name;
-    const films = fs.createReadStream('./images/' + name);
-    ctx.status = HttpStatus.OK;
-    ctx.response.set('content-type', 'image/png');
-    ctx.body = films;
-});
 
-module.exports = router;
+async function routes(fastify) {
+    fastify.get('/images/:file', async (request, reply) => {
+        const name = request.params.file;
+        const films = fs.createReadStream('./images/' + name);
+        reply.type('image/png');
+        reply.status = HttpStatus.OK;
+        reply.send(films);
+    });
+}
+
+module.exports = routes;

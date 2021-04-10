@@ -1,11 +1,12 @@
-const Router = require('koa-router');
-const router = new Router();
 const HttpStatus = require('http-status');
 
-router.get('/users', async (ctx) => {
-    const books = require('./../test/users.json');
-    ctx.status = HttpStatus.OK;
-    ctx.body = books;
-});
+async function routes(fastify) {
+    fastify.get('/users', async (request, reply) => {
+        const users = require('./../test/users.json');
+        reply.status = HttpStatus.OK;
+        reply.headers({ 'Access-Control-Allow-Origin': '*' });
+        return users;
+    });
+}
 
-module.exports = router;
+module.exports = routes;

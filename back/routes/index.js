@@ -1,11 +1,11 @@
-const Router = require('koa-router');
-const router = new Router();
+async function routes(fastify) {
+    fastify.get('/', async (request, reply) => {
+        const a = {
+            status: 'success',
+            message: 'hello, world!',
+        };
+        reply.send(a);
+    });
+}
 
-router.get('/', async (ctx) => {
-    ctx.body = {
-        status: 'success',
-        message: 'hello, world!',
-    };
-});
-
-module.exports = router;
+module.exports = routes;
