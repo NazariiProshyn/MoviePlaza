@@ -22,6 +22,7 @@
  *                      of "MoviePlaza" service
  *
  * TABLES:              "User",       "UserInformation"
+ *                      "FilmInfo",
  *
  * Description:
  * "User":              This table stores the main    
@@ -35,6 +36,11 @@
  *                      password.The "UserId" column is taken
  *                      as the primary key.The "UserId" column
  *                      in the "User" table is taken as the foreign key.
+ *
+ * "FilmInfo":          This table contains the main information
+ *                      about the film - its title, price,
+ *                      genre and description.The "FilmId" column is taken
+ *                      as the primary key.
  *
  ******************************/
  
@@ -69,6 +75,21 @@
 	"Login"    varchar(255) NOT NULL UNIQUE,
 	"Password" varchar(255) NOT NULL,
 	CONSTRAINT "UserInformation_pk" PRIMARY KEY ("UserId")
+) WITH (
+  OIDS = FALSE
+);
+
+ /*
+  *BRIEF: Creating of table FilmInfo
+  *
+  */
+CREATE TABLE "FilmInfo" (
+	"FilmId" serial NOT NULL,
+	"GenreId" bigint NOT NULL,
+	"FilmName" varchar(255) NOT NULL UNIQUE,
+	"Price" int,
+	"InformationAboutFilm" varchar(255) NOT NULL,
+	CONSTRAINT "FilmInfo_pk" PRIMARY KEY ("FilmId")
 ) WITH (
   OIDS = FALSE
 );
