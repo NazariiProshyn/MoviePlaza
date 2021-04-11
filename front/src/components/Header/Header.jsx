@@ -6,26 +6,30 @@ import logo from './../../images/Logo.png';
 import search_img from './../../images/search.png';
 import axios from 'axios';
 
-function Header(){
+function Header() {
     const [isLogin, setData] = useState('');
 
-    useEffect(()=> {
-        const getfilm = async () =>{
+    useEffect(() => {
+        const getfilm = async () => {
             axios.defaults.withCredentials = true;
-            const promise = await axios.get('http://localhost:3001/',{withCredentials:true}); 
-            console.log(promise.data);    
-            if (promise.data.name){
+            const promise = await axios.get('http://localhost:3001/', {
+                withCredentials: true,
+            });
+            console.log(promise.data);
+            if (promise.data.name) {
                 setData(promise.data.name);
                 console.log('+');
             }
             //console.log(promise.data.status);
-            console.log(isLogin);  
+            console.log(isLogin);
         };
         getfilm();
     });
-    const logout = async () =>{
+    const logout = async () => {
         axios.defaults.withCredentials = true;
-        const promise = await axios.get('http://localhost:3001/logout',{withCredentials:true});
+        const promise = await axios.get('http://localhost:3001/logout', {
+            withCredentials: true,
+        });
         console.log(promise);
         window.location.reload();
     };
@@ -60,22 +64,24 @@ function Header(){
                         />
                     </div>
                 </div>
-                {isLogin? <div><a href={'/user/'+isLogin}>{isLogin}</a><button onClick={logout}>logout</button></div>: 
+                {isLogin ? (
+                    <div>
+                        <a href={'/user/' + isLogin}>{isLogin}</a>
+                        <button onClick={logout}>logout</button>
+                    </div>
+                ) : (
                     <div className={h['user-bar']}>
-                    
                         <Link to="/login" className={h['header-link']}>
                             <div id={h.enter}>Увійти</div>
                         </Link>
                         <Link to="/registration" className={h['header-link']}>
                             <div id={h.register}>Зареєструватися</div>
                         </Link>
-                    
                     </div>
-                }
+                )}
             </div>
         </header>
     );
 }
-
 
 export default Header;

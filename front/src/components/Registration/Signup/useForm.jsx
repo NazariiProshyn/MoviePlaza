@@ -19,14 +19,14 @@ const useForm = (callback, validate) => {
     };
 
     const handleSubmit = (e) => {
-        axios('http://localhost:3001/login',{
+        axios('http://localhost:3001/login', {
             method: 'post',
             withCredentials: true,
-            data:{
-                'username': e.target.username.value,
-                'password': e.target.password.value
-            }
-        }).then(function (response){
+            data: {
+                username: e.target.username.value,
+                password: e.target.password.value,
+            },
+        }).then(function (response) {
             console.log(response);
             window.location.reload();
         });

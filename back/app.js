@@ -36,6 +36,19 @@ fastify.register(require('./routes/films'));
 fastify.register(require('./routes/users'));
 fastify.register(require('./routes/videos'));
 
+
+const io = require('socket.io')(fastify.server);
+
+io.on('connection', function (socket) {
+    console.log('server connected');
+    
+    socket.on('disconnect', function () {
+        console.log('server disconnected');
+    });
+});
+
+
+
 const start = async () => {
     try {
         await fastify.listen(3001);

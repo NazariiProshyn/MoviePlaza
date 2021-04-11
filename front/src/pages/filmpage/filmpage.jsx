@@ -12,28 +12,29 @@ class Filmpage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            films:[],
-            film:{},
-            comment:[]
+            films: [],
+            film: {},
+            comment: [],
         };
         this.loadFilms = this.loadFilms.bind(this);
-        
     }
-    
+
     componentDidMount() {
         this.loadFilms();
     }
-    
-    async loadFilms()
-    {
+
+    async loadFilms() {
         const promise = await axios.get('http://localhost:3001/catalog');
         const status = promise.status;
-        if(status===200)
-        {
+        if (status === 200) {
             const data = promise.data;
-            this.setState({films:data});
-            this.setState({film:data.find((film) => film.id === this.props.match.params.id)});
-            this.setState({comment:this.state.film.comment});
+            this.setState({ films: data });
+            this.setState({
+                film: data.find(
+                    (film) => film.id === this.props.match.params.id
+                ),
+            });
+            this.setState({ comment: this.state.film.comment });
             //console.log(this.state);
         }
     }
@@ -52,7 +53,6 @@ class Filmpage extends Component {
             container.prepend(div);
             let a = Comment({ work });
             ReactDOM.render(a, div);
-            
         }
     }
     render() {
@@ -65,12 +65,17 @@ class Filmpage extends Component {
                 <div className="Filmpage">
                     <h1>{this.state.film.title}</h1>
                     <img
-                        src={'http://localhost:3001/images/'+this.state.film.screenshot}
+                        src={
+                            'http://localhost:3001/images/' +
+                            this.state.film.screenshot
+                        }
                         alt="titleImg"
                         className="titleImg"
                     ></img>
                     <div className="buttonsMenu">
-                        <button type="submit">Купити: {this.state.film.price}$</button>
+                        <button type="submit">
+                            Купити: {this.state.film.price}$
+                        </button>
                         <Link to="/room" className="watchroom disabled">
                             <div className="watch">
                                 <p>Дивитися зараз</p>
@@ -149,7 +154,9 @@ class Filmpage extends Component {
                             </div>
                         </div>
                         <p>Описання:</p>
-                        <div className="desc">{this.state.film.description}</div>
+                        <div className="desc">
+                            {this.state.film.description}
+                        </div>
                     </div>
 
                     <div className="filmComment">
