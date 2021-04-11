@@ -1,6 +1,3 @@
-//const Koa = require('koa');
-//const HttpStatus = require('http-status');
-//const fs = require('fs');
 const fastify = require('fastify')({
     logger: true,
 });
@@ -12,29 +9,14 @@ fastify.register(fastifySession, {
     store: sessionstore,
     cookieName: 'sessionId',
     secret: '1qwqwqwwhjehu2372e8ywhdhu92e8uids',
-    cookie: { secure: false },
+    cookie: { secure: false, path: '/' },
     expires: 900000,
 });
 
-// add a logout route
-fastify.get('/logout', (request, reply) => {
-    if (request.session.authenticated) {
-        request.destroySession((err) => {
-            if (err) {
-                reply.status(500);
-                reply.send('Internal Server Error');
-            } else {
-                reply.redirect('/');
-            }
-        });
-    } else {
-        reply.redirect('/');
-    }
-});
 fastify.register(require('fastify-cors'), {
     origin: 'http://localhost:3000',
 
-    credentials: true,
+    credentials: 'same-origin',
     allowMethods:
         'PROPFIND, PROPPATCH, COPY, MOVE, DELETE, MKCOL, LOCK, UNLOCK, PUT, GETLIB, VERSION-CONTROL, CHECKIN, CHECKOUT, UNCHECKOUT, REPORT, UPDATE, CANCELUPLOAD, HEAD, OPTIONS, GET, POST',
     allowedHeaders: [
@@ -43,35 +25,17 @@ fastify.register(require('fastify-cors'), {
         'Cache-Control',
         'X-Custom-Header',
         'X-Requested-With',
+        'Cookie',
     ],
 });
-
+//fastify.register(routes);
 fastify.register(require('./routes/index'));
 fastify.register(require('./routes/login'));
 fastify.register(require('./routes/filmImg'));
 fastify.register(require('./routes/films'));
 fastify.register(require('./routes/users'));
 fastify.register(require('./routes/videos'));
-/*
-const BodyParser = require('koa-bodyparser');
-const Logger = require('koa-logger');
-const cors = require('koa-cors');
-const home = require('./routes/index');
-const users = require('./routes/users');
-const films = require('./routes/films');
-const video = require('./routes/videos');
-const filmsImg = require('./routes/filmImg');
-const app = new Koa();
 
-app.use(BodyParser());
-app.use(Logger());
-app.use(cors());
-app.use(home.routes());
-app.use(users.routes());
-app.use(films.routes());
-app.use(video.routes());
-app.use(filmsImg.routes());
-*/
 const start = async () => {
     try {
         await fastify.listen(3001);

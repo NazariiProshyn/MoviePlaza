@@ -11,7 +11,8 @@ function Home() {
     
     useEffect(()=> {
         const getfilm = async () =>{
-            const promise = await axios.get('http://localhost:3001/catalog');      
+            axios.defaults.withCredentials = true;
+            const promise = await axios.get('http://localhost:3001/catalog',{withCredentials:true});      
             setData(promise.data);  
         };
         getfilm();

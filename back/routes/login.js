@@ -14,6 +14,7 @@ async function routes(fastify) {
         if (password === 'test12' && username === 'beata') {
             request.session.authenticated = true;
             request.session.user = { name: 'beata' };
+            request.sessionstorage = request.session;
             reply.redirect('/');
             return { success: 'true' };
         } else {

@@ -28,6 +28,7 @@ const useForm = (callback, validate) => {
             }
         }).then(function (response){
             console.log(response);
+            window.location.reload();
         });
         e.preventDefault();
         setErrors(validate(values));

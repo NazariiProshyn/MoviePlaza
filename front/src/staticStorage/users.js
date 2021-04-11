@@ -10,8 +10,20 @@ const users = [
             genre: 'Комедия',
             producer: 'Эдгар Райт',
             actor: 'Брендан Глисон',
-            film: 'Залечь на дно в Брюгге'
-        }
+            film: 'Залечь на дно в Брюгге',
+        },
+    },
+    {
+        id: 'beata',
+        username: 'beata',
+        about: 'cool dude ',
+        profile_picture: userImg,
+        favourites: {
+            genre: 'Комедия',
+            producer: 'Эдгар Райт',
+            actor: 'Брендан Глисон',
+            film: 'Залечь на дно в Брюгге',
+        },
     },
     {
         id: 'user-2',
@@ -22,8 +34,8 @@ const users = [
             genre: 'Трагедия',
             producer: 'Виталий Козловский',
             actor: 'Джейсон Стетхем',
-            film: 'Хатико'
-        }
+            film: 'Хатико',
+        },
     },
     {
         id: 'user-3',
@@ -34,9 +46,9 @@ const users = [
             genre: 'Боевик',
             producer: 'Кристофер Нолан',
             actor: 'Александр Курицын',
-            film: 'Терминатор'
-        }
-    }
+            film: 'Терминатор',
+        },
+    },
 ];
 
 export default users;

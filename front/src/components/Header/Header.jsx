@@ -11,10 +11,11 @@ function Header(){
 
     useEffect(()=> {
         const getfilm = async () =>{
-            const promise = await axios.get('http://localhost:3001/'); 
+            axios.defaults.withCredentials = true;
+            const promise = await axios.get('http://localhost:3001/',{withCredentials:true}); 
             console.log(promise.data);    
-            if (promise.data.status === 'success'){
-                setData('true');
+            if (promise.data.name){
+                setData(promise.data.name);
                 console.log('+');
             }
             //console.log(promise.data.status);
@@ -22,7 +23,12 @@ function Header(){
         };
         getfilm();
     });
-
+    const logout = async () =>{
+        axios.defaults.withCredentials = true;
+        const promise = await axios.get('http://localhost:3001/logout',{withCredentials:true});
+        console.log(promise);
+        window.location.reload();
+    };
     return (
         <header className={h.header}>
             <div className={h['header-wrapper']}>
@@ -54,14 +60,18 @@ function Header(){
                         />
                     </div>
                 </div>
-                <div className={h['user-bar']}>
-                    <Link to="/login" className={h['header-link']}>
-                        <div id={h.enter}>Увійти</div>
-                    </Link>
-                    <Link to="/registration" className={h['header-link']}>
-                        <div id={h.register}>Зареєструватися</div>
-                    </Link>
-                </div>
+                {isLogin? <div><a href={'/user/'+isLogin}>{isLogin}</a><button onClick={logout}>logout</button></div>: 
+                    <div className={h['user-bar']}>
+                    
+                        <Link to="/login" className={h['header-link']}>
+                            <div id={h.enter}>Увійти</div>
+                        </Link>
+                        <Link to="/registration" className={h['header-link']}>
+                            <div id={h.register}>Зареєструватися</div>
+                        </Link>
+                    
+                    </div>
+                }
             </div>
         </header>
     );
