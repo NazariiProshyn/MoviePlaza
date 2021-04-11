@@ -12,10 +12,14 @@ class Footer extends Component {
         return (
             <footer>
                 <div className={f['footer-logo']}>
-                    <img className={f['footer-logo__image']} src={logo} alt="logo"/>
+                    <img
+                        className={f['footer-logo__image']}
+                        src={logo}
+                        alt="logo"
+                    />
                     <div className={f['footer-title']}>MoviePlaza</div>
                 </div>
-                
+
                 <div className={f['footer-description']}>
                     Created in 2021 by MoviePlaza Teams. All rights reserved and
                     confirmed. Criminal liability is provided for the creation
@@ -26,25 +30,41 @@ class Footer extends Component {
                     <div className={f['contact-title']}>Our Contacts</div>
                     <div className={f['contacts-link']}>
                         <a href="/" className={f.telegram}>
-                            <img className={f.link_img} src={telegram} alt="telegram"></img>
+                            <img
+                                className={f.link_img}
+                                src={telegram}
+                                alt="telegram"
+                            ></img>
                             <div>telegram</div>
                         </a>
                     </div>
                     <div className={f['contacts-link']}>
                         <a href="/" className={f.instagram}>
-                            <img className={f.link_img} src={instagram} alt="instagram"></img>
+                            <img
+                                className={f.link_img}
+                                src={instagram}
+                                alt="instagram"
+                            ></img>
                             <div>instagram</div>
                         </a>
                     </div>
                     <div className={f['contacts-link']}>
                         <a href="/" className={f.link}>
-                            <img className={f.link_img} src={link} alt="linkin"></img>
+                            <img
+                                className={f.link_img}
+                                src={link}
+                                alt="linkin"
+                            ></img>
                             <div>linkin</div>
                         </a>
                     </div>
                     <div className={f['contacts-link']}>
                         <a href="/" className={f.twitter}>
-                            <img className={f.link_img} src={twitter} alt="twitter"></img>
+                            <img
+                                className={f.link_img}
+                                src={twitter}
+                                alt="twitter"
+                            ></img>
                             <div>twitter</div>
                         </a>
                     </div>

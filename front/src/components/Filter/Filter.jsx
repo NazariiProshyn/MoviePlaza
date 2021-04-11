@@ -8,8 +8,10 @@ class Filter extends Component {
     filtering() {
         let cards = document.querySelectorAll('[data-item="film"]');
 
-        const start_rate = document.querySelector('[data-filter="rate_from"]').value;
-        const end_rate = document.querySelector('[data-filter="rate_to"]').value;
+        const start_rate = document.querySelector('[data-filter="rate_from"]')
+            .value;
+        const end_rate = document.querySelector('[data-filter="rate_to"]')
+            .value;
 
         /*const start_year = document.querySelector('[data-filter="year_from"]').value;
         const end_year = document.querySelector('[data-filter="year_to"]').value;
@@ -54,9 +56,18 @@ class Filter extends Component {
             <div className={f.container}>
                 <p>Каталог фільмів</p>
                 <div className={f['search-block']}>
-                    <input id={f['search-block__input']} type="search" placeholder="Пошук фільму"></input>
+                    <input
+                        id={f['search-block__input']}
+                        type="search"
+                        placeholder="Пошук фільму"
+                    ></input>
                     {/*добавити onclick для img або замінити img на button i знайти спосіб як поставити на фон кнопки картинку */}
-                    <img src={search_img} alt="search" id={f['search-img']} onClick={this.test}></img>
+                    <img
+                        src={search_img}
+                        alt="search"
+                        id={f['search-img']}
+                        onClick={this.test}
+                    ></img>
                 </div>
                 <p>Фільтр:</p>
                 <div className={f.filter}>
@@ -68,25 +79,62 @@ class Filter extends Component {
                     </select>
                     <div className={f['filter-year']}>
                         <p>Рік:</p>
-                        <input id={f['start-year']} placeholder="від" data-filter="year_from"></input>
-                        <input id={f['end-year']} placeholder="до" data-filter="year_to"></input>
+                        <input
+                            id={f['start-year']}
+                            placeholder="від"
+                            data-filter="year_from"
+                        ></input>
+                        <input
+                            id={f['end-year']}
+                            placeholder="до"
+                            data-filter="year_to"
+                        ></input>
                     </div>
                     <div className={f['filter-length']}>
                         <p>Довжина:</p>
-                        <input id={f['start-length']} placeholder="від" data-filter="length_from"></input>
-                        <input id={f['end-length']} placeholder="до" data-filter="length_to"></input>
+                        <input
+                            id={f['start-length']}
+                            placeholder="від"
+                            data-filter="length_from"
+                        ></input>
+                        <input
+                            id={f['end-length']}
+                            placeholder="до"
+                            data-filter="length_to"
+                        ></input>
                     </div>
                     <div className={f['filter-price']}>
                         <p>Ціна:</p>
-                        <input id={f['start-price']} placeholder="від" data-filter="price_from"></input>
-                        <input id={f['end-price']} placeholder="до" data-filter="price_to"></input>
+                        <input
+                            id={f['start-price']}
+                            placeholder="від"
+                            data-filter="price_from"
+                        ></input>
+                        <input
+                            id={f['end-price']}
+                            placeholder="до"
+                            data-filter="price_to"
+                        ></input>
                     </div>
                     <div className={f['filter-rate']}>
                         <p>Рейтинг</p>
-                        <input id={f['start-rate']} placeholder="від" data-filter="rate_from"></input>
-                        <input id={f['end-rate']} placeholder="до" data-filter="rate_to"></input>
+                        <input
+                            id={f['start-rate']}
+                            placeholder="від"
+                            data-filter="rate_from"
+                        ></input>
+                        <input
+                            id={f['end-rate']}
+                            placeholder="до"
+                            data-filter="rate_to"
+                        ></input>
                     </div>
-                    <button onClick={this.filtering} className={f['filter-button']}>Застосувати</button>
+                    <button
+                        onClick={this.filtering}
+                        className={f['filter-button']}
+                    >
+                        Застосувати
+                    </button>
                 </div>
             </div>
         );

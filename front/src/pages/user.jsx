@@ -6,9 +6,7 @@ class User extends Component {
     render() {
         const id = this.props.match.params.id;
         const user = users.find((user) => user.id === id);
-        return (
-            <Account user={user}/>
-        );
-    }  
+        return <Account user={user} />;
+    }
 }
 export default User;
