@@ -22,7 +22,7 @@
  *                      of "MoviePlaza" service
  *
  * TABLES:              "User",       "UserInformation"
- *                      "FilmInfo",
+ *                      "FilmInfo",   "BoughtFilms"
  *
  * Description:
  * "User":              This table stores the main    
@@ -34,13 +34,17 @@
  * "UserInformation":   This table has information about the
  *                      client's account - his login and 
  *                      password.The "UserId" column is taken
- *                      as the primary key.The "UserId" column
- *                      in the "User" table is taken as the foreign key.
+ *                      as the primary key.
  *
  * "FilmInfo":          This table contains the main information
  *                      about the film - its title, price,
  *                      genre and description.The "FilmId" column is taken
  *                      as the primary key.
+ *
+ *"BoughtFilms":        This table contains information about
+ *                      movies purchased by different customers.
+ *                      "UserId" and "FilmId" columns are 
+ *                      taken as a composite primary key
  *
  ******************************/
  
@@ -92,4 +96,16 @@ CREATE TABLE "FilmInfo" (
 	CONSTRAINT "FilmInfo_pk" PRIMARY KEY ("FilmId")
 ) WITH (
   OIDS = FALSE
+);
+
+ /*
+  *BRIEF: Creating of table BoughtFilms
+  *
+  */
+CREATE TABLE "BoughtFilms" (
+	"UserId" serial NOT NULL,
+	"FilmId" serial NOT NULL,
+	CONSTRAINT "BoughtFilms_pk" PRIMARY KEY ("UserId","FilmId")
+) WITH (
+  OIDS=FALSE
 );
