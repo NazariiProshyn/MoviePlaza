@@ -1,26 +1,33 @@
-import logo from './logo.svg';
 import './App.css';
+
+
+import { Route, Switch } from 'react-router-dom';
+import Home from './pages/home';
+import Catalog from './components/Catalog/Catalog';
+import Room from './pages/room';
+import User from './pages/user';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
+import Filmpage from './pages/filmpage/filmpage';
+import Registration from './components/Registration/Registration';
+import Authorization from './components/Authorization/Authorization';
 
 function App() {
     return (
         <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-            </header>
+            <Header />
+            <div className="content">
+                <Switch>
+                    <Route exact path="/" component={Home} />
+                    <Route path="/catalog/:id" component={Filmpage} />
+                    <Route path="/catalog" component={Catalog} />
+                    <Route path="/room" component={Room} />
+                    <Route path="/user/:id" component={User} />
+                    <Route path="/registration" component={Registration} />
+                    <Route path="/login" component={Authorization} />
+                </Switch>
+            </div>
+            <Footer />
         </div>
     );
 }

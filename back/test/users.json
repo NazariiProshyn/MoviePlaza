@@ -1,0 +1,54 @@
+[
+    {
+        "id": "user-1",
+        "username": "bogdan",
+        "password": "qwerty123",
+        "about": "cool dude bogdan",
+        "profile_picture": "userImg",
+        "favourites": {
+            "genre": "Комедия",
+            "producer": "Эдгар Райт",
+            "actor": "Брендан Глисон",
+            "film": "Залечь на дно в Брюгге"
+        }
+    },
+    {
+        "id": "user-5",
+        "username": "beata",
+        "password": "test12",
+        "about": "cool dude bogdan",
+        "profile_picture": "userImg",
+        "favourites": {
+            "genre": "Комедия",
+            "producer": "Эдгар Райт",
+            "actor": "Брендан Глисон",
+            "film": "Залечь на дно в Брюгге"
+        }
+    },
+    {
+        "id": "user-2",
+        "username": "nazar",
+        "password": "test",
+        "about": "cool dude nazar",
+        "profile_picture": "userImg",
+        "favourites": {
+            "genre": "Комедия",
+            "producer": "Эдгар Райт",
+            "actor": "Брендан Глисон",
+            "film": "Залечь на дно в Брюгге"
+        }
+    },
+    {
+        "id": "user-3",
+        "username": "dima",
+        "password": "qwerty123",
+        "about": "cool dude dima",
+        "profile_picture": "userImg",
+        "favourites": {
+            "genre": "Комедия",
+            "producer": "Эдгар Райт",
+            "actor": "Брендан Глисон",
+            "film": "Залечь на дно в Брюгге"
+        }
+    }
+]
