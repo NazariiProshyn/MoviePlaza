@@ -1,19 +1,14 @@
-/*
-const schema = {
-    response: {
-        200: {
-            'Access-Control-Allow-Origin': {'http://localhost:3000'},
-        },
-    },
-};
-*/
 async function routes(fastify) {
     fastify.post('/login', async (request, reply) => {
+        const users = require('./../test/users.json');
         const { username, password } = request.body;
+        const a = users.filter((user) => {
+            return user.username === username && user.password === password;
+        });
 
-        if (password === 'test12' && username === 'beata') {
+        if (a) {
             request.session.authenticated = true;
-            request.session.user = { name: 'beata' };
+            request.session.user = { name: a[0].username };
             request.sessionstorage = request.session;
             reply.redirect('/');
             return { success: 'true' };

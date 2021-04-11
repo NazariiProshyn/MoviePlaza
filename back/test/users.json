@@ -13,6 +13,19 @@
         }
     },
     {
+        "id": "user-5",
+        "username": "beata",
+        "password": "test12",
+        "about": "cool dude bogdan",
+        "profile_picture": "userImg",
+        "favourites": {
+            "genre": "Комедия",
+            "producer": "Эдгар Райт",
+            "actor": "Брендан Глисон",
+            "film": "Залечь на дно в Брюгге"
+        }
+    },
+    {
         "id": "user-2",
         "username": "nazar",
         "password": "test",
