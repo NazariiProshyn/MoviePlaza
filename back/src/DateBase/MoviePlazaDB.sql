@@ -23,7 +23,7 @@
  *
  * TABLES:              "User",         "UserInformation"
  *                      "FilmInfo",     "FavouriteGanres"
- *                      "BoughtFilms"        
+ *                      "BoughtFilms"   "TransactDetails"    
  *
  * Description:
  * "User":              This table stores the main    
@@ -50,6 +50,14 @@
  * "FavouriteGanres":   This table contains information about
  *                      favourite ganres of clients.The "UserId", 
  *                      "GenresId" column is taken as the primary key.
+ *
+ * "TransactDetails":   This table contains the main information
+ *                      about the transaction - customer, amount, date.
+ *
+ *
+ *
+ *
+ *
  *
  ******************************/
  
@@ -122,6 +130,20 @@ CREATE TABLE "BoughtFilms" (
 CREATE TABLE "FavouriteGanres" (
 	"UserId" serial NOT NULL,
 	"GenresId" serial NOT NULL
+) WITH (
+  OIDS = FALSE
+);
+
+ /*
+  *BRIEF: Creating of table TransactDetails
+  *
+  */
+CREATE TABLE "TransactDetails" (
+	"UserId"        serial NOT NULL,
+	"TypeId"        bigint NOT NULL,
+	"DateofPayment" DATE NOT NULL,
+	"Amount"        int NOT NULL,
+	"Number"        int NOT NULL
 ) WITH (
   OIDS = FALSE
 );
