@@ -6,7 +6,7 @@ import Player from './Player/Player';
 
 import { io } from 'socket.io-client';
 
-function Watchroom(params) {
+const Watchroom = (params) => {
     const ENDPOINT = 'localhost:3001';
 
     useEffect(() => {
@@ -130,6 +130,6 @@ function Watchroom(params) {
             </div>
         </div>
     );
-}
+};
 
 export default Watchroom;
