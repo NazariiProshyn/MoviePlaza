@@ -24,6 +24,7 @@
  * TABLES:              "User",         "UserInformation"
  *                      "FilmInfo",     "FavouriteGanres"
  *                      "BoughtFilms"   "TransactDetails"    
+ *                      "Genres",
  *
  * Description:
  * "User":              This table stores the main    
@@ -54,7 +55,9 @@
  * "TransactDetails":   This table contains the main information
  *                      about the transaction - customer, amount, date.
  *
- *
+ * "Genres":            This tavle contain information about genres 
+ *                      which site "MoviePlaza" has. The "GenreId"
+ *                      column is taken as the primary key.
  *
  *
  *
@@ -146,4 +149,16 @@ CREATE TABLE "TransactDetails" (
 	"Number"        int NOT NULL
 ) WITH (
   OIDS = FALSE
+);
+
+ /*
+  *BRIEF: Creating of table Genres
+  *
+  */
+CREATE TABLE "Genres" (
+	"GenreId" serial NOT NULL,
+	"Genre" varchar(255) NOT NULL UNIQUE,
+	CONSTRAINT "Genres_pk" PRIMARY KEY ("GenreId")
+) WITH (
+  OIDS=FALSE
 );
