@@ -1,15 +1,16 @@
 const fastify = require('fastify');
 
-const app = fastify({ logger: true })
-app.register(require('fastify-socket.io'), {
-  cors: {origin: "*"}
-})
+const app = fastify({ logger: true });
 const fastifySession = require('fastify-session');
 const fastifyCookie = require('fastify-cookie');
+let sessionstore = new fastifySession.MemoryStore();
 
 app.register(fastifyCookie);
 
-let sessionstore = new fastifySession.MemoryStore();
+app.register(require('fastify-socket.io'), {
+  cors: {origin: "*"}
+})
+
 app.register(fastifySession, {
   store: sessionstore,
   cookieName: 'sessionId',
@@ -33,7 +34,7 @@ app.register(require('fastify-cors'), {
       'Cookie',
   ],
 });
-//fastify.register(routes);
+
 app.register(require('./routes/index'));
 app.register(require('./routes/login'));
 app.register(require('./routes/filmImg'));
@@ -41,21 +42,15 @@ app.register(require('./routes/films'));
 app.register(require('./routes/users'));
 app.register(require('./routes/videos'));
 
-
 app.ready(err => {
   if (err) throw err
   app.io.on('connection', (socket) => {
     console.log('Socket connected!');
-
     socket.on('chat_message', (message) => {
       console.log(message);
       app.io.emit('chat_message', socket.id.substr(0,2), message);
     })
-
-});
-  
-
-
+  });
 })
 
 app.listen(3001, (err) => {
