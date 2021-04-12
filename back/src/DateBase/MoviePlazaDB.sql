@@ -21,8 +21,9 @@
  *                      customers, films, transactions
  *                      of "MoviePlaza" service
  *
- * TABLES:              "User",       "UserInformation"
- *                      "FilmInfo",   "BoughtFilms"
+ * TABLES:              "User",         "UserInformation"
+ *                      "FilmInfo",     "FavouriteGanres"
+ *                      "BoughtFilms"        
  *
  * Description:
  * "User":              This table stores the main    
@@ -41,10 +42,14 @@
  *                      genre and description.The "FilmId" column is taken
  *                      as the primary key.
  *
- *"BoughtFilms":        This table contains information about
+ * "BoughtFilms":       This table contains information about
  *                      movies purchased by different customers.
  *                      "UserId" and "FilmId" columns are 
  *                      taken as a composite primary key
+ *
+ * "FavouriteGanres":   This table contains information about
+ *                      favourite ganres of clients.The "UserId", 
+ *                      "GenresId" column is taken as the primary key.
  *
  ******************************/
  
@@ -107,5 +112,16 @@ CREATE TABLE "BoughtFilms" (
 	"FilmId" serial NOT NULL,
 	CONSTRAINT "BoughtFilms_pk" PRIMARY KEY ("UserId","FilmId")
 ) WITH (
-  OIDS=FALSE
+  OIDS = FALSE
+);
+
+ /*
+  *BRIEF: Creating of table FavouriteGanres
+  *
+  */
+CREATE TABLE "FavouriteGanres" (
+	"UserId" serial NOT NULL,
+	"GenresId" serial NOT NULL
+) WITH (
+  OIDS = FALSE
 );
