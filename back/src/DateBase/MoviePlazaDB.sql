@@ -25,6 +25,7 @@
  *                      "FilmInfo",     "FavouriteGanres"
  *                      "BoughtFilms"   "TransactDetails"    
  *                      "Genres",       "Filmdata"
+ *                      "Reits",
  *
  * Description:
  * "User":              This table stores the main    
@@ -62,6 +63,12 @@
  * "Filmdata":          This table contains main films information:
  *                      films images and films.The "FilmId"
  *                      column is taken as the primary key.
+ *
+ * "Reits":             This table contains information about
+ *                      the movie rating - the number of votes
+ *                      and the overall rating. The "FilmId"
+ *                      column is taken as the primary key.
+ *
  *
  *
  ******************************/
@@ -162,7 +169,7 @@ CREATE TABLE "Genres" (
 	"Genre" varchar(255) NOT NULL UNIQUE,
 	CONSTRAINT "Genres_pk" PRIMARY KEY ("GenreId")
 ) WITH (
-  OIDS=FALSE
+  OIDS = FALSE
 );
 
  /*
@@ -174,6 +181,19 @@ CREATE TABLE "Filmdata" (
 	"Filmreference" path NOT NULL,
 	"Filmimage" path NOT NULL,
 	CONSTRAINT "Filmdata_pk" PRIMARY KEY ("FilmId")
+) WITH (
+  OIDS = FALSE
+);
+
+ /*
+  *BRIEF: Creating of table Reits
+  *
+  */
+CREATE TABLE "Reits" (
+	"FilmId" serial NOT NULL,
+	"NumofVoices" bigint NOT NULL,
+	"Rait" float8 NOT NULL,
+	CONSTRAINT "Reits_pk" PRIMARY KEY ("FilmId")
 ) WITH (
   OIDS=FALSE
 );
