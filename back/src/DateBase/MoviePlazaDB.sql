@@ -24,9 +24,9 @@
  * TABLES:              "User",         "UserInformation"
  *                      "FilmInfo",     "FavouriteGanres"
  *                      "BoughtFilms"   "TransactDetails"    
- *                      "Genres",       "Filmdata"
- *                      "Reits",
- *
+ *                      "Genres",       "RoomInformation" 
+ *                      "Reits",        "TypesOfTransact"  
+ *                      "Filmdata",     "Comments"
  * Description:
  * "User":              This table stores the main    
  *                      information about the client-
@@ -68,6 +68,9 @@
  *                      the movie rating - the number of votes
  *                      and the overall rating. The "FilmId"
  *                      column is taken as the primary key.
+ *
+ * "Comments":          This table contains viewers comments
+ *                      for different films and other comments.
  *
  *
  *
@@ -113,10 +116,10 @@
   *
   */
 CREATE TABLE "FilmInfo" (
-	"FilmId" serial NOT NULL,
-	"GenreId" bigint NOT NULL,
+	"FilmId"   serial NOT NULL,
+	"GenreId"  bigint NOT NULL,
 	"FilmName" varchar(255) NOT NULL UNIQUE,
-	"Price" int,
+	"Price"    int,
 	"InformationAboutFilm" varchar(255) NOT NULL,
 	CONSTRAINT "FilmInfo_pk" PRIMARY KEY ("FilmId")
 ) WITH (
@@ -140,7 +143,7 @@ CREATE TABLE "BoughtFilms" (
   *
   */
 CREATE TABLE "FavouriteGanres" (
-	"UserId" serial NOT NULL,
+	"UserId"   serial NOT NULL,
 	"GenresId" serial NOT NULL
 ) WITH (
   OIDS = FALSE
@@ -166,7 +169,7 @@ CREATE TABLE "TransactDetails" (
   */
 CREATE TABLE "Genres" (
 	"GenreId" serial NOT NULL,
-	"Genre" varchar(255) NOT NULL UNIQUE,
+	"Genre"   varchar(255) NOT NULL UNIQUE,
 	CONSTRAINT "Genres_pk" PRIMARY KEY ("GenreId")
 ) WITH (
   OIDS = FALSE
@@ -177,9 +180,9 @@ CREATE TABLE "Genres" (
   *
   */
 CREATE TABLE "Filmdata" (
-	"FilmId" serial NOT NULL,
+	"FilmId"        serial NOT NULL,
 	"Filmreference" path NOT NULL,
-	"Filmimage" path NOT NULL,
+	"Filmimage"     path NOT NULL,
 	CONSTRAINT "Filmdata_pk" PRIMARY KEY ("FilmId")
 ) WITH (
   OIDS = FALSE
@@ -190,10 +193,33 @@ CREATE TABLE "Filmdata" (
   *
   */
 CREATE TABLE "Reits" (
-	"FilmId" serial NOT NULL,
+	"FilmId"      serial NOT NULL,
 	"NumofVoices" bigint NOT NULL,
-	"Rait" float8 NOT NULL,
+	"Rait"        float8 NOT NULL,
 	CONSTRAINT "Reits_pk" PRIMARY KEY ("FilmId")
 ) WITH (
-  OIDS=FALSE
+  OIDS = FALSE
+);
+
+ /*
+  *BRIEF: Creating of table Comments
+  *
+  */
+CREATE TABLE "Comments" (
+	"FilmId"  serial NOT NULL,
+	"Comment" serial NOT NULL
+) WITH (
+  OIDS = FALSE
+);
+
+ /*
+  *BRIEF: Creating of table TypesOfTransact
+  *
+  */
+CREATE TABLE "TypesOfTransact" (
+	"TypeId" bigint NOT NULL,
+	"Type"   serial NOT NULL,
+	CONSTRAINT "TypesOfTransact_pk" PRIMARY KEY ("TypeId")
+) WITH (
+  OIDS = FALSE
 );
