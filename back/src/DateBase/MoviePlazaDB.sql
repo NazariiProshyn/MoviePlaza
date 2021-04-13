@@ -239,3 +239,31 @@ CREATE TABLE "RoomInformation" (
 ) WITH (
   OIDS = FALSE
 );
+
+ /*
+  *BRIEF: Addind foreign keys
+  *
+  */
+ALTER TABLE "BoughtFilms" ADD CONSTRAINT "BoughtFilms_fk0" FOREIGN KEY ("UserId") REFERENCES "User"("UserId");
+
+ALTER TABLE "BoughtFilms" ADD CONSTRAINT "BoughtFilms_fk1" FOREIGN KEY ("UserId") REFERENCES "FilmInfo"("FilmId");
+
+ALTER TABLE "RoomInformation" ADD CONSTRAINT "RoomInformation_fk0" FOREIGN KEY ("CreatorId") REFERENCES "User"("UserId");
+
+ALTER TABLE "TransactDetails" ADD CONSTRAINT "TransactDetails_fk0" FOREIGN KEY ("UserId") REFERENCES "User"("UserId");
+
+ALTER TABLE "UserInformation" ADD CONSTRAINT "UserInformation_fk0" FOREIGN KEY ("UserId") REFERENCES "User"("UserId");
+
+ALTER TABLE "TypesOfTransact" ADD CONSTRAINT "TypesOfTransact_fk0" FOREIGN KEY ("TypeId") REFERENCES "TransactDetails"("TypeId");
+
+ALTER TABLE "FavouriteGanres" ADD CONSTRAINT "FavouriteGanres_fk0" FOREIGN KEY ("UserId") REFERENCES "User"("UserId");
+
+ALTER TABLE "FavouriteGanres" ADD CONSTRAINT "FavouriteGanres_fk1" FOREIGN KEY ("UserId") REFERENCES "Genres"("GenreId");
+
+ALTER TABLE "Comments" ADD CONSTRAINT "Comments_fk1" FOREIGN KEY ("FilmId") REFERENCES "FilmInfo"("FilmId");
+
+ALTER TABLE "Reits" ADD CONSTRAINT "Reits_fk1" FOREIGN KEY ("FilmId") REFERENCES "FilmInfo"("FilmId");
+
+ALTER TABLE "FilmInfo" ADD CONSTRAINT "Genres_fk1" FOREIGN KEY ("GenreId") REFERENCES "Genres"("GenreId");
+
+ALTER TABLE "Filmdata" ADD CONSTRAINT "Filmdata_fk1" FOREIGN KEY ("FilmId") REFERENCES "FilmInfo"("FilmId");
