@@ -72,7 +72,12 @@
  * "Comments":          This table contains viewers comments
  *                      for different films and other comments.
  *
+ * "TypesOfTransact":   This table lists the possible types of
+ *                      transactions provided by the site "MoviePlaza".
  *
+ * "RoomInformation":   This table contains the main information
+ *                      about the room - who created it and
+ *                      the key to this room.
  *
  ******************************/
  
@@ -88,10 +93,10 @@
   *
   */
  CREATE TABLE "User" (
-	"UserId"     serial NOT NULL,
+	"UserId"     serial       NOT NULL,
 	"Name"       varchar(255) NOT NULL,
 	"SecondName" varchar(255) NOT NULL,
-	"BDate"      DATE NOT NULL,
+	"BDate"      DATE         NOT NULL,
 	"Money"      money,
 	CONSTRAINT "User_pk" PRIMARY KEY ("UserId")
  ) WITH (
@@ -103,7 +108,7 @@
   *
   */
  CREATE TABLE "UserInformation" (
-	"UserId"   bigint NOT NULL,
+	"UserId"   bigint       NOT NULL,
 	"Login"    varchar(255) NOT NULL UNIQUE,
 	"Password" varchar(255) NOT NULL,
 	CONSTRAINT "UserInformation_pk" PRIMARY KEY ("UserId")
@@ -131,8 +136,8 @@ CREATE TABLE "FilmInfo" (
   *
   */
 CREATE TABLE "BoughtFilms" (
-	"UserId" serial NOT NULL,
-	"FilmId" serial NOT NULL,
+	"UserId" int NOT NULL,
+	"FilmId" int NOT NULL,
 	CONSTRAINT "BoughtFilms_pk" PRIMARY KEY ("UserId","FilmId")
 ) WITH (
   OIDS = FALSE
@@ -143,8 +148,8 @@ CREATE TABLE "BoughtFilms" (
   *
   */
 CREATE TABLE "FavouriteGanres" (
-	"UserId"   serial NOT NULL,
-	"GenresId" serial NOT NULL
+	"UserId"   int NOT NULL,
+	"GenresId" int NOT NULL
 ) WITH (
   OIDS = FALSE
 );
@@ -154,11 +159,11 @@ CREATE TABLE "FavouriteGanres" (
   *
   */
 CREATE TABLE "TransactDetails" (
-	"UserId"        serial NOT NULL,
+	"UserId"        int    NOT NULL,
 	"TypeId"        bigint NOT NULL,
-	"DateofPayment" DATE NOT NULL,
-	"Amount"        int NOT NULL,
-	"Number"        int NOT NULL
+	"DateofPayment" DATE   NOT NULL,
+	"Amount"        int,
+	"Number"        int    
 ) WITH (
   OIDS = FALSE
 );
@@ -168,7 +173,7 @@ CREATE TABLE "TransactDetails" (
   *
   */
 CREATE TABLE "Genres" (
-	"GenreId" serial NOT NULL,
+	"GenreId" serial       NOT NULL,
 	"Genre"   varchar(255) NOT NULL UNIQUE,
 	CONSTRAINT "Genres_pk" PRIMARY KEY ("GenreId")
 ) WITH (
@@ -180,7 +185,7 @@ CREATE TABLE "Genres" (
   *
   */
 CREATE TABLE "Filmdata" (
-	"FilmId"        serial NOT NULL,
+	"FilmId"        int  NOT NULL,
 	"Filmreference" path NOT NULL,
 	"Filmimage"     path NOT NULL,
 	CONSTRAINT "Filmdata_pk" PRIMARY KEY ("FilmId")
@@ -193,7 +198,7 @@ CREATE TABLE "Filmdata" (
   *
   */
 CREATE TABLE "Reits" (
-	"FilmId"      serial NOT NULL,
+	"FilmId"      int    NOT NULL,
 	"NumofVoices" bigint NOT NULL,
 	"Rait"        float8 NOT NULL,
 	CONSTRAINT "Reits_pk" PRIMARY KEY ("FilmId")
@@ -206,8 +211,8 @@ CREATE TABLE "Reits" (
   *
   */
 CREATE TABLE "Comments" (
-	"FilmId"  serial NOT NULL,
-	"Comment" serial NOT NULL
+	"FilmId"  int          NOT NULL,
+	"Comment" varchar(255) NOT NULL
 ) WITH (
   OIDS = FALSE
 );
@@ -220,6 +225,17 @@ CREATE TABLE "TypesOfTransact" (
 	"TypeId" bigint NOT NULL,
 	"Type"   serial NOT NULL,
 	CONSTRAINT "TypesOfTransact_pk" PRIMARY KEY ("TypeId")
+) WITH (
+  OIDS = FALSE
+);
+
+ /*
+  *BRIEF: Creating of table TypesOfTransact
+  *
+  */
+CREATE TABLE "RoomInformation" (
+	"CreatorId" int          NOT NULL,
+	"RoomKey"   varchar(255) NOT NULL
 ) WITH (
   OIDS = FALSE
 );
