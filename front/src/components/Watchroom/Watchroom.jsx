@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import w from './Watchroom.module.css';
 
 import user_img from '../../images/user.png';
-import Player from './Player/Player';
 
 import { io } from 'socket.io-client';
 
@@ -15,6 +14,7 @@ const Watchroom = (params) => {
             console.log(`Client connected: ${socket.id}`);
         });
 
+        // send message to chat
         socket.on('chat_message', (username, text) => {
             const today = new Date();
             const time = today.getHours() + ':' + today.getMinutes();
@@ -68,6 +68,41 @@ const Watchroom = (params) => {
             socket.emit('chat_message', text);
         };
 
+        // videoplayer
+        const video = document.getElementById('videoPlayer');
+
+        // play video
+        socket.on('play_video', () => {
+            if (video.paused) {
+                video.play();
+            }
+        });
+        video.addEventListener('play', () => {
+            socket.emit('play_video');
+        });
+
+        // stop video
+        socket.on('stop_video', () => {
+            if (!video.paused) {
+                video.pause();
+            }
+        });
+        video.addEventListener('pause', () => {
+            socket.emit('stop_video');
+        });
+
+        // change time
+
+        /*
+        socket.on('change_time', (time) => {
+            video.currentTime = time;
+        });
+        video.addEventListener('timeupdate', () => {
+            socket.emit('change_time', video.currentTime);
+        });
+        */
+
+        // disconnect
         socket.on('disconnect', () => {
             console.log('Client disconnected');
         });
@@ -75,7 +110,11 @@ const Watchroom = (params) => {
 
     return (
         <div className={w.watchroom}>
-            <Player />
+            <div className={w['watchroom-player']}>
+                <video className={w['video']} id="videoPlayer" controls>
+                    <source src="http://localhost:3001/videos/testvideo.mp4" />
+                </video>
+            </div>
             <div className={w['watchroom-chat']}>
                 <div className={w['chat-buttons']}>
                     <button className={w['chat-buttons__copy']} type="button">

@@ -46,10 +46,27 @@ app.ready(err => {
   if (err) throw err
   app.io.on('connection', (socket) => {
     console.log('Socket connected!');
+    
     socket.on('chat_message', (message) => {
       console.log(message);
       app.io.emit('chat_message', socket.id.substr(0,2), message);
+    });
+
+    socket.on('play_video', ()=> {
+      console.log('video started');
+      app.io.emit('play_video');
+    });
+
+    socket.on('stop_video', ()=> {
+      console.log('video paused');
+      app.io.emit('stop_video');
+    });
+    /*
+    socket.on('change_time', (time)=> {
+      console.log('time changed to: ' + time);
+      app.io.emit('change_time', time);
     })
+    */
   });
 })
 

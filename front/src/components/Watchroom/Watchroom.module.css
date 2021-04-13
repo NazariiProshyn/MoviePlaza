@@ -106,3 +106,14 @@
     font-weight: 400;
     color: #72767d;
 }
+
+.watchroom-player {
+    flex: 1;
+    height: 100%;
+    width: 30vw;
+}
+
+.video {
+    width: 30vw;
+    height: auto;
+}
