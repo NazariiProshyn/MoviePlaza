@@ -5,6 +5,7 @@ import h from './Header.module.css';
 import logo from './../../images/Logo.png';
 import search_img from './../../images/search.png';
 import axios from 'axios';
+const { v4: uuidV4 } = require('uuid');
 
 function Header() {
     const [isLogin, setData] = useState('');
@@ -45,7 +46,7 @@ function Header() {
                     <Link to="/catalog" className={h['header-link']}>
                         <span>Фільми</span>
                     </Link>
-                    <Link to="/room" className={h['header-link']}>
+                    <Link to={'/room/' + uuidV4()} className={h['header-link']}>
                         <span>Створити кімнату</span>
                     </Link>
                 </div>
