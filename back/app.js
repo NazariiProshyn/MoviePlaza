@@ -4,8 +4,8 @@ const app = fastify({ logger: true });
 const fastifySession = require('fastify-session');
 const fastifyCookie = require('fastify-cookie');
 let sessionstore = new fastifySession.MemoryStore();
- 
-const {userJoin, getCurrentUser, userLeave} = require('./users');
+
+const { userJoin, getCurrentUser, userLeave } = require('./users');
 
 app.register(fastifyCookie);
 
@@ -48,16 +48,31 @@ app.register(require('./routes/rooms'));
 app.ready((err) => {
     if (err) throw err;
     app.io.on('connection', (socket) => {
-        socket.on('join_room', ({username, room}) => {
+        socket.on('join_room', ({ username, room }) => {
             const user = userJoin(socket.id, username, room);
             socket.join(user.room);
-            socket.emit('message', 'Welcome to the MoviePlaza! Room: ' + user.room);
-            socket.broadcast.to(user.room).emit('message', `${user.username} has joined the room`);
-        })
+            socket.emit(
+                'message',
+                'Welcome to the MoviePlaza! Room: ' + user.room
+            );
+            socket.broadcast
+                .to(user.room)
+                .emit('message', `${user.username} has joined the room`);
+        });
 
         socket.on('chat_message', (message) => {
             const user = getCurrentUser(socket.id);
-            app.io.to(user.room).emit('chat_message', socket.id.substr(0, 2), message);
+            const users = require('./test/users.json');
+            const userdata = users.find(
+                (person) => person.username === user.username
+            );
+            let pict = 'user.png';
+            if (userdata) {
+                pict = userdata.profile_picture;
+            }
+            app.io
+                .to(user.room)
+                .emit('chat_message', user.username, pict, message);
         });
 
         socket.on('play_video', () => {
@@ -81,7 +96,9 @@ app.ready((err) => {
         socket.on('disconnect', () => {
             const user = userLeave(socket.id);
             if (user) {
-                app.io.to(user.room).emit('message', `${user.username} has left the room`);
+                app.io
+                    .to(user.room)
+                    .emit('message', `${user.username} has left the room`);
             }
         });
     });

@@ -1,19 +1,32 @@
 import React, { useEffect } from 'react';
 import w from './Watchroom.module.css';
 
-import user_img from '../../images/user.png';
 
 import { io } from 'socket.io-client';
-
+import axios from 'axios';
 const Watchroom = (params) => {
     const ENDPOINT = 'localhost:3001';
     useEffect(() => {
         const socket = io.connect(ENDPOINT);
         const video = document.getElementById('videoPlayer');
         const room = window.location.pathname.substr(6);
-        const username = 'Guest';
+        let username = '';
+        let promiseUser = new Promise(function(resolve, reject) {
+            const user = axios.get('http://localhost:3001/',{withCredentials:true});
+            resolve(user);
+            
+        });
+        promiseUser.then(result =>{
+            if (result.data.name){
+                username = result.data.name;
+            }
+            else{
+                username = 'Guest';
+            }
+            socket.emit('join_room', { username, room });
+        });
 
-        socket.emit('join_room', { username, room });
+        
 
         socket.on('message', (message) => console.log(message));
 
@@ -22,8 +35,8 @@ const Watchroom = (params) => {
         );
 
         // send message to chat
-        socket.on('chat_message', (username, text) =>
-            createMessage(username, text)
+        socket.on('chat_message', (username, pict, text) =>
+            createMessage(username, pict, text)
         );
 
         document.getElementById('chat-button').onclick = () => {
@@ -86,28 +99,7 @@ const Watchroom = (params) => {
                     className={w['chat-messages']}
                     data-messages="messages-holder"
                 >
-                    <div className={w.message}>
-                        <div className={w['message-avatar']}>
-                            <img
-                                className={w['message-avatar__image']}
-                                src={user_img}
-                                alt="avatar"
-                            />
-                        </div>
-                        <div className={w['message-content']}>
-                            <div className={w['message-content__username']}>
-                                <a className={w['link-to-user']} href="/">
-                                    username
-                                </a>
-                                <small className={w['current-time']}>
-                                    22:50
-                                </small>
-                            </div>
-                            <div className={w['message-content__text']}>
-                                message text
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
 
                 <div className={w['chat-input']}>
@@ -131,7 +123,7 @@ const Watchroom = (params) => {
     );
 };
 
-const createMessage = (username, text) => {
+const createMessage = (username, pict, text) => {
     const today = new Date();
     const time = today.getHours() + ':' + today.getMinutes();
 
@@ -143,7 +135,7 @@ const createMessage = (username, text) => {
 
     const message_avatar_image = document.createElement('img');
     message_avatar_image.className = w['message-avatar__image'];
-    message_avatar_image.src = user_img;
+    message_avatar_image.src = 'http://localhost:3001/images/'+pict;
     message_avatar_image.alt = 'avatar';
     message_avatar.appendChild(message_avatar_image);
     message.appendChild(message_avatar);
@@ -156,7 +148,7 @@ const createMessage = (username, text) => {
 
     const anchor = document.createElement('a');
     anchor.className = w['link-to-user'];
-    anchor.href = '/';
+    anchor.href = '/'+username;
     anchor.innerText = username;
     username_div.appendChild(anchor);
 
