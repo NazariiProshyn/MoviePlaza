@@ -8,31 +8,31 @@ let sessionstore = new fastifySession.MemoryStore();
 app.register(fastifyCookie);
 
 app.register(require('fastify-socket.io'), {
-  cors: {origin: "*"}
-})
+    cors: { origin: '*' },
+});
 
 app.register(fastifySession, {
-  store: sessionstore,
-  cookieName: 'sessionId',
-  secret: '1qwqwqwwhjehu2372e8ywhdhu92e8uids',
-  cookie: { secure: false, path: '/' },
-  expires: 900000,
+    store: sessionstore,
+    cookieName: 'sessionId',
+    secret: '1qwqwqwwhjehu2372e8ywhdhu92e8uids',
+    cookie: { secure: false, path: '/' },
+    expires: 900000,
 });
 
 app.register(require('fastify-cors'), {
-  origin: 'http://localhost:3000',
+    origin: 'http://localhost:3000',
 
-  credentials: 'same-origin',
-  allowMethods:
-      'PROPFIND, PROPPATCH, COPY, MOVE, DELETE, MKCOL, LOCK, UNLOCK, PUT, GETLIB, VERSION-CONTROL, CHECKIN, CHECKOUT, UNCHECKOUT, REPORT, UPDATE, CANCELUPLOAD, HEAD, OPTIONS, GET, POST',
-  allowedHeaders: [
-      'Content-Type',
-      'Authorization',
-      'Cache-Control',
-      'X-Custom-Header',
-      'X-Requested-With',
-      'Cookie',
-  ],
+    credentials: 'same-origin',
+    allowMethods:
+        'PROPFIND, PROPPATCH, COPY, MOVE, DELETE, MKCOL, LOCK, UNLOCK, PUT, GETLIB, VERSION-CONTROL, CHECKIN, CHECKOUT, UNCHECKOUT, REPORT, UPDATE, CANCELUPLOAD, HEAD, OPTIONS, GET, POST',
+    allowedHeaders: [
+        'Content-Type',
+        'Authorization',
+        'Cache-Control',
+        'X-Custom-Header',
+        'X-Requested-With',
+        'Cookie',
+    ],
 });
 
 app.register(require('./routes/index'));
@@ -42,37 +42,36 @@ app.register(require('./routes/films'));
 app.register(require('./routes/users'));
 app.register(require('./routes/videos'));
 
-app.ready(err => {
-  if (err) throw err
-  app.io.on('connection', (socket) => {
-    console.log('Socket connected!');
-    
-    socket.on('chat_message', (message) => {
-      console.log(message);
-      app.io.emit('chat_message', socket.id.substr(0,2), message);
-    });
+app.ready((err) => {
+    if (err) throw err;
+    app.io.on('connection', (socket) => {
+        console.log('Socket connected!');
 
-    socket.on('play_video', ()=> {
-      console.log('video started');
-      app.io.emit('play_video');
-    });
+        socket.on('chat_message', (message) => {
+            console.log(message);
+            app.io.emit('chat_message', socket.id.substr(0, 2), message);
+        });
 
-    socket.on('stop_video', ()=> {
-      console.log('video paused');
-      app.io.emit('stop_video');
+        socket.on('play_video', () => {
+            console.log('video started');
+            app.io.emit('play_video');
+        });
+
+        socket.on('stop_video', () => {
+            console.log('video paused');
+            app.io.emit('stop_video');
+        });
+
+        socket.on('seeked', (time) => {
+            console.log('time changed to: ' + time);
+            app.io.emit('change_time', time);
+        });
     });
-    /*
-    socket.on('change_time', (time)=> {
-      console.log('time changed to: ' + time);
-      app.io.emit('change_time', time);
-    })
-    */
-  });
-})
+});
 
 app.listen(3001, (err) => {
-  if (err) {
-    app.log.error(err)
-    process.exit(1)
-  }
-})
+    if (err) {
+        app.log.error(err);
+        process.exit(1);
+    }
+});

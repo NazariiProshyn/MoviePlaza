@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect} from 'react';
 import w from './Watchroom.module.css';
 
 import user_img from '../../images/user.png';
@@ -7,7 +7,6 @@ import { io } from 'socket.io-client';
 
 const Watchroom = (params) => {
     const ENDPOINT = 'localhost:3001';
-
     useEffect(() => {
         const socket = io.connect(ENDPOINT);
         socket.on('connect', () => {
@@ -72,6 +71,7 @@ const Watchroom = (params) => {
         const video = document.getElementById('videoPlayer');
 
         // play video
+        
         socket.on('play_video', () => {
             if (video.paused) {
                 video.play();
@@ -91,16 +91,19 @@ const Watchroom = (params) => {
             socket.emit('stop_video');
         });
 
-        // change time
-
-        /*
+        
         socket.on('change_time', (time) => {
-            video.currentTime = time;
+            if (video.currentTime !== time && Math.abs(video.currentTime-time) >=0.5){
+                video.currentTime = time;
+            }
+
         });
-        video.addEventListener('timeupdate', () => {
-            socket.emit('change_time', video.currentTime);
+        video.addEventListener('seeked', () => {
+            video.pause();
+            socket.emit('seeked', video.currentTime);
+            
         });
-        */
+
 
         // disconnect
         socket.on('disconnect', () => {
