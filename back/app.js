@@ -41,6 +41,7 @@ app.register(require('./routes/filmImg'));
 app.register(require('./routes/films'));
 app.register(require('./routes/users'));
 app.register(require('./routes/videos'));
+app.register(require('./routes/rooms'));
 
 app.ready((err) => {
     if (err) throw err;
@@ -65,6 +66,10 @@ app.ready((err) => {
         socket.on('seeked', (time) => {
             console.log('time changed to: ' + time);
             app.io.emit('change_time', time);
+        });
+        socket.on('disconnect', () => {
+            socket.disconnect();
+            console.log('Socket disconnected!');
         });
     });
 });

@@ -33,6 +33,7 @@ function Header() {
         console.log(promise);
         window.location.reload();
     };
+
     return (
         <header className={h.header}>
             <div className={h['header-wrapper']}>
