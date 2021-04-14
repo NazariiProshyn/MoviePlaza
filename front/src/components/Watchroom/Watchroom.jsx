@@ -1,32 +1,33 @@
 import React, { useEffect } from 'react';
-import w from './Watchroom.module.css';
-
-
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { io } from 'socket.io-client';
 import axios from 'axios';
+
+import w from './Watchroom.module.css';
+
 const Watchroom = (params) => {
     const ENDPOINT = 'localhost:3001';
+
     useEffect(() => {
         const socket = io.connect(ENDPOINT);
         const video = document.getElementById('videoPlayer');
         const room = window.location.pathname.substr(6);
         let username = '';
-        let promiseUser = new Promise(function(resolve, reject) {
-            const user = axios.get('http://localhost:3001/',{withCredentials:true});
+        let promiseUser = new Promise(function (resolve, reject) {
+            const user = axios.get('http://localhost:3001/', {
+                withCredentials: true,
+            });
             resolve(user);
-            
         });
-        promiseUser.then(result =>{
-            if (result.data.name){
+
+        promiseUser.then((result) => {
+            if (result.data.name) {
                 username = result.data.name;
-            }
-            else{
+            } else {
                 username = 'Guest';
             }
             socket.emit('join_room', { username, room });
         });
-
-        
 
         socket.on('message', (message) => console.log(message));
 
@@ -90,24 +91,23 @@ const Watchroom = (params) => {
             </div>
             <div className={w['watchroom-chat']}>
                 <div className={w['chat-buttons']}>
-                    <button className={w['chat-buttons__copy']} type="button">
-                        Скопировать ссылку
-                    </button>
+                    <CopyToClipboard text={window.location.href}>
+                        <button className={w['chat-buttons__copy']}>
+                            Копировать путь к комнате
+                        </button>
+                    </CopyToClipboard>
                 </div>
 
                 <div
                     className={w['chat-messages']}
                     data-messages="messages-holder"
-                >
-                    
-                </div>
+                ></div>
 
                 <div className={w['chat-input']}>
                     <input
                         className={w['chat-input__input']}
                         type="text"
                         placeholder="Введите сообщение"
-                        data-emojiable="converted"
                         id="chat-input"
                     ></input>
                     <button
@@ -115,7 +115,7 @@ const Watchroom = (params) => {
                         type="button"
                         id="chat-button"
                     >
-                        Отправить
+                        <span>&#10003;</span>
                     </button>
                 </div>
             </div>
@@ -135,7 +135,7 @@ const createMessage = (username, pict, text) => {
 
     const message_avatar_image = document.createElement('img');
     message_avatar_image.className = w['message-avatar__image'];
-    message_avatar_image.src = 'http://localhost:3001/images/'+pict;
+    message_avatar_image.src = 'http://localhost:3001/images/' + pict;
     message_avatar_image.alt = 'avatar';
     message_avatar.appendChild(message_avatar_image);
     message.appendChild(message_avatar);
@@ -148,7 +148,7 @@ const createMessage = (username, pict, text) => {
 
     const anchor = document.createElement('a');
     anchor.className = w['link-to-user'];
-    anchor.href = '/'+username;
+    anchor.href = '/' + username;
     anchor.innerText = username;
     username_div.appendChild(anchor);
 

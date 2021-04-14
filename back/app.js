@@ -63,16 +63,16 @@ app.ready((err) => {
         socket.on('chat_message', (message) => {
             const user = getCurrentUser(socket.id);
             const users = require('./test/users.json');
-            const userdata = users.find(
+            const user_data = users.find(
                 (person) => person.username === user.username
             );
-            let pict = 'user.png';
-            if (userdata) {
-                pict = userdata.profile_picture;
+            let picture = 'user.png';
+            if (user_data) {
+                picture = user_data.profile_picture;
             }
             app.io
                 .to(user.room)
-                .emit('chat_message', user.username, pict, message);
+                .emit('chat_message', user.username, picture, message);
         });
 
         socket.on('play_video', () => {
