@@ -4,6 +4,8 @@ const app = fastify({ logger: true });
 const fastifySession = require('fastify-session');
 const fastifyCookie = require('fastify-cookie');
 let sessionstore = new fastifySession.MemoryStore();
+ 
+const {userJoin, getCurrentUser, userLeave} = require('./users');
 
 app.register(fastifyCookie);
 
@@ -46,30 +48,41 @@ app.register(require('./routes/rooms'));
 app.ready((err) => {
     if (err) throw err;
     app.io.on('connection', (socket) => {
-        console.log('Socket connected!');
+        socket.on('join_room', ({username, room}) => {
+            const user = userJoin(socket.id, username, room);
+            socket.join(user.room);
+            socket.emit('message', 'Welcome to the MoviePlaza! Room: ' + user.room);
+            socket.broadcast.to(user.room).emit('message', `${user.username} has joined the room`);
+        })
 
         socket.on('chat_message', (message) => {
-            console.log(message);
-            app.io.emit('chat_message', socket.id.substr(0, 2), message);
+            const user = getCurrentUser(socket.id);
+            app.io.to(user.room).emit('chat_message', socket.id.substr(0, 2), message);
         });
 
         socket.on('play_video', () => {
+            const user = getCurrentUser(socket.id);
             console.log('video started');
-            app.io.emit('play_video');
+            app.io.to(user.room).emit('play_video');
         });
 
         socket.on('stop_video', () => {
+            const user = getCurrentUser(socket.id);
             console.log('video paused');
-            app.io.emit('stop_video');
+            app.io.to(user.room).emit('stop_video');
         });
 
         socket.on('seeked', (time) => {
+            const user = getCurrentUser(socket.id);
             console.log('time changed to: ' + time);
-            app.io.emit('change_time', time);
+            app.io.to(user.room).emit('change_time', time);
         });
+
         socket.on('disconnect', () => {
-            socket.disconnect();
-            console.log('Socket disconnected!');
+            const user = userLeave(socket.id);
+            if (user) {
+                app.io.to(user.room).emit('message', `${user.username} has left the room`);
+            }
         });
     });
 });
