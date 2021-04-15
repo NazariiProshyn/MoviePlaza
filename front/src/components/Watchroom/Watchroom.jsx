@@ -11,6 +11,7 @@ const Watchroom = (params) => {
     const ENDPOINT = 'localhost:3001';
     const [films, setFilms] = useState([]);
     const [videosource, setSource] = useState('');
+    const [currSocket, setSocket] = useState();
     const search = (searchValue) =>{
         axios
             .get(
@@ -21,9 +22,12 @@ const Watchroom = (params) => {
     const watchnow = (filmname) =>{
         setSource(`http://localhost:3001/videos/${filmname}.mp4`);
         document.getElementById('videoPlayer').load();
+        currSocket.emit('change_src', filmname);
+
     };
     useEffect(() => {
         const socket = io.connect(ENDPOINT);
+        setSocket(socket);
         const video = document.getElementById('videoPlayer');
         const room = window.location.pathname.substr(6);
         let username = '';
@@ -48,7 +52,11 @@ const Watchroom = (params) => {
         socket.on('connect', () =>
             console.log(`Client connected: ${socket.id}`)
         );
-
+        socket.on('change_src', (src) => {
+            setSource(`http://localhost:3001/videos/${src}.mp4`);
+            document.getElementById('videoPlayer').load();
+        }
+        );
         // send message to chat
         socket.on('chat_message', (username, pict, text) =>
             createMessage(username, pict, text)

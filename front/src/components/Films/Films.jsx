@@ -30,7 +30,7 @@ function Films({ work, iswatchroom=false, watchnow }) {
                     <p>{work.description}</p>
                 </div>
             </Link>
-            {iswatchroom ? (<button className={f['watch_btn']} onClick={watch}>Дивитись зараз</button>):''}
+            {iswatchroom ? (<button className={f['watch_btn']} id ={work.title} onClick={watch}>Дивитись зараз</button>):''}
         </div>
     );
 }

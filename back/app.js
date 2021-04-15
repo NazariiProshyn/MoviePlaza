@@ -94,6 +94,12 @@ app.ready((err) => {
             app.io.to(user.room).emit('change_time', time);
         });
 
+        socket.on('change_src', (filmname) => {
+            const user = getCurrentUser(socket.id);
+            console.log('film changed to: ' + filmname);
+            app.io.to(user.room).emit('change_src', filmname);
+        });
+
         socket.on('disconnect', () => {
             const user = userLeave(socket.id);
             if (user) {
