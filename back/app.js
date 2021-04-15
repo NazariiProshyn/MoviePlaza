@@ -41,6 +41,7 @@ app.register(require('./routes/index'));
 app.register(require('./routes/login'));
 app.register(require('./routes/filmImg'));
 app.register(require('./routes/films'));
+app.register(require('./routes/filmsearch'));
 app.register(require('./routes/users'));
 app.register(require('./routes/videos'));
 app.register(require('./routes/rooms'));

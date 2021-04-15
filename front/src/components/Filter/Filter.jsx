@@ -50,7 +50,9 @@ class Filter extends Component {
             }
         }
     }
-
+    test(){
+        console.log('search');
+    }
     render() {
         return (
             <div className={f.container}>

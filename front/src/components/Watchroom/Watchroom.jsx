@@ -1,13 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { io } from 'socket.io-client';
 import axios from 'axios';
-
+//import search_img from './../../images/search.png';
+import Search from './../SearchSystem/Search';
+import Films from './..//Films/Films';
 import w from './Watchroom.module.css';
 
 const Watchroom = (params) => {
     const ENDPOINT = 'localhost:3001';
-
+    const [films, setFilms] = useState([]);
+    const search = (searchValue) =>{
+        axios
+            .get(
+                `http://localhost:3001/films?value=${searchValue}`
+            )
+            .then(res => res.data).then(res => setFilms(res)).then(console.log(films));
+    };
     useEffect(() => {
         const socket = io.connect(ENDPOINT);
         const video = document.getElementById('videoPlayer');
@@ -83,41 +92,51 @@ const Watchroom = (params) => {
     }, [ENDPOINT]);
 
     return (
-        <div className={w.watchroom}>
-            <div className={w['watchroom-player']}>
-                <video className={w['video']} id="videoPlayer" controls>
-                    <source src="http://localhost:3001/videos/testvideo.mp4" />
-                </video>
-            </div>
-            <div className={w['watchroom-chat']}>
-                <div className={w['chat-buttons']}>
-                    <CopyToClipboard text={window.location.href}>
-                        <button className={w['chat-buttons__copy']}>
+        <div className={w['container']}>
+            <div className={w.watchroom}>
+                <div className={w['watchroom-player']}>
+                    <video className={w['video']} id="videoPlayer" controls>
+                        <source src="http://localhost:3001/videos/testvideo.mp4" />
+                    </video>
+                </div>
+                <div className={w['watchroom-chat']}>
+                    <div className={w['chat-buttons']}>
+                        <CopyToClipboard text={window.location.href}>
+                            <button className={w['chat-buttons__copy']}>
                             Копировать путь к комнате
+                            </button>
+                        </CopyToClipboard>
+                    </div>
+
+                    <div
+                        className={w['chat-messages']}
+                        data-messages="messages-holder"
+                    ></div>
+
+                    <div className={w['chat-input']}>
+                        <input
+                            className={w['chat-input__input']}
+                            type="text"
+                            placeholder="Введите сообщение"
+                            id="chat-input"
+                        ></input>
+                        <button
+                            className={w['chat-input__send']}
+                            type="button"
+                            id="chat-button"
+                        >
+                            <span>&#10003;</span>
                         </button>
-                    </CopyToClipboard>
+                    </div>
                 </div>
-
-                <div
-                    className={w['chat-messages']}
-                    data-messages="messages-holder"
-                ></div>
-
-                <div className={w['chat-input']}>
-                    <input
-                        className={w['chat-input__input']}
-                        type="text"
-                        placeholder="Введите сообщение"
-                        id="chat-input"
-                    ></input>
-                    <button
-                        className={w['chat-input__send']}
-                        type="button"
-                        id="chat-button"
-                    >
-                        <span>&#10003;</span>
-                    </button>
-                </div>
+            </div>
+            <div className={w['movie_select']}>
+                <Search search={search}></Search>
+                <div><div className={w['film_container']}>
+                    {films.map((film) => (
+                        <Films key={film.id} work={film} />
+                    ))}
+                </div></div>
             </div>
         </div>
     );

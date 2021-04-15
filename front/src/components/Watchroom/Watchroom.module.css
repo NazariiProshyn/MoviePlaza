@@ -12,7 +12,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    background: rgb(13,82,156);
+    background: rgb(13, 82, 156);
     background: linear-gradient(0deg, rgb(0, 0, 0) 0%, rgb(82, 0, 0) 100%);
 }
 
@@ -70,7 +70,7 @@
     height: 35px;
     margin-left: 15px;
     border: none;
-    background-color: #4491FA;
+    background-color: #4491fa;
     color: #fff;
     cursor: pointer;
 }
@@ -136,7 +136,7 @@
 .watchroom-player {
     flex: 1;
     height: 100%;
-    width: 70%;
+    width: 100%;
 }
 
 .video {
@@ -144,4 +144,42 @@
     height: 100%;
     outline: none;
     background-color: #000;
+}
+
+.movie_select {
+    display: inline-block;
+    background-color: brown;
+    width: 100%;
+
+    padding-right: 300px;
+}
+
+.container {
+    height: 100%;
+}
+#search-img {
+    height: 30px;
+    width: 30px;
+}
+
+.search-block {
+    display: flex;
+    align-items: center;
+    background-color: grey;
+    padding: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#search-block__input {
+    height: 30px;
+    width: 100%;
+    outline: none;
+}
+
+.film_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-bottom: 5vh;
+    margin-left: 10px;
 }
