@@ -10,12 +10,17 @@ import w from './Watchroom.module.css';
 const Watchroom = (params) => {
     const ENDPOINT = 'localhost:3001';
     const [films, setFilms] = useState([]);
+    const [videosource, setSource] = useState('');
     const search = (searchValue) =>{
         axios
             .get(
                 `http://localhost:3001/films?value=${searchValue}`
             )
             .then(res => res.data).then(res => setFilms(res)).then(console.log(films));
+    };
+    const watchnow = (filmname) =>{
+        setSource(`http://localhost:3001/videos/${filmname}.mp4`);
+        document.getElementById('videoPlayer').load();
     };
     useEffect(() => {
         const socket = io.connect(ENDPOINT);
@@ -96,7 +101,7 @@ const Watchroom = (params) => {
             <div className={w.watchroom}>
                 <div className={w['watchroom-player']}>
                     <video className={w['video']} id="videoPlayer" controls>
-                        <source src="http://localhost:3001/videos/testvideo.mp4" />
+                        <source src={videosource} />
                     </video>
                 </div>
                 <div className={w['watchroom-chat']}>
@@ -134,7 +139,7 @@ const Watchroom = (params) => {
                 <Search search={search}></Search>
                 <div><div className={w['film_container']}>
                     {films.map((film) => (
-                        <Films key={film.id} work={film} />
+                        <Films key={film.id} work={film} iswatchroom={true} watchnow={watchnow}/>
                     ))}
                 </div></div>
             </div>
