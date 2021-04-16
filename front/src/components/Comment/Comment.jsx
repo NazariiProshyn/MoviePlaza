@@ -7,7 +7,11 @@ function Comment({ work }) {
             <div className={c.avatar}>
                 <img
                     className={c['avatar_img']}
+<<<<<<< HEAD
                     src={'http://localhost:3001/images/' + work.avatar}
+=======
+                    src={'http://localhost:3001/images/'+work.avatar}
+>>>>>>> 09dddb88f114a8fb45f2fbf1f7ebc219b1e0d5d4
                     alt={work.nickname}
                 />
             </div>

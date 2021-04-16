@@ -53,6 +53,7 @@ class Filmpage extends Component {
             container.prepend(div);
             let a = Comment({ work });
             ReactDOM.render(a, div);
+            
         }
     }
     render() {
