@@ -44,7 +44,8 @@ app.register(require('./routes/films'));
 app.register(require('./routes/filmsearch'));
 app.register(require('./routes/users'));
 app.register(require('./routes/videos'));
-app.register(require('./routes/rooms'));
+app.register(require('./routes/registration'));
+//app.register(require('./routes/rooms'));
 
 app.ready((err) => {
     if (err) throw err;

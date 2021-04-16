@@ -1,7 +1,8 @@
-async function routes(fastify) {
+/*async function routes(fastify) {
     fastify.get('/room/:id', (request, reply) => {
        
     });
 }
 
 module.exports = routes;
+*/
