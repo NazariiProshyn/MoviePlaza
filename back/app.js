@@ -5,7 +5,13 @@ const fastifySession = require('fastify-session');
 const fastifyCookie = require('fastify-cookie');
 let sessionstore = new fastifySession.MemoryStore();
 
-const { userJoin, getCurrentUser, userLeave } = require('./users');
+const {
+    getFilm,
+    changefilm,
+    userJoin,
+    getCurrentUser,
+    userLeave,
+} = require('./users');
 
 app.register(fastifyCookie);
 
@@ -53,13 +59,22 @@ app.ready((err) => {
         socket.on('join_room', ({ username, room }) => {
             const user = userJoin(socket.id, username, room);
             socket.join(user.room);
+
             socket.emit(
                 'message',
                 'Welcome to the MoviePlaza! Room: ' + user.room
             );
+
             socket.broadcast
                 .to(user.room)
                 .emit('message', `${user.username} has joined the room`);
+
+            socket.broadcast.to(user.room).emit('new_user');
+            const film = getFilm(user.room);
+            console.log(film);
+            if (film) {
+                socket.emit('change_src', film.film);
+            }
         });
 
         socket.on('chat_message', (message) => {
@@ -97,6 +112,7 @@ app.ready((err) => {
 
         socket.on('change_src', (filmname) => {
             const user = getCurrentUser(socket.id);
+            changefilm(user.room, filmname);
             console.log('film changed to: ' + filmname);
             app.io.to(user.room).emit('change_src', filmname);
         });

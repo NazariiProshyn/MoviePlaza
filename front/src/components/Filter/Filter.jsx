@@ -1,11 +1,20 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import f from './Filter.module.css';
 
 import search_img from './../../images/search.png';
-import films from '../../staticStorage/all_films';
 
-class Filter extends Component {
-    filtering() {
+const Filter = (props)=> {
+    const [searchValue, setSearchValue] = useState('');
+    const callSearchFunction = (e) => {
+        e.preventDefault();
+        props.search(searchValue);
+
+    };
+    const handleSearchInputChanges = (e) => {
+        setSearchValue(e.target.value);
+    };
+    /*
+    const filtering = () => {
         let cards = document.querySelectorAll('[data-item="film"]');
 
         const start_rate = document.querySelector('[data-filter="rate_from"]')
@@ -36,7 +45,7 @@ class Filter extends Component {
             if (temp.price < start_price || temp.price > end_price) {
                 cards[i].style.display = 'none';
             }
-        }*/
+        }
 
         for (let i = 0; i < cards.length; i++) {
             let temp = films.find((film) => film.id === cards[i].id);
@@ -49,98 +58,96 @@ class Filter extends Component {
                 }
             }
         }
-    }
-    test(){
-        console.log('search');
-    }
-    render() {
-        return (
-            <div className={f.container}>
-                <p>Каталог фільмів</p>
-                <div className={f['search-block']}>
-                    <input
-                        id={f['search-block__input']}
-                        type="search"
-                        placeholder="Пошук фільму"
-                    ></input>
-                    {/*добавити onclick для img або замінити img на button i знайти спосіб як поставити на фон кнопки картинку */}
-                    <img
-                        src={search_img}
-                        alt="search"
-                        id={f['search-img']}
-                        onClick={this.test}
-                    ></img>
-                </div>
-                <p>Фільтр:</p>
-                <div className={f.filter}>
-                    <select id={f['filter-genre']}>
-                        <option>Жанр</option>
-                        <option value="Комедія">Комедія</option>
-                        <option value="Триллер">Триллер</option>
-                        <option value="Драма">Драма</option>
-                    </select>
-                    <div className={f['filter-year']}>
-                        <p>Рік:</p>
-                        <input
-                            id={f['start-year']}
-                            placeholder="від"
-                            data-filter="year_from"
-                        ></input>
-                        <input
-                            id={f['end-year']}
-                            placeholder="до"
-                            data-filter="year_to"
-                        ></input>
-                    </div>
-                    <div className={f['filter-length']}>
-                        <p>Довжина:</p>
-                        <input
-                            id={f['start-length']}
-                            placeholder="від"
-                            data-filter="length_from"
-                        ></input>
-                        <input
-                            id={f['end-length']}
-                            placeholder="до"
-                            data-filter="length_to"
-                        ></input>
-                    </div>
-                    <div className={f['filter-price']}>
-                        <p>Ціна:</p>
-                        <input
-                            id={f['start-price']}
-                            placeholder="від"
-                            data-filter="price_from"
-                        ></input>
-                        <input
-                            id={f['end-price']}
-                            placeholder="до"
-                            data-filter="price_to"
-                        ></input>
-                    </div>
-                    <div className={f['filter-rate']}>
-                        <p>Рейтинг</p>
-                        <input
-                            id={f['start-rate']}
-                            placeholder="від"
-                            data-filter="rate_from"
-                        ></input>
-                        <input
-                            id={f['end-rate']}
-                            placeholder="до"
-                            data-filter="rate_to"
-                        ></input>
-                    </div>
-                    <button
-                        onClick={this.filtering}
-                        className={f['filter-button']}
-                    >
-                        Застосувати
-                    </button>
-                </div>
+    };
+    */
+    return (
+        <div className={f.container}>
+            <p>Каталог фільмів</p>
+            <div className={f['search-block']}>
+                <input
+                    id={f['search-block__input']}
+                    type="search"
+                    value={searchValue}
+                    onChange={handleSearchInputChanges}
+                    placeholder="Пошук фільму"
+                ></input>
+                {/*добавити onclick для img або замінити img на button i знайти спосіб як поставити на фон кнопки картинку */}
+                <img
+                    src={search_img}
+                    alt="search"
+                    id={f['search-img']}
+                    onClick={callSearchFunction}
+                ></img>
             </div>
-        );
-    }
-}
+            <p>Фільтр:</p>
+            <div className={f.filter}>
+                <select id={f['filter-genre']}>
+                    <option>Жанр</option>
+                    <option value="Комедія">Комедія</option>
+                    <option value="Триллер">Триллер</option>
+                    <option value="Драма">Драма</option>
+                </select>
+                <div className={f['filter-year']}>
+                    <p>Рік:</p>
+                    <input
+                        id={f['start-year']}
+                        placeholder="від"
+                        data-filter="year_from"
+                    ></input>
+                    <input
+                        id={f['end-year']}
+                        placeholder="до"
+                        data-filter="year_to"
+                    ></input>
+                </div>
+                <div className={f['filter-length']}>
+                    <p>Довжина:</p>
+                    <input
+                        id={f['start-length']}
+                        placeholder="від"
+                        data-filter="length_from"
+                    ></input>
+                    <input
+                        id={f['end-length']}
+                        placeholder="до"
+                        data-filter="length_to"
+                    ></input>
+                </div>
+                <div className={f['filter-price']}>
+                    <p>Ціна:</p>
+                    <input
+                        id={f['start-price']}
+                        placeholder="від"
+                        data-filter="price_from"
+                    ></input>
+                    <input
+                        id={f['end-price']}
+                        placeholder="до"
+                        data-filter="price_to"
+                    ></input>
+                </div>
+                <div className={f['filter-rate']}>
+                    <p>Рейтинг</p>
+                    <input
+                        id={f['start-rate']}
+                        placeholder="від"
+                        data-filter="rate_from"
+                    ></input>
+                    <input
+                        id={f['end-rate']}
+                        placeholder="до"
+                        data-filter="rate_to"
+                    ></input>
+                </div>
+                <button
+                    className={f['filter-button']}
+                >
+                        Застосувати
+                </button>
+            </div>
+        </div>
+    );
+};
+
 
 export default Filter;
