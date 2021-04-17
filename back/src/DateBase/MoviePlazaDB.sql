@@ -81,9 +81,14 @@
  *
  ******************************/
  
- 
- /*
+/*
   *BRIEF: Creating of datebase
+  *
+  */
+ CREATE DATABASE "MoviePlaza"
+
+ /*
+  *BRIEF: Creating of table User
   *
   */
 
@@ -153,7 +158,7 @@ CREATE TABLE "FavouriteGenres" (
   *BRIEF: Creating of table TransactDetails
   *
   */
-/*
+
 CREATE TABLE "TransactDetails" (
 	"UserId"        int    NOT NULL,
 	"TypeId"        bigint NOT NULL,
@@ -163,7 +168,7 @@ CREATE TABLE "TransactDetails" (
 ) WITH (
   OIDS = FALSE
 );
-*/
+
  /*
   *BRIEF: Creating of table Genres
   *
@@ -213,16 +218,6 @@ CREATE TABLE "Comments" (
   OIDS = FALSE
 );
 
-
-
-
-
-
-
-
-
-
-
  /*
   *BRIEF: Creating of table TypesOfTransact
   *
@@ -243,7 +238,8 @@ CREATE TABLE "RoomInformation" (
 	"CreatorId" int          NOT NULL,
 	"RoomKey"   varchar(255) NOT NULL,
 	"Film"      varchar(255),
-	"Time"      int
+	"Time"      int,
+	CONSTRAINT "RoomInformation_pk" PRIMARY KEY ("RoomKey")
 ) WITH (
   OIDS = FALSE
 );
@@ -258,11 +254,11 @@ ALTER TABLE "BoughtFilms" ADD CONSTRAINT "BoughtFilms_fk1" FOREIGN KEY ("UserId"
 
 ALTER TABLE "RoomInformation" ADD CONSTRAINT "RoomInformation_fk0" FOREIGN KEY ("CreatorId") REFERENCES "User"("UserId");
 
---ALTER TABLE "TransactDetails" ADD CONSTRAINT "TransactDetails_fk0" FOREIGN KEY ("UserId") REFERENCES "User"("UserId");
+ALTER TABLE "TransactDetails" ADD CONSTRAINT "TransactDetails_fk0" FOREIGN KEY ("UserId") REFERENCES "User"("UserId");
 
 ALTER TABLE "UserInformation" ADD CONSTRAINT "UserInformation_fk0" FOREIGN KEY ("UserId") REFERENCES "User"("UserId");
 
---ALTER TABLE "TypesOfTransact" ADD CONSTRAINT "TypesOfTransact_fk0" FOREIGN KEY ("TypeId") REFERENCES "TransactDetails"("TypeId");
+ALTER TABLE "TransactDetails" ADD CONSTRAINT "TypesOfTransact_fk0" FOREIGN KEY ("TypeId") REFERENCES "TypesOfTransact"("TypeId");
 
 ALTER TABLE "FavouriteGenres" ADD CONSTRAINT "FavouriteGenres_fk0" FOREIGN KEY ("UserId") REFERENCES "User"("UserId");
 
