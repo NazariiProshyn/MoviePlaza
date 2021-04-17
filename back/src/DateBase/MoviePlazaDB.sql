@@ -26,7 +26,9 @@
  *                      "BoughtFilms"   "TransactDetails"    
  *                      "Genres",       "RoomInformation" 
  *                      "Reits",        "TypesOfTransact"  
- *                      "Filmdata",     "Comments"
+ *                      "Filmdata",     "Comments",
+ *                      "FilmGanres"
+ *
  * Description:
  * "User":              This table stores the main    
  *                      information about the client-
@@ -52,6 +54,9 @@
  * "FavouriteGanres":   This table contains information about
  *                      favourite ganres of clients.The "UserId", 
  *                      "GenresId" column is taken as the primary key.
+ *
+ * "FilmGanres":        This table contains information about
+ *                      film ganres.
  *
  * "TransactDetails":   This table contains the main information
  *                      about the transaction - customer, amount, date.
@@ -122,7 +127,6 @@
   */
 CREATE TABLE "FilmInfo" (
 	"FilmId"   serial NOT NULL,
-	"GenreId"  bigint NOT NULL,
 	"FilmName" varchar(255) NOT NULL UNIQUE,
 	"Price"    int,
 	"InformationAboutFilm" varchar(255) NOT NULL,
@@ -155,10 +159,20 @@ CREATE TABLE "FavouriteGenres" (
 );
 
  /*
+  *BRIEF: Creating of table FilmGanres
+  *
+  */
+CREATE TABLE "FilmGanres" (
+	"FilmId"   int NOT NULL,
+	"GenresId" int NOT NULL
+) WITH (
+  OIDS = FALSE
+);
+
+ /*
   *BRIEF: Creating of table TransactDetails
   *
   */
-
 CREATE TABLE "TransactDetails" (
 	"UserId"        int    NOT NULL,
 	"TypeId"        bigint NOT NULL,
@@ -268,6 +282,7 @@ ALTER TABLE "Comments" ADD CONSTRAINT "Comments_fk1" FOREIGN KEY ("FilmId") REFE
 
 ALTER TABLE "Rating" ADD CONSTRAINT "Reits_fk1" FOREIGN KEY ("FilmId") REFERENCES "FilmInfo"("FilmId");
 
-ALTER TABLE "FilmInfo" ADD CONSTRAINT "Genres_fk1" FOREIGN KEY ("GenreId") REFERENCES "Genres"("GenreId");
-
 ALTER TABLE "Filmdata" ADD CONSTRAINT "Filmdata_fk1" FOREIGN KEY ("FilmId") REFERENCES "FilmInfo"("FilmId");
+
+
+ALTER TABLE "FilmInfo" ADD CONSTRAINT "Genres_fk1" FOREIGN KEY ("GenreId") REFERENCES "Genres"("GenreId");
