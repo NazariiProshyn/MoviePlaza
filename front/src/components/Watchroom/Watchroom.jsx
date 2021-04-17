@@ -47,8 +47,13 @@ const Watchroom = (params) => {
             socket.emit('join_room', { username, room });
         });
 
-        socket.on('message', (message) => console.log(message));
+        socket.on('message', (message) => {
+            console.log(message);
+        });
 
+        socket.on('new_user', ()=>{
+            video.currentTime = video.currentTime+0;
+        });
         socket.on('connect', () =>
             console.log(`Client connected: ${socket.id}`)
         );

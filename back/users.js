@@ -1,5 +1,17 @@
 const users = [];
+const rooms = [];
 
+function changefilm(room, film) {
+    const roomindex = rooms.findIndex((curroom) => curroom.id === room);
+    if (roomindex !== -1) {
+        rooms.splice(roomindex, 1);
+    }
+    rooms.push({ id: room, film: film });
+}
+
+function getFilm(room) {
+    return rooms.find((curroom) => curroom.id === room);
+}
 // Join user to chat
 function userJoin(id, username, room) {
     const user = { id, username, room };
@@ -29,6 +41,8 @@ function getRoomUsers(room) {
 }
 
 module.exports = {
+    getFilm,
+    changefilm,
     userJoin,
     getCurrentUser,
     userLeave,
