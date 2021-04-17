@@ -42,7 +42,7 @@ const Watchroom = (params) => {
             if (result.data.name) {
                 username = result.data.name;
             } else {
-                username = 'Guest';
+                username = 'Guest' + String(Math.floor(Math.random()*10000));
             }
             socket.emit('join_room', { username, room });
         });
@@ -54,8 +54,10 @@ const Watchroom = (params) => {
         socket.on('new_user', ()=>{
             video.currentTime = video.currentTime+0;
         });
-        socket.on('connect', () =>
-            console.log(`Client connected: ${socket.id}`)
+        socket.on('connect', () =>{
+            video.muted = true;
+            console.log(`Client connected: ${socket.id}`);
+        }
         );
         socket.on('change_src', (src) => {
             setSource(`http://localhost:3001/videos/${src}.mp4`);
