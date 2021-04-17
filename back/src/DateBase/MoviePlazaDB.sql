@@ -153,7 +153,8 @@ CREATE TABLE "BoughtFilms" (
   */
 CREATE TABLE "FavouriteGenres" (
 	"UserId"   int NOT NULL,
-	"GenresId" int NOT NULL
+	"GenresId" int NOT NULL,
+	CONSTRAINT "FavouriteGenres_pk" PRIMARY KEY ("UserId","GenresId")
 ) WITH (
   OIDS = FALSE
 );
@@ -162,9 +163,10 @@ CREATE TABLE "FavouriteGenres" (
   *BRIEF: Creating of table FilmGanres
   *
   */
-CREATE TABLE "FilmGanres" (
+CREATE TABLE "FilmGenres" (
 	"FilmId"   int NOT NULL,
-	"GenresId" int NOT NULL
+	"GenresId" int NOT NULL,
+	CONSTRAINT "FilmGenres_pk" PRIMARY KEY ("FilmId","GenresId")
 ) WITH (
   OIDS = FALSE
 );
@@ -276,7 +278,7 @@ ALTER TABLE "TransactDetails" ADD CONSTRAINT "TypesOfTransact_fk0" FOREIGN KEY (
 
 ALTER TABLE "FavouriteGenres" ADD CONSTRAINT "FavouriteGenres_fk0" FOREIGN KEY ("UserId") REFERENCES "User"("UserId");
 
-ALTER TABLE "FavouriteGenres" ADD CONSTRAINT "FavouriteGenres_fk1" FOREIGN KEY ("UserId") REFERENCES "Genres"("GenreId");
+ALTER TABLE "FavouriteGenres" ADD CONSTRAINT "FavouriteGenres_fk1" FOREIGN KEY ("GenresId") REFERENCES "Genres"("GenreId");
 
 ALTER TABLE "Comments" ADD CONSTRAINT "Comments_fk1" FOREIGN KEY ("FilmId") REFERENCES "FilmInfo"("FilmId");
 
@@ -284,5 +286,7 @@ ALTER TABLE "Rating" ADD CONSTRAINT "Reits_fk1" FOREIGN KEY ("FilmId") REFERENCE
 
 ALTER TABLE "Filmdata" ADD CONSTRAINT "Filmdata_fk1" FOREIGN KEY ("FilmId") REFERENCES "FilmInfo"("FilmId");
 
+ALTER TABLE "FilmGenres" ADD CONSTRAINT "FilmGenres_fk0" FOREIGN KEY ("FilmId") REFERENCES "FilmInfo"("FilmId");
 
-ALTER TABLE "FilmInfo" ADD CONSTRAINT "Genres_fk1" FOREIGN KEY ("GenreId") REFERENCES "Genres"("GenreId");
+ALTER TABLE "FilmGenres" ADD CONSTRAINT "FilmGenres_fk1" FOREIGN KEY ("GenresId") REFERENCES "Genres"("GenreId");
+
