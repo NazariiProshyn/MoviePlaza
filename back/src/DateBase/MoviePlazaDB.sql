@@ -113,9 +113,10 @@
   *
   */
  CREATE TABLE "UserInformation" (
-	"UserId"   bigint       NOT NULL,
-	"Login"    varchar(255) NOT NULL UNIQUE,
-	"Password" varchar(255) NOT NULL,
+	"UserId"    bigint       NOT NULL,
+	"Login"     varchar(255) NOT NULL UNIQUE,
+	"Password"  varchar(255) NOT NULL,
+	"userImage" varchar(255) NOT NULL,
 	CONSTRAINT "UserInformation_pk" PRIMARY KEY ("UserId")
 ) WITH (
   OIDS = FALSE
@@ -229,7 +230,8 @@ CREATE TABLE "Rating" (
   */
 CREATE TABLE "Comments" (
 	"FilmId"  int          NOT NULL,
-	"Comment" varchar(255) NOT NULL
+	"Comment" varchar(255) NOT NULL,
+	"UserId"  int          NOT NULL
 ) WITH (
   OIDS = FALSE
 );
@@ -264,29 +266,29 @@ CREATE TABLE "RoomInformation" (
   *BRIEF: Addind foreign keys
   *
   */
-ALTER TABLE "BoughtFilms" ADD CONSTRAINT "BoughtFilms_fk0" FOREIGN KEY ("UserId") REFERENCES "User"("UserId");
+ALTER TABLE "BoughtFilms"     ADD CONSTRAINT "BoughtFilms_fk0"     FOREIGN KEY ("UserId")    REFERENCES "User"("UserId");
 
-ALTER TABLE "BoughtFilms" ADD CONSTRAINT "BoughtFilms_fk1" FOREIGN KEY ("UserId") REFERENCES "FilmInfo"("FilmId");
+ALTER TABLE "BoughtFilms"     ADD CONSTRAINT "BoughtFilms_fk1"     FOREIGN KEY ("UserId")    REFERENCES "FilmInfo"("FilmId");
 
 ALTER TABLE "RoomInformation" ADD CONSTRAINT "RoomInformation_fk0" FOREIGN KEY ("CreatorId") REFERENCES "User"("UserId");
 
-ALTER TABLE "TransactDetails" ADD CONSTRAINT "TransactDetails_fk0" FOREIGN KEY ("UserId") REFERENCES "User"("UserId");
+ALTER TABLE "TransactDetails" ADD CONSTRAINT "TransactDetails_fk0" FOREIGN KEY ("UserId")    REFERENCES "User"("UserId");
 
-ALTER TABLE "UserInformation" ADD CONSTRAINT "UserInformation_fk0" FOREIGN KEY ("UserId") REFERENCES "User"("UserId");
+ALTER TABLE "UserInformation" ADD CONSTRAINT "UserInformation_fk0" FOREIGN KEY ("UserId")    REFERENCES "User"("UserId");
 
-ALTER TABLE "TransactDetails" ADD CONSTRAINT "TypesOfTransact_fk0" FOREIGN KEY ("TypeId") REFERENCES "TypesOfTransact"("TypeId");
+ALTER TABLE "TransactDetails" ADD CONSTRAINT "TypesOfTransact_fk0" FOREIGN KEY ("TypeId")    REFERENCES "TypesOfTransact"("TypeId");
 
-ALTER TABLE "FavouriteGenres" ADD CONSTRAINT "FavouriteGenres_fk0" FOREIGN KEY ("UserId") REFERENCES "User"("UserId");
+ALTER TABLE "FavouriteGenres" ADD CONSTRAINT "FavouriteGenres_fk0" FOREIGN KEY ("UserId")    REFERENCES "User"("UserId");
 
-ALTER TABLE "FavouriteGenres" ADD CONSTRAINT "FavouriteGenres_fk1" FOREIGN KEY ("GenresId") REFERENCES "Genres"("GenreId");
+ALTER TABLE "FavouriteGenres" ADD CONSTRAINT "FavouriteGenres_fk1" FOREIGN KEY ("GenresId")  REFERENCES "Genres"("GenreId");
 
-ALTER TABLE "Comments" ADD CONSTRAINT "Comments_fk1" FOREIGN KEY ("FilmId") REFERENCES "FilmInfo"("FilmId");
+ALTER TABLE "Comments"        ADD CONSTRAINT "Comments_fk1"        FOREIGN KEY ("FilmId")    REFERENCES "FilmInfo"("FilmId");
 
-ALTER TABLE "Rating" ADD CONSTRAINT "Reits_fk1" FOREIGN KEY ("FilmId") REFERENCES "FilmInfo"("FilmId");
+ALTER TABLE "Rating"          ADD CONSTRAINT "Reits_fk1"           FOREIGN KEY ("FilmId")    REFERENCES "FilmInfo"("FilmId");
 
-ALTER TABLE "Filmdata" ADD CONSTRAINT "Filmdata_fk1" FOREIGN KEY ("FilmId") REFERENCES "FilmInfo"("FilmId");
+ALTER TABLE "Filmdata"        ADD CONSTRAINT "Filmdata_fk1"        FOREIGN KEY ("FilmId")    REFERENCES "FilmInfo"("FilmId");
+ 
+ALTER TABLE "FilmGenres"      ADD CONSTRAINT "FilmGenres_fk0"      FOREIGN KEY ("FilmId")    REFERENCES "FilmInfo"("FilmId");
 
-ALTER TABLE "FilmGenres" ADD CONSTRAINT "FilmGenres_fk0" FOREIGN KEY ("FilmId") REFERENCES "FilmInfo"("FilmId");
-
-ALTER TABLE "FilmGenres" ADD CONSTRAINT "FilmGenres_fk1" FOREIGN KEY ("GenresId") REFERENCES "Genres"("GenreId");
+ALTER TABLE "FilmGenres"      ADD CONSTRAINT "FilmGenres_fk1"      FOREIGN KEY ("GenresId")  REFERENCES "Genres"("GenreId");
 
