@@ -99,7 +99,7 @@
 
  CREATE TABLE "User" (
 	"UserId"     serial       NOT NULL,
-	"Name"       varchar(255) NOT NULL,
+	"FirstName"       varchar(255) NOT NULL,
 	"SecondName" varchar(255) NOT NULL,
 	"BDate"      DATE         NOT NULL,
 	"Money"      money,
@@ -113,7 +113,7 @@
   *
   */
  CREATE TABLE "UserInformation" (
-	"UserId"    bigint       NOT NULL,
+	"UserId"    serial       NOT NULL,
 	"Login"     varchar(255) NOT NULL UNIQUE,
 	"Password"  varchar(255) NOT NULL,
 	"userImage" varchar(255) NOT NULL,
@@ -292,3 +292,66 @@ ALTER TABLE "FilmGenres"      ADD CONSTRAINT "FilmGenres_fk0"      FOREIGN KEY (
 
 ALTER TABLE "FilmGenres"      ADD CONSTRAINT "FilmGenres_fk1"      FOREIGN KEY ("GenresId")  REFERENCES "Genres"("GenreId");
 
+ALTER TABLE "Comments"        ADD CONSTRAINT "Comments_fk2"        FOREIGN KEY ("UserId")    REFERENCES "User"("UserId");
+
+
+ /*
+ *
+ * @brief: adding info in tables
+ *
+ */
+
+SELECT * FROM "User"
+
+/*
+ * @brief: Insert in "User"
+ */
+INSERT INTO "User" ("FirstName", "SecondName", "BDate", "Money")
+    VALUES ('Nazarii', 'Proshyn', '2001-10-05','100000');
+	
+INSERT INTO "User" ("FirstName", "SecondName", "BDate", "Money")
+    VALUES ('Bogdan', 'Khersonskii', '2001-12-07','100000');
+	
+INSERT INTO "User" ("FirstName", "SecondName", "BDate", "Money")
+    VALUES ('Dmytro', 'Ukrainets', '2001-07-07','100000');
+	
+INSERT INTO "User" ("FirstName", "SecondName", "BDate", "Money")
+    VALUES ('Natzu', 'Dragnil', '777-07-07','77777');
+	
+INSERT INTO "User" ("FirstName", "SecondName", "BDate", "Money")
+    VALUES ('Asta', 'KingOfMags', '1001-11-15','0');
+
+SELECT * FROM "UserInformation"
+/*
+ * @brief: Insert in "UserInformation"
+ */
+INSERT INTO "UserInformation" ("Login", "Password", "userImage")
+    VALUES ('nproshyn', 'qwerty1', 'user.png');
+	
+INSERT INTO "UserInformation" ("Login", "Password", "userImage")
+    VALUES ('bkhersonskii', 'qwerty2', 'user.png');
+	
+INSERT INTO "UserInformation" ("Login", "Password", "userImage")
+    VALUES ('dukrainets', 'qwerty3', 'user.png');
+	
+INSERT INTO "UserInformation" ("Login", "Password", "userImage")
+    VALUES ('ndragnil', 'qwerty4', 'user.png');
+	
+INSERT INTO "UserInformation" ("Login", "Password", "userImage")
+    VALUES ('akingofmags', 'qwerty5', 'user.png');
+	
+/*
+ * @brief: Insert in "Genres"
+ */
+ INSERT INTO "Genres" ("Genre")
+    VALUES ('Comedy');
+	
+/*
+ * @brief: Insert in "FavouriteGenres"
+ */
+  INSERT INTO "FavouriteGenres" ("UserId","GenresId")
+    VALUES (1,1),
+		   (2,1),
+		   (3,1),
+		   (4,1),
+		   (5,1);
