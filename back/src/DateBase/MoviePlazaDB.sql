@@ -203,9 +203,11 @@ CREATE TABLE "Genres" (
   *
   */
 CREATE TABLE "Filmdata" (
-	"FilmId"        int  NOT NULL,
-	"Filmreference" path NOT NULL,
-	"Filmimage"     path NOT NULL,
+	"FilmId"        serial        NOT NULL,
+	"Filmreference" varchar(255)  NOT NULL,
+	"Filmimage"     varchar(255)  NOT NULL,
+	"Dateofrelease" date,
+	"Duration"      int,
 	CONSTRAINT "Filmdata_pk" PRIMARY KEY ("FilmId")
 ) WITH (
   OIDS = FALSE
@@ -351,7 +353,24 @@ INSERT INTO "UserInformation" ("Login", "Password", "userImage")
  */
   INSERT INTO "FavouriteGenres" ("UserId","GenresId")
     VALUES (1,1),
-		   (2,1),
+	       (2,1),
 		   (3,1),
 		   (4,1),
 		   (5,1);
+	        
+		   
+/*
+ * @brief: Insert in "FilmInfo"
+ */	   
+ 
+  INSERT INTO "FilmInfo" ("FilmName","Price","InformationAboutFilm")
+    VALUES ('FilmName1',5.7,'Description-Lorem FilmName1 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.'),
+	       ('FilmName2',4  ,'Description-Lorem FilmName2 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.'),
+		   ('FilmName3',2.1,'Description-Lorem FilmName3 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.'),
+		   ('FilmName4',2.4,'Description-Lorem FilmName4 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.'),
+		   ('FilmName5',9.3,'Description-Lorem FilmName5 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.'),
+		   ('FilmName6',3.3,'Description-Lorem FilmName6 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.'),
+		   ('FilmName7',1.2,'Description-Lorem FilmName7 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.'),
+		   ('FilmName8',0.1,'Description-Lorem FilmName8 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.'),
+		   ('FilmName9',0  ,'Description-Lorem FilmName9 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.'),
+		   ('FilmName10',7.7,'Description-Lorem FilmName10 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.');

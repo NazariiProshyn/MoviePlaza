@@ -1,9 +1,7 @@
 [
     {
-        "title": "FilmName1",
         "screenshot": "film.png",        
         "rate": 9.1,
-        "price": 5.7,
         "comment": [
             {
                 "id": "1",
@@ -30,14 +28,11 @@
                 "nickname": "user3",
                 "comment": "spam"
             }
-        ],
-        "description": "Description-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        ]
     },
     {
-        "title": "FilmName2",
         "screenshot": "film.png",        
         "rate": 5.1,
-        "price": 3,
         "comment": [
             {
                 "id": "1",
@@ -64,14 +59,11 @@
                 "nickname": "user3",
                 "comment": "spam"
             }
-        ],
-        "description": "Description-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        ]
     },
     {
-        "title": "FilmName3",
         "screenshot": "film.png",        
         "rate": 9.4,
-        "price": 6,
         "comment": [
             {
                 "id": "1",
@@ -98,14 +90,11 @@
                 "nickname": "user3",
                 "comment": "spam"
             }
-        ],
-        "description": "Description-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        ]
     },
     {
-        "title": "FilmName4",
         "screenshot": "film.png",        
         "rate": 7.1,
-        "price": 19,
         "comment": [
             {
                 "id": "1",
@@ -132,14 +121,11 @@
                 "nickname": "user3",
                 "comment": "spam"
             }
-        ],
-        "description": "Description-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        ]
     },
     {
-        "title": "FilmName5",
         "screenshot": "film.png",        
         "rate": 8.1,
-        "price": 16,
         "comment": [
             {
                 "id": "1",
@@ -166,14 +152,11 @@
                 "nickname": "user3",
                 "comment": "spam"
             }
-        ],
-        "description": "Description-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        ]
     },
     {
-        "title": "FilmName6",
         "screenshot": "film.png",        
         "rate": 9.1,
-        "price": 13,
         "comment": [
             {
                 "id": "1",
@@ -200,23 +183,14 @@
                 "nickname": "user3",
                 "comment": "spam"
             }
-        ],
-        "description": "Description-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        ]
     },
 
-
-
-
-
-
-    
     {
-        "title": "FilmName7",
         "screenshot": "film.png",        
         "rate": 9.8,
         "release_year": 2017,
         "length": 117,
-        "price": 10,
         "comment": [
             {
                 "id": "1",
@@ -248,9 +222,7 @@
                 "avatar": "user.png",
                 "comment": "spam"
             }
-        ],
-        "description": "Description-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        "link": "#"
+        ]
     },
     {
         "id": "film-8",
@@ -291,12 +263,9 @@
                 "avatar": "user.png",
                 "comment": "spam"
             }
-        ],
-        "description": "Description-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        "link": "#"
+        ]
     },
     {
-        "id": "film-9",
         "title": "FilmName9",
         "screenshot": "film.png",        
         "rate": 9.1,
@@ -334,8 +303,6 @@
                 "avatar": "user.png",
                 "comment": "spam"
             }
-        ],
-        "description": "Description-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        "link": "#"
+        ]
     }
 ]
