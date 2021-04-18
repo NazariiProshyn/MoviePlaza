@@ -99,7 +99,7 @@
 
  CREATE TABLE "User" (
 	"UserId"     serial       NOT NULL,
-	"FirstName"       varchar(255) NOT NULL,
+	"FirstName"  varchar(255) NOT NULL,
 	"SecondName" varchar(255) NOT NULL,
 	"BDate"      DATE         NOT NULL,
 	"Money"      money,
@@ -218,7 +218,7 @@ CREATE TABLE "Filmdata" (
   *
   */
 CREATE TABLE "Rating" (
-	"FilmId"      int    NOT NULL,
+	"FilmId"      serial NOT NULL,
 	"NumofVoices" bigint NOT NULL,
 	"Rate"        float8 NOT NULL,
 	CONSTRAINT "Reits_pk" PRIMARY KEY ("FilmId")
@@ -374,3 +374,41 @@ INSERT INTO "UserInformation" ("Login", "Password", "userImage")
 		   ('FilmName8',0.1,'Description-Lorem FilmName8 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.'),
 		   ('FilmName9',0  ,'Description-Lorem FilmName9 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.'),
 		   ('FilmName10',7.7,'Description-Lorem FilmName10 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.');
+		   
+  INSERT INTO "Filmdata"("Filmreference", "Filmimage", "Dateofrelease", "Duration")
+  	VALUES   ('FilmName1', 'film.png','2001-07-02', 25),
+	         ('FilmName2', 'film.png','2002-07-02', 125),
+			 ('FilmName3', 'film.png','2001-04-02', 45),
+			 ('FilmName4', 'film.png','2001-07-03', 20),
+			 ('FilmName5', 'film.png','2005-04-01', 80),
+			 ('FilmName6', 'film.png','1999-04-03', 120),
+			 ('FilmName7', 'film.png','1975-10-10', 141),
+			 ('FilmName8', 'film.png','2021-04-12', 321),
+			 ('FilmName9', 'film.png','2020-12-12', 12),
+			 ('FilmName10', 'film.png','2017-05-02', 15);
+		   
+   INSERT INTO "Rating"("NumofVoices","Rate")
+     VALUES    (10,3.3),
+	           (42,4.2),
+			   (1,5),
+			   (23,3.3),
+			   (100,3.3),
+			   (19,3.3),
+			   (35,3.3),
+			   (21,3.3),
+			   (7,3.3),
+			   (52,3.3);
+			  
+   INSERT INTO "Comments"("FilmId","Comment","UserId")
+      VALUES   (1, 'good1', 1),  (1, 'norm1', 9), (1, 'bored1', 2),
+	           (2, 'good2', 4),  (2, 'norm2', 6), (2, 'bored2', 2),
+			   (3, 'good3', 7),  (3, 'norm3', 3), (3, 'bored3', 5),
+			   (4, 'good4', 3),  (4, 'norm4', 4), (4, 'bored4', 6),
+			   (5, 'good5', 2),  (5, 'norm5', 6), (5, 'bored5', 8),
+			   (6, 'good6', 1),  (6, 'norm6', 6), (6, 'bored6', 4),
+			   (7, 'good7', 3),  (7, 'norm7', 7), (7, 'bored7', 2),
+			   (8, 'good8', 6),  (8, 'norm8', 3), (8, 'bored8', 7),
+			   (9, 'good9', 4),  (9, 'norm9', 2), (9, 'bored9', 6),
+			   (10,'good10',3),  (10,'norm10',4), (10,'bored1', 6);
+			   
+   
