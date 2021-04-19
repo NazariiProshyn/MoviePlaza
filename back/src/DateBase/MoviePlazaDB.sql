@@ -342,7 +342,24 @@ INSERT INTO "UserInformation" ("Login", "Password", "userImage")
  INSERT INTO "Genres" ("Genre")
     VALUES ('Комедия');
 
-SELECT * FROM "Genres"
+ INSERT INTO "Genres" ("Genre")
+    VALUES ('Фэнтези');
+	
+ INSERT INTO "Genres" ("Genre")
+    VALUES ('Боевик');
+	
+ INSERT INTO "Genres" ("Genre")
+    VALUES ('Детектив');
+	
+ INSERT INTO "Genres" ("Genre")
+    VALUES ('Ужасы');
+	
+ INSERT INTO "Genres" ("Genre")
+    VALUES ('Триллер');
+	
+ INSERT INTO "Genres" ("Genre")
+    VALUES ('Драма');
+	
 
   INSERT INTO "FavouriteGenres" ("UserId","GenresId")
     VALUES (1,1),
@@ -350,7 +367,19 @@ SELECT * FROM "Genres"
 		   (3,1),
 		   (4,1),
 		   (5,1);
-	        
+		   
+		   
+ INSERT INTO "FilmGenres" ("FilmId","GenresId")
+    VALUES (1,1),(1,2),
+	       (2,1),
+		   (3,2),(3,3),
+		   (4,1),(4,4),
+		   (5,5),(5,6),
+		   (6,7),(6,3),
+		   (7,2),(7,3),
+		   (8,6),(8,7),
+		   (9,1),(9,3),
+		   (10,1),(10,5);
 			
 			
   INSERT INTO "FilmInfo" ("FilmName","Price","InformationAboutFilm")
@@ -403,13 +432,13 @@ SELECT * FROM "Genres"
 			   
  /*
  *
- * @brief: Insert data
+ * @brief: UPDATE data
  *
  */
  select * from "FilmInfo"
  
     UPDATE "FilmInfo" 
-	  SET  "FilmName" = 'Семейка Аддамс',
+	  SET  "FilmName"             = 'Семейка Аддамс',
 	       "InformationAboutFilm" = 'Черная комедия о колоритной семейке, обитающей в не менее колоритном доме.
 		  Глава семьи, Гомес Аддамс - очень самоуверенный и довольно импульсивный тип, который четверть века тому 
 		  назад страшно поругался со своим старшим братом Фестером, после чего тот пропал без вести. Все попытки
@@ -418,7 +447,7 @@ SELECT * FROM "Genres"
 	   WHERE "FilmId" = 1;
 	   
 	UPDATE "FilmInfo" 
-	  SET  "FilmName" = 'Рыцари справедливости',
+	  SET  "FilmName"             = 'Рыцари справедливости',
 	       "InformationAboutFilm" = 'Когда жена Маркуса трагически погибает в железнодорожной катастрофе,
 		  это кажется нелепой случайностью. А если это тщательно спланированное убийство? Военный,
 		  сумасшедший математик и парочка гиков объединяются,чтобы выяснить, что случилось на самом деле.
@@ -426,7 +455,7 @@ SELECT * FROM "Genres"
 	   WHERE "FilmId" = 2;
 	     
 	UPDATE "FilmInfo" 
-	  SET  "FilmName" = 'Охотник на монстров',
+	  SET  "FilmName"             = 'Охотник на монстров',
 	       "InformationAboutFilm" = 'Параллельно нашему миру существует иной: мир,
 		  где правят крайне опасные и наделенные невероятной силой монстры, яростно
 		  оберегающие свои владения от чужаков. Именно сюда через пространственный
@@ -438,7 +467,7 @@ SELECT * FROM "Genres"
 	   WHERE "FilmId" = 3;
 	     
 	UPDATE "FilmInfo" 
-	  SET  "FilmName" = 'Эйс Вентура 2: Когда зовет природа',
+	  SET  "FilmName"             = 'Эйс Вентура 2: Когда зовет природа',
 	       "InformationAboutFilm" = 'Место действия - Африка. Знаменитый детектив Эйс Вентура, единственный
 		  в мире специалист по розыску пропавших домашних любимцев, снова в деле. На этот раз Эйс должен
 		  найти Шикаку - священное животное племени Вачати. Без Шикаки не может состояться свадьба дочери
@@ -450,7 +479,7 @@ SELECT * FROM "Genres"
 	   WHERE "FilmId" = 4;
 	   
 	UPDATE "FilmInfo" 
-	  SET  "FilmName" = 'Людоед',
+	  SET  "FilmName"             = 'Людоед',
 	       "InformationAboutFilm" = 'Действие фильма происходит в 1847 году, в период войны Америки с Мексикой.
 		  Капитана Джона Бойда чествуют и награждают различными медалями, однако он не рад этим обстоятельствам.
 		  Причиной его чествования стал захват ставки противника в одиночку, но только он один знает все обстоятельства
@@ -464,7 +493,7 @@ SELECT * FROM "Genres"
 	   WHERE "FilmId" = 5;
 	   
 	UPDATE "FilmInfo" 
-	  SET  "FilmName" = 'Гладиатор',
+	  SET  "FilmName"             = 'Гладиатор',
 	       "InformationAboutFilm" = 'Максимус прославился на всю Римскую империю, как справедливый и храбрый военачальник. 
 		  Воины, которым довелось быть в рядах его армии, уважали генерала, боготворили его и готовы были идти на любые
 		  жертвы ради него. Казалось, что он непобедим, но придворные интриги все же его подкосили.
@@ -475,7 +504,7 @@ SELECT * FROM "Genres"
 	   WHERE "FilmId" = 6;
 	   
 	UPDATE "FilmInfo" 
-	  SET  "FilmName" = '300 спартанцев',
+	  SET  "FilmName"             = '300 спартанцев',
 	       "InformationAboutFilm" = 'На пороге далекого 480 года, ушедшего столетия, территория Греции окружена персидскими
 		  войсками. Вражеская армия стремительно наступает по всем направлениям, атакуяпротивников и пытаясь прорвать оборону.
 		  Цель персидского царя Ксеркса захватить власть и расширить собственные горизонты.Правитель надеется на успех, ведь
@@ -488,7 +517,7 @@ SELECT * FROM "Genres"
 	   WHERE "FilmId" = 7;
 	   
 	UPDATE "FilmInfo" 
-	  SET  "FilmName" = 'Омерзительная восьмерка',
+	  SET  "FilmName"             = 'Омерзительная восьмерка',
 	       "InformationAboutFilm" = 'США после Гражданской войны. Легендарный охотник за головами Джон Рут по кличке
 		  Вешатель конвоирует заключенную. По пути к ним прибиваются еще несколько путешественников. Снежная буря
 		  вынуждает компанию искать укрытие в лавке на отшибе, где уже расположилось весьма пестрое общество:
@@ -496,7 +525,7 @@ SELECT * FROM "Genres"
 	   WHERE "FilmId" = 8;
 	   
 	UPDATE "FilmInfo" 
-	  SET  "FilmName" = 'Такси',
+	  SET  "FilmName"             = 'Такси',
 	       "InformationAboutFilm" = 'Молодой таксист Даниэль помешан на быстрой езде. Как ураган, проносится он
 		  по извилистым улицам Марселя на своём мощном ревущем звере «Пежо», пугая пассажиров и прохожих.
 		  Неподкупный полицейский Эмильен вынуждает его помочь в поимке банды грабителей, ускользающих от полиции 
@@ -504,7 +533,7 @@ SELECT * FROM "Genres"
 	   WHERE "FilmId" = 9;
 	   
 	UPDATE "FilmInfo" 
-	  SET  "FilmName" = 'Живая мертвечина',
+	  SET  "FilmName"             = 'Живая мертвечина',
 	       "InformationAboutFilm" = 'С острова Суматра вывезена обезьяна, из-за одного укуса которой туземцы отрубили
 		  зоологу, приехавшему ее отловить, обе руки, а затем и голову. Уже в наше время эта тварь укусила злобную
 		  мамашу нашего героя, которая не дает ему встречаться с любимой девушкой.Последствия укуса ужасны, картину
@@ -516,10 +545,154 @@ SELECT * FROM "Genres"
 	   
 	   
 	UPDATE "Filmdata" 
-	  SET  "FIlmimage" = 'film1.png',
-	       "InformationAboutFilm" = 
+	  SET  "Filmimage"     = 'film1.png',
+	       "Dateofrelease" = '1991-01-01',
+		   "Duration"      = 99
+	   WHERE "FilmId" = 1;
+	      
+	UPDATE "Filmdata" 
+	  SET  "Filmimage"     = 'film2.png',
+	       "Dateofrelease" = '2020-01-01',
+		   "Duration"      = 116
+	   WHERE "FilmId" = 2;
+	      
+	UPDATE "Filmdata" 
+	  SET  "Filmimage"     = 'film3.png',
+	       "Dateofrelease" = '2020-01-01',
+		   "Duration"      = 103
+	   WHERE "FilmId" = 3;
+	   
+	UPDATE "Filmdata" 
+	  SET  "Filmimage"     = 'film4.png',
+	       "Dateofrelease" = '1995-01-01',
+		   "Duration"      = 94
+	   WHERE "FilmId" = 4;
+	   
+	UPDATE "Filmdata" 
+	  SET  "Filmimage"     = 'film5.png',
+	       "Dateofrelease" = '1999-01-01',
+		   "Duration"      = 101
+	   WHERE "FilmId" = 5;
+	   
+	UPDATE "Filmdata" 
+	  SET  "Filmimage"     = 'film6.png',
+	       "Dateofrelease" = '2000-01-01',
+		   "Duration"      = 170
+	   WHERE "FilmId" = 6;
+	   
+	UPDATE "Filmdata" 
+	  SET  "Filmimage"     = 'film7.png',
+	       "Dateofrelease" = '2007-01-01',
+		   "Duration"      = 101
+	   WHERE "FilmId" = 7;
+	   
+	UPDATE "Filmdata" 
+	  SET  "Filmimage"     = 'film8.png',
+	       "Dateofrelease" = '2015-01-01',
+		   "Duration"      = 167
+	   WHERE "FilmId" = 8;
+	   
+	UPDATE "Filmdata" 
+	  SET  "Filmimage"     = 'film9.png',
+	       "Dateofrelease" = '1998-01-01',
+		   "Duration"      = 89
 	   WHERE "FilmId" = 9;
 	   
+	UPDATE "Filmdata" 
+	  SET  "Filmimage"     = 'film10.png',
+	       "Dateofrelease" = '1992-01-01',
+		   "Duration"      = 93
+	   WHERE "FilmId" = 10;
 	   
-	   
-	    SELECT * FROM "Filmdata" 
+ /*
+ *
+ * @brief: Create Procedure
+ *
+ * @return:
+ */
+
+CREATE OR REPLACE FUNCTION FilmPage(idfilm integer)
+  RETURNS TABLE (FilmName             text
+               , Price                int
+               , InformationAboutFilm text
+			   , Filmimage            varchar(255)
+			   , Dateofrelease        date
+			   , Duration             int
+			   , NumofVoices          bigint
+			   , Rate             float) AS
+$func$
+BEGIN
+RETURN QUERY
+SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
+       f2."Filmimage", f2."Dateofrelease", f2."Duration",
+	   f3."NumofVoices", f3."Rate"
+FROM   "FilmInfo" f1
+  JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
+  JOIN "Rating"   f3 ON f3."FilmId" = f1."FilmId"
+  WHERE f1."FilmId" = @idfilm;
+END
+$func$  LANGUAGE plpgsql;
+
+select * from FilmPage(5);
+
+
+ /*
+ *
+ * @brief: Create Procedure
+ *
+ * @return:
+ */
+CREATE OR REPLACE FUNCTION GetComments(idfilm integer)
+  RETURNS TABLE (Comments    varchar(255)
+               , UserId      int) AS
+$func$
+BEGIN
+RETURN QUERY
+SELECT "Comment", "UserId" 
+  FROM "Comments"
+  WHERE "FilmId" = @idfilm;
+END
+$func$  LANGUAGE plpgsql;
+
+select * from GetComments(5);
+
+
+CREATE OR REPLACE FUNCTION SortFilms(minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
+								     minprice    integer DEFAULT 0, maxprice    integer DEFAULT 999,
+								     minrate     float   DEFAULT 0, maxrate       float DEFAULT 999,  genre varchar(255) DEFAULT 'Комедия')
+  RETURNS TABLE (FilmName             text
+               , Price                int
+               , InformationAboutFilm text
+			   , Filmimage            varchar(255)
+			   , Dateofrelease        date
+			   , Duration             int
+			   , NumofVoices          bigint
+			   , Rate                 float) AS
+$func$
+BEGIN
+RETURN QUERY
+SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
+       f2."Filmimage", f2."Dateofrelease", f2."Duration",
+	   f3."NumofVoices", f3."Rate"
+FROM   "FilmInfo" f1
+  JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
+  JOIN "Rating"   f3 ON f3."FilmId" = f1."FilmId"
+  WHERE f1."Price"    >= @minprice    AND
+        f1."Price"    <= @maxprice    AND
+		f2."Duration" >= @minduration AND
+        f2."Duration" <= @maxduration AND
+		f3."Rate"     >= @minrate     AND
+        f3."Rate"     <= @maxrate     AND
+		f1."FilmId" IN (
+			SELECT "FilmId" FROM "FilmGenres"
+		       WHERE "GenresId" IN (
+				   SELECT "GenreId" FROM "Genres"
+				     WHERE "Genre" = @genre));
+END
+$func$  LANGUAGE plpgsql;
+
+select * from SortFilms();
+
+
+
+		
