@@ -657,6 +657,7 @@ $func$  LANGUAGE plpgsql;
 select * from GetComments(5);
 
 
+
 CREATE OR REPLACE FUNCTION SortFilms(minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
 								     minprice    integer DEFAULT 0, maxprice    integer DEFAULT 999,
 								     minrate     float   DEFAULT 0, maxrate       float DEFAULT 999,  genre varchar(255) DEFAULT 'Комедия')
@@ -687,7 +688,8 @@ FROM   "FilmInfo" f1
 			SELECT "FilmId" FROM "FilmGenres"
 		       WHERE "GenresId" IN (
 				   SELECT "GenreId" FROM "Genres"
-				     WHERE "Genre" = @genre));
+				     WHERE "Genre" = genre))
+					 ORDER BY f3."Rate";
 END
 $func$  LANGUAGE plpgsql;
 
@@ -695,4 +697,58 @@ select * from SortFilms();
 
 
 
+CREATE OR REPLACE FUNCTION CheckUser(Ulogin varchar(255), Upass varchar(255)) RETURNS integer AS $$
+    SELECT COUNT(*) FROM "UserInformation"
+	WHERE "Login" = Ulogin AND "Password" = Upass;
+$$ LANGUAGE SQL;
+
+SELECT * FROM public.checkuser('nproshyn', 'qwerty1');
+
+
+CREATE OR REPLACE FUNCTION LastFilms()
+  RETURNS TABLE (FilmName             text
+               , Price                int
+               , InformationAboutFilm text
+			   , Filmimage            varchar(255)
+			   , Dateofrelease        date
+			   , Duration             int
+			   , NumofVoices          bigint
+			   , Rate             float) AS
+$func$
+BEGIN
+RETURN QUERY
+SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
+       f2."Filmimage", f2."Dateofrelease", f2."Duration",
+	   f3."NumofVoices", f3."Rate"
+FROM   "FilmInfo" f1
+  JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
+  JOIN "Rating"   f3 ON f3."FilmId" = f1."FilmId"
+ORDER BY  f1."FilmId" DESC
+LIMIT  7;
+END
+$func$  LANGUAGE plpgsql;
+
+SELECT LastFilms();
+		
+		
+		
+		
+CREATE OR REPLACE FUNCTION UserInfo(Ulogin varchar(255))
+  RETURNS TABLE (FirstName    varchar(255)
+               , SecondName   varchar(255)
+               , BDate        date
+			   , Moneys       money
+			   , userImage    varchar(255)) AS
+$func$
+BEGIN
+RETURN QUERY
+SELECT f1."FirstName",  f1."SecondName", f1."BDate",
+       f1."Money", f2."userImage"
+FROM   "User" f1
+  JOIN "UserInformation" f2 ON f2."UserId" = f1."UserId"
+WHERE f2."Login" = Ulogin;
+END
+$func$  LANGUAGE plpgsql;		
+		
+SELECT UserInfo('nproshyn');
 		
