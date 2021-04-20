@@ -5,61 +5,33 @@ import search_img from './../../images/search.png';
 
 const Filter = (props)=> {
     const [searchValue, setSearchValue] = useState('');
-    const callSearchFunction = (e) => {
-        e.preventDefault();
-        props.search(searchValue);
-
+    const callSearchFunction = () => {
+        props.search(
+            searchValue, document.getElementById('filter-genre').value,
+            document.getElementById('start-year').value, 
+            document.getElementById('end-year').value, 
+            document.getElementById('start-length').value,  
+            document.getElementById('end-length').value, 
+            document.getElementById('start-price').value, 
+            document.getElementById('end-price').value,
+            document.getElementById('start-rate').value,
+            document.getElementById('end-rate').value);
     };
     const handleSearchInputChanges = (e) => {
         setSearchValue(e.target.value);
     };
-    /*
-    const filtering = () => {
-        let cards = document.querySelectorAll('[data-item="film"]');
-
-        const start_rate = document.querySelector('[data-filter="rate_from"]')
-            .value;
-        const end_rate = document.querySelector('[data-filter="rate_to"]')
-            .value;
-
-        /*const start_year = document.querySelector('[data-filter="year_from"]').value;
-        const end_year = document.querySelector('[data-filter="year_to"]').value;
-        
-        const start_price = document.querySelector('[data-filter="price_from"]').value;
-        const end_price = document.querySelector('[data-filter="price_to"]').value;
-
-        const start_length = document.querySelector('[data-filter="length_from"]').value;
-        const end_length = document.querySelector('[data-filter="length_to"]').value;
-
-        if (start_year || end_year) {
-            if (temp.release_year < start_year || temp.release_year > end_year) {
-                cards[i].style.display = 'none';
-            }
-        }
-        if (start_length || end_length) {
-            if (temp.length < start_length || temp.length > end_length) {
-                cards[i].style.display = 'none';
-            }
-        }
-        if (start_price || end_price) {
-            if (temp.price < start_price || temp.price > end_price) {
-                cards[i].style.display = 'none';
-            }
-        }
-
-        for (let i = 0; i < cards.length; i++) {
-            let temp = films.find((film) => film.id === cards[i].id);
-
-            if (start_rate || end_rate) {
-                if (temp.rate < start_rate || temp.rate > end_rate) {
-                    cards[i].style.display = 'none';
-                } else {
-                    cards[i].style.display = 'grid';
-                }
-            }
-        }
+    const clearFilter = ()=>{
+        document.getElementById('filter-genre').selectedIndex=0;
+        document.getElementById('start-year').value='';
+        document.getElementById('end-year').value='';
+        document.getElementById('start-length').value='';  
+        document.getElementById('end-length').value=''; 
+        document.getElementById('start-price').value=''; 
+        document.getElementById('end-price').value='';
+        document.getElementById('start-rate').value='';
+        document.getElementById('end-rate').value='';
+        callSearchFunction();
     };
-    */
     return (
         <div className={f.container}>
             <p>Каталог фільмів</p>
@@ -71,7 +43,6 @@ const Filter = (props)=> {
                     onChange={handleSearchInputChanges}
                     placeholder="Пошук фільму"
                 ></input>
-                {/*добавити onclick для img або замінити img на button i знайти спосіб як поставити на фон кнопки картинку */}
                 <img
                     src={search_img}
                     alt="search"
@@ -81,21 +52,25 @@ const Filter = (props)=> {
             </div>
             <p>Фільтр:</p>
             <div className={f.filter}>
-                <select id={f['filter-genre']}>
+                <select id='filter-genre'>
                     <option>Жанр</option>
-                    <option value="Комедія">Комедія</option>
+                    <option value="Комедия">Комедія</option>
+                    <option value="Фэнтези">Фентезі</option>
+                    <option value="Боевик">Бойовик</option>
+                    <option value="Детектив">Детектив</option>
+                    <option value="Ужасы">Жахи</option>
                     <option value="Триллер">Триллер</option>
                     <option value="Драма">Драма</option>
                 </select>
                 <div className={f['filter-year']}>
                     <p>Рік:</p>
                     <input
-                        id={f['start-year']}
+                        id='start-year'
                         placeholder="від"
                         data-filter="year_from"
                     ></input>
                     <input
-                        id={f['end-year']}
+                        id='end-year'
                         placeholder="до"
                         data-filter="year_to"
                     ></input>
@@ -103,12 +78,12 @@ const Filter = (props)=> {
                 <div className={f['filter-length']}>
                     <p>Довжина:</p>
                     <input
-                        id={f['start-length']}
+                        id='start-length'
                         placeholder="від"
                         data-filter="length_from"
                     ></input>
                     <input
-                        id={f['end-length']}
+                        id='end-length'
                         placeholder="до"
                         data-filter="length_to"
                     ></input>
@@ -116,12 +91,12 @@ const Filter = (props)=> {
                 <div className={f['filter-price']}>
                     <p>Ціна:</p>
                     <input
-                        id={f['start-price']}
+                        id='start-price'
                         placeholder="від"
                         data-filter="price_from"
                     ></input>
                     <input
-                        id={f['end-price']}
+                        id='end-price'
                         placeholder="до"
                         data-filter="price_to"
                     ></input>
@@ -129,20 +104,27 @@ const Filter = (props)=> {
                 <div className={f['filter-rate']}>
                     <p>Рейтинг</p>
                     <input
-                        id={f['start-rate']}
+                        id='start-rate'
                         placeholder="від"
                         data-filter="rate_from"
                     ></input>
                     <input
-                        id={f['end-rate']}
+                        id='end-rate'
                         placeholder="до"
                         data-filter="rate_to"
                     ></input>
                 </div>
                 <button
                     className={f['filter-button']}
+                    onClick={callSearchFunction}
                 >
                         Застосувати
+                </button>
+                <button
+                    className={f['filter-button']}
+                    onClick={clearFilter}
+                >
+                        Очистити
                 </button>
             </div>
         </div>

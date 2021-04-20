@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function Films({ work, iswatchroom=false, watchnow }) {
     const watch = () => {
-        watchnow(work.title);
+        watchnow(work.filmname);
 
     };
     return (
@@ -18,19 +18,19 @@ function Films({ work, iswatchroom=false, watchnow }) {
                 <div className={f['item-picture']}>
                     <img
                         className={f['item-picture__img']}
-                        src={'http://localhost:3001/images/' + work.screenshot}
-                        alt={work.title}
+                        src={'http://localhost:3001/images/' + work.filmimage}
+                        alt={work.filmimage}
                     />
                 </div>
                 <div className={f['item-title']}>
-                    <p>{work.title}</p>
+                    <p>{work.filmname}</p>
                 </div>
                 <div className={f['item-desc']}>
                     <p className={f['catalog_rate']}>Рейтинг фільму:{work.rate}</p>
-                    <p>{work.description}</p>
+                    <p>{work.informationaboutfilm}</p>
                 </div>
             </Link>
-            {iswatchroom ? (<button className={f['watch_btn']} id ={work.title} onClick={watch}>Дивитись зараз</button>):''}
+            {iswatchroom ? (<button className={f['watch_btn']} id ={work.filmname} onClick={watch}>Дивитись зараз</button>):''}
         </div>
     );
 }

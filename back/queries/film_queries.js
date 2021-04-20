@@ -8,7 +8,8 @@ const getFilms = (request, reply, id) => {
         const filmdata = results.rows[0];
         const comm = await client.query(`SELECT * from GetComments(${id})`);
         filmdata.comments = comm.rows;
-        console.log(String(filmdata['dateofrelease']));
+        const genres = await client.query(`SELECT * from GetGenres(${id})`);
+        filmdata.genres = genres.rows;
         filmdata.dateofrelease = String(filmdata['dateofrelease']).split(
             ' '
         )[3];
