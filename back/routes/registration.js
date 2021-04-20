@@ -1,4 +1,4 @@
-const db = require('./../queries/queries');
+const db = require('./../queries/film_queries');
 
 async function routes(fastify) {
     fastify.get('/test', db.getFilms);
