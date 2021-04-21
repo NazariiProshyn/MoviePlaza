@@ -890,9 +890,9 @@ SELECT * FROM "UserInformation"
 CALL Registration('Naruto', 'Sobakich', '2000-10-10', 'nsobakish', '12345');
 
 
+CALL UpdateUserInfo()
 
-
-CREATE PROCEDURE Registration(newFirstName varchar(255), newSecondName varchar(255),
+CREATE PROCEDURE UpdateUserInfo(newFirstName varchar(255), newSecondName varchar(255),
 						      newBdate     date,         genre         varchar(255),
 							  login varchar(255))
 LANGUAGE SQL
