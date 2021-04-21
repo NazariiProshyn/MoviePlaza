@@ -616,7 +616,7 @@ CREATE OR REPLACE FUNCTION FilmPage(idfilm integer)
                , Price                int
                , InformationAboutFilm text
 			   , Filmimage            varchar(255)
-			   , Dateofrelease        double precision
+			   , Dateofrelease        int
 			   , Duration             int
 			   , NumofVoices          bigint
 			   , Rate             float) AS
@@ -624,7 +624,7 @@ $func$
 BEGIN
 RETURN QUERY
 SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
-       f2."Filmimage", date_part('year', f2."Dateofrelease"), f2."Duration",
+       f2."Filmimage", EXTRACT(YEAR FROM f2."Dateofrelease"), f2."Duration",
 	   f3."NumofVoices", f3."Rate" 
 FROM   "FilmInfo" f1
   JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
@@ -712,9 +712,7 @@ FROM   "FilmInfo" f1
 END
 $func$  LANGUAGE plpgsql;
 
-select * from SortFilms(nameofilm=>'%Гладиатор%', genre=>'Драма');
-SELECT * FROM SortFilmsWithoutGenreWithNAME(2000, 2004, nameofilm=>'%%')
-
+select * from SortFilms(genre=>'Детектив');
 
 
 CREATE OR REPLACE FUNCTION SortFilmsWithoutGenre(minyear integer DEFAULT 0, maxyear integer DEFAULT 3000,

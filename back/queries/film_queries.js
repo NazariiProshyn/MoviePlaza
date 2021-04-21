@@ -9,10 +9,12 @@ const getFilms = (request, reply, id) => {
         const comm = await client.query(`SELECT * from GetComments(${id})`);
         filmdata.comments = comm.rows;
         const genres = await client.query(`SELECT * from GetGenres(${id})`);
-        filmdata.genres = genres.rows;
-        filmdata.dateofrelease = String(filmdata['dateofrelease']).split(
-            ' '
-        )[3];
+        let genrows = genres.rows;
+        let filmgenre = [];
+        for (let i = 0; i < genrows.length; i++) {
+            filmgenre.push(genrows[i]['genre']);
+        }
+        filmdata.genres = filmgenre;
         reply.send(filmdata);
     });
 };
