@@ -790,23 +790,28 @@ SELECT * from LastFilms();
 		
 		
 CREATE OR REPLACE FUNCTION UserInfo(Ulogin varchar(255))
-  RETURNS TABLE (FirstName    varchar(255)
+  RETURNS TABLE (
+	  			id            int
+	  		   , FirstName    varchar(255)
                , SecondName   varchar(255)
                , BDate        date
 			   , Moneys       money
-			   , userImage    varchar(255)) AS
+			   , userImage    varchar(255)
+  			   , favourite_genre varchar(255)) AS
 $func$
 BEGIN
 RETURN QUERY
-SELECT f1."FirstName",  f1."SecondName", f1."BDate",
-       f1."Money", f2."userImage"
+SELECT f1."UserId", f1."FirstName", f1."SecondName", f1."BDate",
+       f1."Money", f2."userImage", f4."Genre"
 FROM   "User" f1
   JOIN "UserInformation" f2 ON f2."UserId" = f1."UserId"
+  JOIN "FavouriteGenres" f3 ON f3."UserId" = f1."UserId"
+  JOIN "Genres" f4 ON f4."GenreId" = f3."GenresId"
 WHERE f2."Login" = Ulogin;
 END
 $func$  LANGUAGE plpgsql;		
 		
-SELECT UserInfo('nproshyn');
+SELECT * FROM UserInfo('nproshyn');
 		
 		
 		
