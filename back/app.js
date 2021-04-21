@@ -11,7 +11,7 @@ const {
     userJoin,
     getCurrentUser,
     userLeave,
-} = require('./users');
+} = require('./src/users');
 
 app.register(fastifyCookie);
 
@@ -46,14 +46,12 @@ app.register(require('fastify-cors'), {
 app.register(require('./routes/index'));
 app.register(require('./routes/login'));
 app.register(require('./routes/filmImg'));
-app.register(require('./routes/films'));
 app.register(require('./routes/filmpage'));
 app.register(require('./routes/newfilms'));
 app.register(require('./routes/filmsearch'));
 app.register(require('./routes/users'));
 app.register(require('./routes/videos'));
 app.register(require('./routes/registration'));
-//app.register(require('./routes/rooms'));
 
 app.ready((err) => {
     if (err) throw err;
