@@ -819,6 +819,7 @@ CREATE OR REPLACE FUNCTION SortFilmsWithoutGenreWithNAME(minyear integer DEFAULT
                , Price                int
                , InformationAboutFilm text
 			   , Filmimage            varchar(255)
+			   , FilmReference        varchar(255)
 			   , Dateofrelease        int
 			   , Duration             int
 			   , NumofVoices          bigint
@@ -827,7 +828,7 @@ $func$
 BEGIN
 RETURN QUERY
 SELECT f1."FilmId", f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
-       f2."Filmimage", EXTRACT(YEAR FROM f2."Dateofrelease")::integer, f2."Duration",
+       f2."Filmimage", f2."Filmreference", EXTRACT(YEAR FROM f2."Dateofrelease")::integer, f2."Duration",
 	   f3."NumofVoices", f3."Rate"
 FROM   "FilmInfo" f1
   JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
