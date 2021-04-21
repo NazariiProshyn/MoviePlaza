@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { io } from 'socket.io-client';
 import axios from 'axios';
-//import search_img from './../../images/search.png';
 import Search from './../SearchSystem/Search';
 import Films from './..//Films/Films';
 import w from './Watchroom.module.css';

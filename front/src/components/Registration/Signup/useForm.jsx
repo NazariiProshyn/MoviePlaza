@@ -3,7 +3,9 @@ import axios from 'axios';
 const useForm = (callback, validate) => {
     const [values, setValues] = useState({
         username: '',
-        email: '',
+        firstname: '',
+        lastname: '',
+        bdate: '',
         password: '',
         password2: '',
     });
@@ -19,17 +21,45 @@ const useForm = (callback, validate) => {
     };
 
     const handleSubmit = (e) => {
-        axios('http://localhost:3001/login', {
-            method: 'post',
-            withCredentials: true,
-            data: {
-                username: e.target.username.value,
-                password: e.target.password.value,
-            },
-        }).then(function (response) {
-            console.log(response);
-            window.location.reload();
-        });
+        if (window.location.pathname === '/login'){
+            axios('http://localhost:3001/login', {
+                method: 'post',
+                withCredentials: true,
+                data: {
+                    username: e.target.username.value,
+                    password: e.target.password.value,
+                },
+            }).then(function (response) {
+                console.log(response);
+                window.location.pathname = '/user/'+values.username;
+            });
+        }
+        else{
+            
+            axios('http://localhost:3001/registration', {
+                method: 'post',
+                withCredentials: true,
+                data: {
+                    username: e.target.username.value,
+                    firstname: e.target.firstname.value,
+                    lastname: e.target.lastname.value,
+                    dateofbirthday: e.target.bdate.value,
+                    password: e.target.password.value,
+                },
+            }).then(function (response) {
+                console.log(response);
+                if (response.data!==''){
+                    setIsSubmitting(true);
+                    e.preventDefault();
+                    setErrors(validate(values));
+                    window.location.pathname = '/user/'+values.username;
+                }
+                else{
+                    alert('Користувач з таким імям вже існує');
+                }  
+            });
+            
+        }
         e.preventDefault();
         setErrors(validate(values));
         setIsSubmitting(true);
