@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import s from'./Slider.module.css';
+import s from './Slider.module.css';
 
 import slide from './../../images/slider.jpg';
 
@@ -11,7 +11,11 @@ class Slider extends Component {
                 <div className={s.slider}>
                     <div className={s['slider-images']}>
                         <Link to="/catalog/filmname">
-                            <img src={slide} alt="logo" className={s['slider-images__item']}/>
+                            <img
+                                src={slide}
+                                alt="logo"
+                                className={s['slider-images__item']}
+                            />
                         </Link>
                         <div className={s['slider-buttons']}>
                             <div id={s['slider-buttons__left']}>&lt;</div>
