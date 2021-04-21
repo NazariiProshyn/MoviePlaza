@@ -87,7 +87,9 @@ const Watchroom = (params) => {
 
         // stop video
         socket.on('stop_video', () => {
-            video.pause();
+            if (!video.pause){
+                video.pause();
+            }
         });
         video.addEventListener('pause', () => {
             socket.emit('stop_video');

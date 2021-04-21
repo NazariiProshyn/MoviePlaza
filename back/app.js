@@ -95,13 +95,13 @@ app.ready((err) => {
         socket.on('play_video', () => {
             const user = getCurrentUser(socket.id);
             console.log('video started');
-            app.io.to(user.room).emit('play_video');
+            socket.broadcast.to(user.room).emit('play_video');
         });
 
         socket.on('stop_video', () => {
             const user = getCurrentUser(socket.id);
             console.log('video paused');
-            app.io.to(user.room).emit('stop_video');
+            socket.broadcast.to(user.room).emit('stop_video');
         });
 
         socket.on('seeked', (time) => {
