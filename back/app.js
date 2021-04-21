@@ -4,7 +4,7 @@ const app = fastify({ logger: true });
 const fastifySession = require('fastify-session');
 const fastifyCookie = require('fastify-cookie');
 let sessionstore = new fastifySession.MemoryStore();
-
+const axios = require('axios');
 const {
     getFilm,
     changefilm,
@@ -77,15 +77,15 @@ app.ready((err) => {
             }
         });
 
-        socket.on('chat_message', (message) => {
+        socket.on('chat_message', async (message) => {
             const user = getCurrentUser(socket.id);
-            const users = require('./test/users.json');
-            const user_data = users.find(
-                (person) => person.username === user.username
-            );
+            const user_data = await axios
+                .get('http://localhost:3001/users/' + user)
+                .then((res) => res.data);
             let picture = 'user.png';
+            console.log(user_data);
             if (user_data) {
-                picture = user_data.profile_picture;
+                picture = user_data.userimage;
             }
             app.io
                 .to(user.room)

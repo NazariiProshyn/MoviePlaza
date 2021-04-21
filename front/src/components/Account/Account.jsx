@@ -38,7 +38,7 @@ function Account(params) {
             .then(res => res.data).then(res => { setUser(res);
             });
 
-    }, [params.user]);
+    }, [params.user, isLogin]);
 
     return (
         <div className={a.Account}>
@@ -82,7 +82,16 @@ function Account(params) {
                         <span>Уподобання:</span>
                         <ul>
                             <li>
-                                {isLogin===params.user? <label>Улюблений жанр: <input onChange={handleGenreChanges} id ='genre' defaultValue ='' value={genre||user.favourite_genre}></input></label>:'Улюблений жанр: '+ user.favourite_genre}
+                                {isLogin===params.user? <label>Улюблений жанр: <select id='filter-genre' value={genre||user.favourite_genre} onChange={handleGenreChanges}>
+                                    <option>Жанр</option>
+                                    <option value="Комедия">Комедія</option>
+                                    <option value="Фэнтези">Фентезі</option>
+                                    <option value="Боевик">Бойовик</option>
+                                    <option value="Детектив">Детектив</option>
+                                    <option value="Ужасы">Жахи</option>
+                                    <option value="Триллер">Триллер</option>
+                                    <option value="Драма">Драма</option>
+                                </select></label>:'Улюблений жанр: '+ user.favourite_genre}
                             </li>
                             {/*
                             <li>
