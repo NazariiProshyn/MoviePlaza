@@ -616,7 +616,7 @@ CREATE OR REPLACE FUNCTION FilmPage(idfilm integer)
                , Price                int
                , InformationAboutFilm text
 			   , Filmimage            varchar(255)
-			   , Dateofrelease        int
+			   , Dateofrelease        double precision
 			   , Duration             int
 			   , NumofVoices          bigint
 			   , Rate             float) AS
@@ -624,7 +624,7 @@ $func$
 BEGIN
 RETURN QUERY
 SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
-       f2."Filmimage", EXTRACT(YEAR FROM f2."Dateofrelease")::integer, f2."Duration",
+       f2."Filmimage", date_part('year', f2."Dateofrelease"), f2."Duration",
 	   f3."NumofVoices", f3."Rate" 
 FROM   "FilmInfo" f1
   JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
@@ -654,41 +654,26 @@ SELECT "Comment", "UserId"
 END
 $func$  LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION GetGenres(idfilm integer)
-  RETURNS TABLE (Genre    varchar(255)
-           ) AS
-$func$
-BEGIN
-RETURN QUERY
-SELECT "Genre" 
-  FROM "Genres" as gn
-  JOIN "FilmGenres" as fg ON fg."GenresId" = gn."GenreId"
-  WHERE "FilmId" = @idfilm;
-END
-$func$  LANGUAGE plpgsql;
-select * from GetGenres(6);
+select * from GetComments(5);
 
 
 
-CREATE OR REPLACE FUNCTION SortFilms(minyear integer DEFAULT 0, maxyear integer DEFAULT 3000,
-									 minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
+CREATE OR REPLACE FUNCTION SortFilms(minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
 								     minprice    integer DEFAULT 0, maxprice    integer DEFAULT 999,
-								     minrate     float   DEFAULT 0, maxrate       float DEFAULT 999,  genre varchar(255) DEFAULT 'Комедия',
-									 nameofilm varchar(255) DEFAULT '%%')
-  RETURNS TABLE (id                   int
-	  		   , FilmName             text
+								     minrate     float   DEFAULT 0, maxrate       float DEFAULT 999,  genre varchar(255) DEFAULT 'Комедия')
+  RETURNS TABLE (FilmName             text
                , Price                int
                , InformationAboutFilm text
 			   , Filmimage            varchar(255)
-			   , Dateofrelease        int
+			   , Dateofrelease        date
 			   , Duration             int
 			   , NumofVoices          bigint
 			   , Rate                 float) AS
 $func$
 BEGIN
 RETURN QUERY
-SELECT f1."FilmId", f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
-       f2."Filmimage", EXTRACT(YEAR FROM f2."Dateofrelease")::integer, f2."Duration",
+SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
+       f2."Filmimage", f2."Dateofrelease", f2."Duration",
 	   f3."NumofVoices", f3."Rate"
 FROM   "FilmInfo" f1
   JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
@@ -697,42 +682,38 @@ FROM   "FilmInfo" f1
         f1."Price"    <= @maxprice    AND
 		f2."Duration" >= @minduration AND
         f2."Duration" <= @maxduration AND
-		EXTRACT(YEAR FROM f2."Dateofrelease") >= @minyear AND
-		EXTRACT(YEAR FROM f2."Dateofrelease") <= @maxyear AND
 		f3."Rate"     >= @minrate     AND
         f3."Rate"     <= @maxrate     AND
-		LOWER(f1."FilmName") LIKE LOWER(nameofilm)  AND
 		f1."FilmId" IN (
 			SELECT "FilmId" FROM "FilmGenres"
 		       WHERE "GenresId" IN (
 				   SELECT "GenreId" FROM "Genres"
 				     WHERE "Genre" = genre))
 					 ORDER BY f3."Rate" DESC;
-		
 END
 $func$  LANGUAGE plpgsql;
 
-select * from SortFilms(genre=>'Детектив');
+select * from SortFilms();
 
 
-CREATE OR REPLACE FUNCTION SortFilmsWithoutGenre(minyear integer DEFAULT 0, maxyear integer DEFAULT 3000,
-									 minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
+
+
+CREATE OR REPLACE FUNCTION SortFilmsWithoutGenre(minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
 								     minprice    integer DEFAULT 0, maxprice    integer DEFAULT 999,
 								     minrate     float   DEFAULT 0, maxrate       float DEFAULT 999)
-  RETURNS TABLE (id                   int
-	  		   , FilmName             text
+  RETURNS TABLE (FilmName             text
                , Price                int
                , InformationAboutFilm text
 			   , Filmimage            varchar(255)
-			   , Dateofrelease        int
+			   , Dateofrelease        date
 			   , Duration             int
 			   , NumofVoices          bigint
 			   , Rate                 float) AS
 $func$
 BEGIN
 RETURN QUERY
-SELECT f1."FilmId", f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
-       f2."Filmimage", EXTRACT(YEAR FROM f2."Dateofrelease")::integer, f2."Duration",
+SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
+       f2."Filmimage", f2."Dateofrelease", f2."Duration",
 	   f3."NumofVoices", f3."Rate"
 FROM   "FilmInfo" f1
   JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
@@ -741,8 +722,6 @@ FROM   "FilmInfo" f1
         f1."Price"    <= @maxprice    AND
 		f2."Duration" >= @minduration AND
         f2."Duration" <= @maxduration AND
-		EXTRACT(YEAR FROM f2."Dateofrelease") >= @minyear AND
-		EXTRACT(YEAR FROM f2."Dateofrelease") <= @maxyear AND
 		f3."Rate"     >= @minrate     AND
         f3."Rate"     <= @maxrate
 ORDER BY f3."Rate" DESC;
@@ -757,83 +736,74 @@ CREATE OR REPLACE FUNCTION CheckUser(Ulogin varchar(255), Upass varchar(255)) RE
 	WHERE "Login" = Ulogin AND "Password" = Upass;
 $$ LANGUAGE SQL;
 
-SELECT * FROM public.checkuser('nproshyn', 'qwerty41');
+SELECT * FROM public.checkuser('nproshyn', 'qwerty1');
 
 
 CREATE OR REPLACE FUNCTION LastFilms()
-  RETURNS TABLE (id                   int                           
-	  		   , FilmName             text
+  RETURNS TABLE (FilmName             text
                , Price                int
                , InformationAboutFilm text
 			   , Filmimage            varchar(255)
-			   , Dateofrelease        int
+			   , Dateofrelease        date
 			   , Duration             int
 			   , NumofVoices          bigint
 			   , Rate             float) AS
 $func$
 BEGIN
 RETURN QUERY
-SELECT f1."FilmId", f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
-       f2."Filmimage", EXTRACT(YEAR FROM f2."Dateofrelease")::integer, f2."Duration",
+SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
+       f2."Filmimage", f2."Dateofrelease", f2."Duration",
 	   f3."NumofVoices", f3."Rate"
 FROM   "FilmInfo" f1
   JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
   JOIN "Rating"   f3 ON f3."FilmId" = f1."FilmId"
 ORDER BY  f1."FilmId" DESC
-LIMIT  6;
+LIMIT  7;
 END
 $func$  LANGUAGE plpgsql;
 
-SELECT * from LastFilms();
+SELECT LastFilms();
 		
 		
 		
 		
 CREATE OR REPLACE FUNCTION UserInfo(Ulogin varchar(255))
-  RETURNS TABLE (
-	  			id            int
-	  		   , FirstName    varchar(255)
+  RETURNS TABLE (FirstName    varchar(255)
                , SecondName   varchar(255)
                , BDate        date
 			   , Moneys       money
-			   , userImage    varchar(255)
-  			   , favourite_genre varchar(255)) AS
+			   , userImage    varchar(255)) AS
 $func$
 BEGIN
 RETURN QUERY
-SELECT f1."UserId", f1."FirstName", f1."SecondName", f1."BDate",
-       f1."Money", f2."userImage", f4."Genre"
+SELECT f1."FirstName",  f1."SecondName", f1."BDate",
+       f1."Money", f2."userImage"
 FROM   "User" f1
   JOIN "UserInformation" f2 ON f2."UserId" = f1."UserId"
-  JOIN "FavouriteGenres" f3 ON f3."UserId" = f1."UserId"
-  JOIN "Genres" f4 ON f4."GenreId" = f3."GenresId"
 WHERE f2."Login" = Ulogin;
 END
 $func$  LANGUAGE plpgsql;		
 		
-SELECT * FROM UserInfo('nproshyn');
+SELECT UserInfo('nproshyn');
 		
 		
 		
-CREATE OR REPLACE FUNCTION SortFilmsWithoutGenreWithNAME(minyear integer DEFAULT 0, maxyear integer DEFAULT 3000,
-						  minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
+CREATE OR REPLACE FUNCTION SortFilmsWithoutGenreWithNAME(minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
 						  minprice    integer DEFAULT 0, maxprice    integer DEFAULT 999,
 						  minrate     float   DEFAULT 0, maxrate     float   DEFAULT 999, nameofilm varchar(255) DEFAULT '')
-  RETURNS TABLE (id                   int
-	  		   , FilmName             text
+  RETURNS TABLE (FilmName             text
                , Price                int
                , InformationAboutFilm text
 			   , Filmimage            varchar(255)
-			   , FilmReference        varchar(255)
-			   , Dateofrelease        int
+			   , Dateofrelease        date
 			   , Duration             int
 			   , NumofVoices          bigint
 			   , Rate                 float) AS
 $func$
 BEGIN
 RETURN QUERY
-SELECT f1."FilmId", f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
-       f2."Filmimage", f2."Filmreference", EXTRACT(YEAR FROM f2."Dateofrelease")::integer, f2."Duration",
+SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
+       f2."Filmimage", f2."Dateofrelease", f2."Duration",
 	   f3."NumofVoices", f3."Rate"
 FROM   "FilmInfo" f1
   JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
@@ -842,15 +812,104 @@ FROM   "FilmInfo" f1
         f1."Price"    <= @maxprice    AND
 		f2."Duration" >= @minduration AND
         f2."Duration" <= @maxduration AND
-		EXTRACT(YEAR FROM f2."Dateofrelease") >= @minyear AND
-		EXTRACT(YEAR FROM f2."Dateofrelease") <= @maxyear AND
 		f3."Rate"     >= @minrate     AND
         f3."Rate"     <= @maxrate     AND
-		LOWER(f1."FilmName") LIKE LOWER(nameofilm)
+		f1."FilmName" LIKE nameofilm
 ORDER BY f3."Rate" DESC;
 END
 $func$  LANGUAGE plpgsql;		
 
-		SELECT * FROM "FilmInfo"
-SELECT * FROM SortFilmsWithoutGenreWithNAME(2000, 2003,nameofilm=>'%гладИатор%'); 
+		
+SELECT SortFilmsWithoutGenreWithNAME(0,999,0,999,0,999,'%300%'); 
+
+
+
+CREATE OR REPLACE FUNCTION CheckNick(nickname varchar(255)) RETURNS int AS $$
+    SELECT COUNT(*) FROM "UserInformation"
+	WHERE "Login" LIKE nickname;
+$$ LANGUAGE SQL;
+
+
+
+CREATE OR REPLACE FUNCTION CheckGenre(genre varchar(255)) RETURNS int AS $$
+    SELECT COUNT(*) FROM "Genres"
+	WHERE "Genre" LIKE genre;
+$$ LANGUAGE SQL;
+
+
+
+SELECT * FROM "UserInformation"
+
+CREATE  PROCEDURE Registration(FirstName varchar(255) , SecondName varchar(255) ,
+						   Bdate    date DEFAULT 0, Login     varchar(255),
+						   Passw    varchar(255),   Moneys    money DEFAULT 0, Img varchar(255) DEFAULT 'user.png',)
+  RETURNS TABLE (FilmName             text
+               , Price                int
+               , InformationAboutFilm text
+			   , Filmimage            varchar(255)
+			   , Dateofrelease        date
+			   , Duration             int
+			   , NumofVoices          bigint
+			   , Rate                 float) AS
+$func$
+BEGIN
+RETURN QUERY
+SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
+       f2."Filmimage", f2."Dateofrelease", f2."Duration",
+	   f3."NumofVoices", f3."Rate"
+FROM   "FilmInfo" f1
+  JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
+  JOIN "Rating"   f3 ON f3."FilmId" = f1."FilmId"
+  WHERE f1."Price"    >= @minprice    AND
+        f1."Price"    <= @maxprice    AND
+		f2."Duration" >= @minduration AND
+        f2."Duration" <= @maxduration AND
+		f3."Rate"     >= @minrate     AND
+        f3."Rate"     <= @maxrate     AND
+		f1."FilmName" LIKE nameofilm
+ORDER BY f3."Rate" DESC;
+END
+$func$  LANGUAGE plpgsql;
+
+
+
+CREATE PROCEDURE Registration(FirstName varchar(255) , SecondName varchar(255) ,
+						      Bdate    date,             Login varchar(255), Passw  varchar(255),
+						      Moneys   money DEFAULT 0,  Img   varchar(255) DEFAULT 'user.png')
+LANGUAGE SQL
+AS $$
+	INSERT INTO "User" ("FirstName", "SecondName", "BDate", "Money")
+    VALUES (FirstName, SecondName, Bdate, Moneys);
+	INSERT INTO "UserInformation" ("Login", "Password", "userImage")
+    VALUES (Login, Passw, Img);
+$$;
+
+SELECT * FROM "UserInformation"
+
+--НЕ ВИКЛИКАЙ КОЛ,БО ПОЛАМАЄШ ВСЕ НАФІГ, Я ЗАТЕСТИВ - ВСЕ ПРАЦЮЄ!!!!! @NPROHSYN
+CALL Registration('Naruto', 'Sobakich', '2000-10-10', 'nsobakish', '12345');
+
+
+
+
+CREATE PROCEDURE Registration(newFirstName varchar(255), newSecondName varchar(255),
+						      newBdate     date,         genre         varchar(255),
+							  login varchar(255))
+LANGUAGE SQL
+AS $$
+UPDATE "User" 
+	  SET  "FirstName"    = newFirstName,
+	       "SecondName"   = newSecondName,
+		   "BDate"        = newBdate
+	   WHERE "UserId" IN(SELECT "UserId" FROM "UserInformation"
+						 WHERE "Login" = login);
+
+UPDATE "FavouriteGenres"
+	  SET  "GenresId" = (SELECT "GenreId" FROM "Genres"
+	  WHERE "Genre" = genre)
+	  WHERE "UserId" IN(SELECT "UserId" FROM "UserInformation"
+						 WHERE "Login" = login);
+$$;
+
+
 
