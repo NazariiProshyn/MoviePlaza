@@ -61,7 +61,7 @@
 }
 
 .user-description {
-    height: 30%;
+    height: 50%;
 }
 
 .user-description span {
@@ -100,6 +100,18 @@
 }
 
 .user-favourites ul li {
+    margin-left: 0;
+    height: auto;
+    font-family: sans-serif;
+    font-weight: normal;
+    font-size: 22px;
+    padding: 5px 0;
+}
+.user-description ul {
+    padding: 0;
+    list-style: none;
+}
+.user-description ul li {
     margin-left: 0;
     height: auto;
     font-family: sans-serif;
