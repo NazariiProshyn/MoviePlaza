@@ -15,7 +15,7 @@ const Watchroom = (params) => {
     const search = (searchValue) =>{
         axios
             .get(
-                `http://localhost:3001/films?value=${searchValue}`
+                `http://localhost:3001/catalog?value=${searchValue}`
             )
             .then(res => res.data).then(res => setFilms(res)).then(console.log(films));
     };

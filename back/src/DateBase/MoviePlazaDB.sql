@@ -624,7 +624,7 @@ $func$
 BEGIN
 RETURN QUERY
 SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
-       f2."Filmimage", EXTRACT(YEAR FROM f2."Dateofrelease"), f2."Duration",
+       f2."Filmimage", EXTRACT(YEAR FROM f2."Dateofrelease")::integer, f2."Duration",
 	   f3."NumofVoices", f3."Rate" 
 FROM   "FilmInfo" f1
   JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
@@ -761,19 +761,20 @@ SELECT * FROM public.checkuser('nproshyn', 'qwerty41');
 
 
 CREATE OR REPLACE FUNCTION LastFilms()
-  RETURNS TABLE (FilmName             text
+  RETURNS TABLE (id                   int                           
+	  		   , FilmName             text
                , Price                int
                , InformationAboutFilm text
 			   , Filmimage            varchar(255)
-			   , Dateofrelease        date
+			   , Dateofrelease        int
 			   , Duration             int
 			   , NumofVoices          bigint
 			   , Rate             float) AS
 $func$
 BEGIN
 RETURN QUERY
-SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
-       f2."Filmimage", f2."Dateofrelease", f2."Duration",
+SELECT f1."FilmId", f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
+       f2."Filmimage", EXTRACT(YEAR FROM f2."Dateofrelease")::integer, f2."Duration",
 	   f3."NumofVoices", f3."Rate"
 FROM   "FilmInfo" f1
   JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
@@ -783,7 +784,7 @@ LIMIT  6;
 END
 $func$  LANGUAGE plpgsql;
 
-SELECT LastFilms();
+SELECT * from LastFilms();
 		
 		
 		

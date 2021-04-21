@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function Films({ work, iswatchroom=false, watchnow }) {
     const watch = () => {
-        watchnow(work.filmname);
+        watchnow(work.filmreference);
 
     };
     return (

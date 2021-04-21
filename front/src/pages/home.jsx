@@ -12,7 +12,7 @@ function Home() {
     useEffect(() => {
         const getfilm = async () => {
             axios.defaults.withCredentials = true;
-            const promise = await axios.get('http://localhost:3001/catalog', {
+            const promise = await axios.get('http://localhost:3001/newfilms', {
                 withCredentials: true,
             });
             setData(promise.data);
