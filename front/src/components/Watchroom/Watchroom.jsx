@@ -29,6 +29,7 @@ const Watchroom = (params) => {
         setSocket(socket);
         const video = document.getElementById('videoPlayer');
         const room = window.location.pathname.substr(6);
+        let playPromise = undefined;
         let username = '';
         let promiseUser = new Promise(function (resolve, reject) {
             const user = axios.get('http://localhost:3001/', {
@@ -74,7 +75,7 @@ const Watchroom = (params) => {
 
         // play video
         socket.on('play_video', () => {
-            video.play();
+            playPromise= video.play();
         });
         video.addEventListener('play', () => {
             socket.emit('play_video');
@@ -82,7 +83,11 @@ const Watchroom = (params) => {
 
         // stop video
         socket.on('stop_video', () => {
-            video.pause();
+            if (playPromise !== undefined){
+                playPromise.then(_ => {
+                    video.pause();
+                });
+            }
         });
         video.addEventListener('pause', () => {
             socket.emit('stop_video');
@@ -98,8 +103,14 @@ const Watchroom = (params) => {
             }
         });
         video.addEventListener('seeked', () => {
-            video.pause();
+            /*if (playPromise !== undefined){
+                playPromise.then(_ => {
+                    video.pause();
+                });
+            }*/
             socket.emit('seeked', video.currentTime);
+
+            
         });
 
         // disconnect

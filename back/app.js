@@ -107,7 +107,7 @@ app.ready((err) => {
         socket.on('seeked', (time) => {
             const user = getCurrentUser(socket.id);
             console.log('time changed to: ' + time);
-            app.io.to(user.room).emit('change_time', time);
+            socket.broadcast.to(user.room).emit('change_time', time);
         });
 
         socket.on('change_src', (filmname) => {
