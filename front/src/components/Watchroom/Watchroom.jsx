@@ -12,18 +12,17 @@ const Watchroom = (params) => {
     const [films, setFilms] = useState([]);
     const [videosource, setSource] = useState('');
     const [currSocket, setSocket] = useState();
-    const search = (searchValue) =>{
+    const search = (searchValue) => {
         axios
-            .get(
-                `http://localhost:3001/catalog?value=${searchValue}`
-            )
-            .then(res => res.data).then(res => setFilms(res)).then(console.log(films));
+            .get(`http://localhost:3001/catalog?value=${searchValue}`)
+            .then((res) => res.data)
+            .then((res) => setFilms(res))
+            .then(console.log(films));
     };
-    const watchnow = (filmname) =>{
+    const watchnow = (filmname) => {
         setSource(`http://localhost:3001/videos/${filmname}.mp4`);
         document.getElementById('videoPlayer').load();
         currSocket.emit('change_src', filmname);
-
     };
     useEffect(() => {
         const socket = io.connect(ENDPOINT);
@@ -42,7 +41,7 @@ const Watchroom = (params) => {
             if (result.data.name) {
                 username = result.data.name;
             } else {
-                username = 'Guest' + String(Math.floor(Math.random()*10000));
+                username = 'Guest' + String(Math.floor(Math.random() * 10000));
             }
             socket.emit('join_room', { username, room });
         });
@@ -51,19 +50,17 @@ const Watchroom = (params) => {
             console.log(message);
         });
 
-        socket.on('new_user', ()=>{
-            video.currentTime = video.currentTime+0;
+        socket.on('new_user', () => {
+            video.currentTime = video.currentTime + 0;
         });
-        socket.on('connect', () =>{
+        socket.on('connect', () => {
             video.muted = true;
             console.log(`Client connected: ${socket.id}`);
-        }
-        );
+        });
         socket.on('change_src', (src) => {
             setSource(`http://localhost:3001/videos/${src}.mp4`);
             document.getElementById('videoPlayer').load();
-        }
-        );
+        });
         // send message to chat
         socket.on('chat_message', (username, pict, text) =>
             createMessage(username, pict, text)
@@ -77,9 +74,7 @@ const Watchroom = (params) => {
 
         // play video
         socket.on('play_video', () => {
-            if (video.pause) {
-                video.play();
-            }
+            video.play();
         });
         video.addEventListener('play', () => {
             socket.emit('play_video');
@@ -87,9 +82,7 @@ const Watchroom = (params) => {
 
         // stop video
         socket.on('stop_video', () => {
-            if (!video.pause){
-                video.pause();
-            }
+            video.pause();
         });
         video.addEventListener('pause', () => {
             socket.emit('stop_video');
@@ -125,7 +118,7 @@ const Watchroom = (params) => {
                     <div className={w['chat-buttons']}>
                         <CopyToClipboard text={window.location.href}>
                             <button className={w['chat-buttons__copy']}>
-                            Копировать путь к комнате
+                                Копировать путь к комнате
                             </button>
                         </CopyToClipboard>
                     </div>
@@ -154,11 +147,18 @@ const Watchroom = (params) => {
             </div>
             <div className={w['movie_select']}>
                 <Search search={search}></Search>
-                <div><div className={w['film_container']}>
-                    {films.map((film) => (
-                        <Films key={film.id} work={film} iswatchroom={true} watchnow={watchnow}/>
-                    ))}
-                </div></div>
+                <div>
+                    <div className={w['film_container']}>
+                        {films.map((film) => (
+                            <Films
+                                key={film.id}
+                                work={film}
+                                iswatchroom={true}
+                                watchnow={watchnow}
+                            />
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
     );

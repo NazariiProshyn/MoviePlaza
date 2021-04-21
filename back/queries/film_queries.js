@@ -5,6 +5,7 @@ const getFilms = (request, reply, id) => {
         if (error) {
             throw error;
         }
+       
         const filmdata = results.rows[0];
         const comm = await client.query(`SELECT * from GetComments(${id})`);
         filmdata.comments = comm.rows;
