@@ -18,7 +18,7 @@ const getIsLogin = (request, reply, login, password) => {
                 return { success: 'true' };
             } else {
                 request.session.authenticated = false;
-                reply.redirect(401, '/login');
+                reply.redirect(200, '/login');
                 return { success: 'false' };
             }
         }

@@ -31,7 +31,12 @@ const useForm = (callback, validate) => {
                 },
             }).then(function (response) {
                 console.log(response);
-                window.location.pathname = '/user/'+values.username;
+                if (response.data ===''){
+                    alert('Неправильний логін або пароль');
+                }
+                else{
+                    window.location.pathname = '/user/'+values.username;
+                }
             });
         }
         else{
@@ -53,13 +58,14 @@ const useForm = (callback, validate) => {
                     e.preventDefault();
                     setErrors(validate(values));
                     window.location.pathname = '/user/'+values.username;
-                }
+                } 
                 else{
-                    alert('Користувач з таким імям вже існує');
-                }  
+                    alert('Користувач вже існує');
+                }
             });
             
         }
+        
         e.preventDefault();
         setErrors(validate(values));
         setIsSubmitting(true);
