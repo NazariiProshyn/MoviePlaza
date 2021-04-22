@@ -3,7 +3,7 @@ const fastify = require('fastify');
 const app = fastify({ logger: true });
 const fastifySession = require('fastify-session');
 const fastifyCookie = require('fastify-cookie');
-let sessionstore = new fastifySession.MemoryStore();
+//let sessionstore = new fastifySession.MemoryStore();
 const axios = require('axios');
 const {
     getFilm,
@@ -19,12 +19,18 @@ app.register(require('fastify-socket.io'), {
     cors: { origin: '*' },
 });
 
+const pgSession = require('connect-pg-simple')(fastifySession);
+
 app.register(fastifySession, {
-    store: sessionstore,
+    store: new pgSession({
+        conString:
+            'postgres://movieadmin1:movieadmin@localhost:5432/movieplaza',
+        tableName: 'session',
+    }),
+    //sessionstore,
     cookieName: 'sessionId',
     secret: '1qwqwqwwhjehu2372e8ywhdhu92e8uids',
-    cookie: { secure: false, path: '/' },
-    expires: 900000,
+    cookie: { secure: false, path: '/', maxAge: 7 * 24 * 60 * 60 * 1000 }, //срок дії cookie 7 днів, протокол http(secure: false)
 });
 
 app.register(require('fastify-cors'), {

@@ -783,10 +783,10 @@ FROM   "User" f1
 WHERE f2."Login" = Ulogin;
 END
 $func$  LANGUAGE plpgsql;		
+
 		
-SELECT UserInfo('nproshyn');
-		
-		
+SELECT * FROM "User"
+SELECT * FROM "UserInformation"
 		
 CREATE OR REPLACE FUNCTION SortFilmsWithoutGenreWithNAME(minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
 						  minprice    integer DEFAULT 0, maxprice    integer DEFAULT 999,
@@ -829,7 +829,7 @@ CREATE OR REPLACE FUNCTION CheckNick(nickname varchar(255)) RETURNS int AS $$
 	WHERE "Login" LIKE nickname;
 $$ LANGUAGE SQL;
 
-
+select * from checknick('Dukrainets')
 
 CREATE OR REPLACE FUNCTION CheckGenre(genre varchar(255)) RETURNS int AS $$
     SELECT COUNT(*) FROM "Genres"
@@ -913,3 +913,9 @@ $$;
 
 
 
+
+CREATE TABLE public.session (
+sid character varying PRIMARY KEY NOT NULL,
+sess json NOT NULL,
+expire timestamp(6) without time zone NOT NULL
+);
