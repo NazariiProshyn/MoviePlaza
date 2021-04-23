@@ -176,12 +176,11 @@ CREATE TABLE "FilmGenres" (
   *BRIEF: Creating of table TransactDetails
   *
   */
-CREATE TABLE "TransactDetails" (
+CREATE   TABLE "TransactDetails" (
 	"UserId"        int    NOT NULL,
 	"TypeId"        bigint NOT NULL,
 	"DateofPayment" DATE   NOT NULL,
-	"Amount"        int,
-	"Number"        int    
+	"Amount"        money 
 ) WITH (
   OIDS = FALSE
 );
@@ -243,8 +242,8 @@ CREATE TABLE "Comments" (
   *
   */
 CREATE TABLE "TypesOfTransact" (
-	"TypeId" bigint NOT NULL,
-	"Type"   serial NOT NULL,
+	"TypeId" serial NOT NULL,
+	"Type"   varchar(255)  NOT NULL,
 	CONSTRAINT "TypesOfTransact_pk" PRIMARY KEY ("TypeId")
 ) WITH (
   OIDS = FALSE
@@ -380,7 +379,8 @@ INSERT INTO "UserInformation" ("Login", "Password", "userImage")
 		   (8,6),(8,7),
 		   (9,1),(9,3),
 		   (10,1),(10,5);
-			
+
+			   
 			
   INSERT INTO "FilmInfo" ("FilmName","Price","InformationAboutFilm")
     VALUES ('FilmName1',5.7,'Description-Lorem FilmName1 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.'),
@@ -405,6 +405,11 @@ INSERT INTO "UserInformation" ("Login", "Password", "userImage")
 			 ('FilmName8', 'film.png','2021-04-12', 321),
 			 ('FilmName9', 'film.png','2020-12-12', 12),
 			 ('FilmName10', 'film.png','2017-05-02', 15);
+			 
+			 
+   INSERT INTO "TypesOfTransact"("Type")
+   VALUES ('cash'), ('phone'),
+   		  ('crypto');
 
    INSERT INTO "Rating"("NumofVoices","Rate")
      VALUES    (10,3.3),
@@ -731,7 +736,7 @@ $func$  LANGUAGE plpgsql;
 select * from SortFilmsWithoutGenre();
 
 
-CREATE OR REPLACE FUNCTION CheckUser(Ulogin varchar(255), Upass varchar(255)) RETURNS integer AS $$
+CREATE OR C FUNCTION CheckUser(Ulogin varchar(255), Upass varchar(255)) RETURNS integer AS $$
     SELECT COUNT(*) FROM "UserInformation"
 	WHERE "Login" = Ulogin AND "Password" = Upass;
 $$ LANGUAGE SQL;
@@ -912,4 +917,17 @@ UPDATE "FavouriteGenres"
 $$;
 
 
+CREATE OR REPLACE PROCEDURE moneyTransaction(userId int,   typeId int,
+								  amount money, transactionData date DEFAULT CURRENT_DATE)
+LANGUAGE SQL
+AS $$
+	INSERT INTO "TransactDetails" ("UserId", "TypeId", "DateofPayment", "Amount")
+		VALUES (userId, typeId, transactionData, amount);
+	UPDATE "User"
+		SET "Money" = ((SELECT "Money" FROM "User" 
+					  	WHERE "UserId" = userId) + amount)
+			WHERE "UserId" = userId;
 
+$$;
+
+CALL moneyTransaction(2,1,'4.5'::float8::numeric::money)
