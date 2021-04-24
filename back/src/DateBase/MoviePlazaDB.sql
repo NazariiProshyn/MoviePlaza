@@ -776,12 +776,13 @@ CREATE OR REPLACE FUNCTION UserInfo(Ulogin varchar(255))
                , SecondName   varchar(255)
                , BDate        date
 			   , Moneys       money
-			   , userImage    varchar(255)) AS
+			   , userImage    varchar(255)
+			   , userId       int) AS
 $func$
 BEGIN
 RETURN QUERY
 SELECT f1."FirstName",  f1."SecondName", f1."BDate",
-       f1."Money", f2."userImage"
+       f1."Money", f2."userImage", "UserId"
 FROM   "User" f1
   JOIN "UserInformation" f2 ON f2."UserId" = f1."UserId"
 WHERE f2."Login" = Ulogin;
@@ -846,9 +847,9 @@ SELECT * FROM "UserInformation"
 
 
 --sorting by name
-CREATE  PROCEDURE Registration(minprice    money DEFAULT 0 , maxprice    money DEFAULT 1000000,
-						       minduration int   DEFAULT 0,  maxduration int   DEFAULT 1000000,
-						       minrate    float  DEFAULT 0,  maxrate     float DEFAULT 1000000, nameofilm varchar(255) DEFAULT '')
+CREATE OR REPLACE FUNCTION SortFilmsWithoutGenreWithNAME(minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
+						  minprice    integer DEFAULT 0, maxprice    integer DEFAULT 999,
+						  minrate     float   DEFAULT 0, maxrate     float   DEFAULT 999, nameofilm varchar(255) DEFAULT '')
   RETURNS TABLE (FilmName             text
                , Price                int
                , InformationAboutFilm text
@@ -875,7 +876,7 @@ FROM   "FilmInfo" f1
 		f1."FilmName" LIKE nameofilm
 ORDER BY f3."Rate" DESC;
 END
-$func$  LANGUAGE plpgsql;
+$func$  LANGUAGE plpgsql;		
 
 
 
@@ -918,6 +919,8 @@ UPDATE "FavouriteGenres"
 $$;
 
 
+
+
 CREATE OR REPLACE PROCEDURE moneyTransaction(userId int,   typeId int,
 								  amount money, transactionData date DEFAULT CURRENT_DATE)
 LANGUAGE SQL
@@ -930,7 +933,9 @@ AS $$
 			WHERE "UserId" = userId;
 
 $$;
-
+SELECT "UserId" FROM "UserInformation"
+				   WHERE "Login" = nick
+		SELECT * FROM "UserInformation"		   
 CALL moneyTransaction(2,1,'4.5'::float8::numeric::money)
 
 
@@ -949,3 +954,10 @@ AS $$
 $$;
 
 CALL buyFilm(2,2)
+
+CREATE OR REPLACE PROCEDURE addComment(userId int,   filmId int, com varchar(255))
+LANGUAGE SQL
+AS $$
+	INSERT INTO "Comments" ("FilmId", "Comment", "UserId" )
+		VALUES (filmId, com, userId);
+$$;
