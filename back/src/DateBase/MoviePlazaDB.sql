@@ -129,7 +129,7 @@
 CREATE TABLE "FilmInfo" (
 	"FilmId"   serial NOT NULL,
 	"FilmName" text NOT NULL UNIQUE,
-	"Price"    int,
+	"Price"    money,
 	"InformationAboutFilm" text NOT NULL,
 	CONSTRAINT "FilmInfo_pk" PRIMARY KEY ("FilmId")
 ) WITH (
@@ -368,20 +368,7 @@ INSERT INTO "UserInformation" ("Login", "Password", "userImage")
 		   (5,1);
 		   
 		   
- INSERT INTO "FilmGenres" ("FilmId","GenresId")
-    VALUES (1,1),(1,2),
-	       (2,1),
-		   (3,2),(3,3),
-		   (4,1),(4,4),
-		   (5,5),(5,6),
-		   (6,7),(6,3),
-		   (7,2),(7,3),
-		   (8,6),(8,7),
-		   (9,1),(9,3),
-		   (10,1),(10,5);
-
-			   
-			
+		   
   INSERT INTO "FilmInfo" ("FilmName","Price","InformationAboutFilm")
     VALUES ('FilmName1',5.7,'Description-Lorem FilmName1 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.'),
 	       ('FilmName2',4  ,'Description-Lorem FilmName2 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.'),
@@ -393,6 +380,22 @@ INSERT INTO "UserInformation" ("Login", "Password", "userImage")
 		   ('FilmName8',0.1,'Description-Lorem FilmName8 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.'),
 		   ('FilmName9',0  ,'Description-Lorem FilmName9 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.'),
 		   ('FilmName10',7.7,'Description-Lorem FilmName10 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.');
+		   
+		   
+  INSERT INTO "FilmGenres" ("FilmId","GenresId")
+    VALUES (1,1),(1,2),
+	       (2,1),
+		   (3,2),(3,3),
+		   (4,1),(4,4),
+		   (5,5),(5,6),
+		   (6,7),(6,3),
+		   (7,2),(7,3),
+		   (8,6),(8,7),
+		   (9,1),(9,3),
+		   (10,1),(10,5);
+
+		   
+		   
 		   
   INSERT INTO "Filmdata"("Filmreference", "Filmimage", "Dateofrelease", "Duration")
   	VALUES   ('FilmName1', 'film.png','2001-07-02', 25),
@@ -663,9 +666,9 @@ select * from GetComments(5);
 
 
 
-CREATE OR REPLACE FUNCTION SortFilms(minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
-								     minprice    integer DEFAULT 0, maxprice    integer DEFAULT 999,
-								     minrate     float   DEFAULT 0, maxrate       float DEFAULT 999,  genre varchar(255) DEFAULT 'Комедия')
+CREATE OR REPLACE FUNCTION SortFilmsWithoutGenreWithNAME(minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
+						  minprice    integer DEFAULT 0, maxprice    integer DEFAULT 999,
+						  minrate     float   DEFAULT 0, maxrate     float   DEFAULT 999, nameofilm varchar(255) DEFAULT '')
   RETURNS TABLE (FilmName             text
                , Price                int
                , InformationAboutFilm text
@@ -689,14 +692,10 @@ FROM   "FilmInfo" f1
         f2."Duration" <= @maxduration AND
 		f3."Rate"     >= @minrate     AND
         f3."Rate"     <= @maxrate     AND
-		f1."FilmId" IN (
-			SELECT "FilmId" FROM "FilmGenres"
-		       WHERE "GenresId" IN (
-				   SELECT "GenreId" FROM "Genres"
-				     WHERE "Genre" = genre))
-					 ORDER BY f3."Rate" DESC;
+		f1."FilmName" LIKE nameofilm
+ORDER BY f3."Rate" DESC;
 END
-$func$  LANGUAGE plpgsql;
+$func$  LANGUAGE plpgsql;		
 
 select * from SortFilms();
 
@@ -736,7 +735,7 @@ $func$  LANGUAGE plpgsql;
 select * from SortFilmsWithoutGenre();
 
 
-CREATE OR C FUNCTION CheckUser(Ulogin varchar(255), Upass varchar(255)) RETURNS integer AS $$
+CREATE OR REPLACE FUNCTION CheckUser(Ulogin varchar(255), Upass varchar(255)) RETURNS integer AS $$
     SELECT COUNT(*) FROM "UserInformation"
 	WHERE "Login" = Ulogin AND "Password" = Upass;
 $$ LANGUAGE SQL;
@@ -845,9 +844,11 @@ $$ LANGUAGE SQL;
 
 SELECT * FROM "UserInformation"
 
-CREATE  PROCEDURE Registration(FirstName varchar(255) , SecondName varchar(255) ,
-						   Bdate    date DEFAULT 0, Login     varchar(255),
-						   Passw    varchar(255),   Moneys    money DEFAULT 0, Img varchar(255) DEFAULT 'user.png',)
+
+--sorting by name
+CREATE  PROCEDURE Registration(minprice    money DEFAULT 0 , maxprice    money DEFAULT 1000000,
+						       minduration int   DEFAULT 0,  maxduration int   DEFAULT 1000000,
+						       minrate    float  DEFAULT 0,  maxrate     float DEFAULT 1000000, nameofilm varchar(255) DEFAULT '')
   RETURNS TABLE (FilmName             text
                , Price                int
                , InformationAboutFilm text
@@ -878,7 +879,7 @@ $func$  LANGUAGE plpgsql;
 
 
 
-CREATE PROCEDURE Registration(FirstName varchar(255) , SecondName varchar(255) ,
+CREATE OR REPLACE PROCEDURE Registration(FirstName varchar(255) , SecondName varchar(255) ,
 						      Bdate    date,             Login varchar(255), Passw  varchar(255),
 						      Moneys   money DEFAULT 0,  Img   varchar(255) DEFAULT 'user.png')
 LANGUAGE SQL
@@ -890,14 +891,14 @@ AS $$
 $$;
 
 SELECT * FROM "UserInformation"
-
+DELETE FROM "UserInformation"
 --НЕ ВИКЛИКАЙ КОЛ,БО ПОЛАМАЄШ ВСЕ НАФІГ, Я ЗАТЕСТИВ - ВСЕ ПРАЦЮЄ!!!!! @NPROHSYN
 CALL Registration('Naruto', 'Sobakich', '2000-10-10', 'nsobakish', '12345');
 
 
 CALL UpdateUserInfo()
 
-CREATE PROCEDURE UpdateUserInfo(newFirstName varchar(255), newSecondName varchar(255),
+CREATE OR REPLACE PROCEDURE UpdateUserInfo(newFirstName varchar(255), newSecondName varchar(255),
 						      newBdate     date,         genre         varchar(255),
 							  login varchar(255))
 LANGUAGE SQL
@@ -931,3 +932,20 @@ AS $$
 $$;
 
 CALL moneyTransaction(2,1,'4.5'::float8::numeric::money)
+
+
+CREATE OR REPLACE PROCEDURE buyFilm(userId int,   filmId int)
+LANGUAGE SQL
+AS $$
+	INSERT INTO "BoughtFilms" ("UserId", "FilmId")
+		VALUES (userId, filmId);
+	UPDATE "User"
+		SET "Money" = ((SELECT "Money" FROM "User" 
+					  	WHERE "UserId" = userId) - 
+					   (SELECT "Price" FROM "FilmInfo"
+					    WHERE "FilmId" = filmId))
+			WHERE "UserId" = userId;
+
+$$;
+
+CALL buyFilm(2,2)
