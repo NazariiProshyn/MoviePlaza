@@ -217,10 +217,10 @@ CREATE TABLE "Filmdata" (
   *
   */
 CREATE TABLE "Rating" (
-	"FilmId"      serial NOT NULL,
-	"NumofVoices" bigint NOT NULL,
-	"Rate"        float8 NOT NULL,
-	CONSTRAINT "Reits_pk" PRIMARY KEY ("FilmId")
+	"FilmId"      int     NOT NULL,
+	"UserId"      int     NOT NULL,
+	"Rate"        float   NOT NULL,
+	CONSTRAINT "Reits_pk" PRIMARY KEY ("FilmId", "UserId")
 ) WITH (
   OIDS = FALSE
 );
@@ -286,6 +286,8 @@ ALTER TABLE "FavouriteGenres" ADD CONSTRAINT "FavouriteGenres_fk1" FOREIGN KEY (
 ALTER TABLE "Comments"        ADD CONSTRAINT "Comments_fk1"        FOREIGN KEY ("FilmId")    REFERENCES "FilmInfo"("FilmId");
 
 ALTER TABLE "Rating"          ADD CONSTRAINT "Reits_fk1"           FOREIGN KEY ("FilmId")    REFERENCES "FilmInfo"("FilmId");
+
+ALTER TABLE "Rating"          ADD CONSTRAINT "Reits_fk2"           FOREIGN KEY ("UserId")    REFERENCES "User"("UserId");
 
 ALTER TABLE "Filmdata"        ADD CONSTRAINT "Filmdata_fk1"        FOREIGN KEY ("FilmId")    REFERENCES "FilmInfo"("FilmId");
  
@@ -414,17 +416,17 @@ INSERT INTO "UserInformation" ("Login", "Password", "userImage")
    VALUES ('cash'), ('phone'),
    		  ('crypto');
 
-   INSERT INTO "Rating"("NumofVoices","Rate")
-     VALUES    (10,3.3),
-	           (42,4.2),
-			   (1,5),
-			   (23,3.3),
-			   (100,3.3),
-			   (19,3.3),
-			   (35,3.3),
-			   (21,3.3),
-			   (7,3.3),
-			   (52,3.3);
+   INSERT INTO "Rating"("FilmId","UserId","Rate")
+     VALUES    (1, 1, 2.0),  (1, 2, 4.0),  (1, 4, 3.0),
+	 		   (2, 4, 4.0),  (2, 2, 5.0),  (2, 3, 1.0),
+			   (3, 5, 2.0),  (3, 1, 3.0),  (3, 2, 4.0),
+			   (4, 2, 3.0),  (4, 3, 3.0),  (4, 1, 2.0),
+			   (5, 1, 5.0),  (5, 2, 2.0),  (5, 4, 3.0),
+			   (6, 4, 4.0),  (6, 3, 1.0),  (6, 5, 3.0),
+			   (7, 2, 5.0),  (7, 4, 4.0),  (7, 5, 3.0),
+			   (8, 2, 5.0),  (8, 4, 5.0),  (8, 1, 5.0),
+			   (9, 5, 4.0),  (9, 4, 4.0),  (9, 3, 2.0),
+			   (10,1, 1.0), (10, 3, 3.0), (10, 2, 4.0);
 
    INSERT INTO "Comments"("FilmId","Comment","UserId")
       VALUES   (1, 'good1', 1),  (1, 'norm1', 3), (1, 'bored1', 2),
@@ -961,3 +963,45 @@ AS $$
 	INSERT INTO "Comments" ("FilmId", "Comment", "UserId" )
 		VALUES (filmId, com, userId);
 $$;
+
+
+
+
+CREATE OR REPLACE PROCEDURE addNewFilm(filmName      varchar(255), price     money,        infoFilm  text,
+									   filmreference varchar(255), filmImage varchar(255), dateofrel date,
+									   duration      int)
+LANGUAGE SQL
+AS $$
+INSERT INTO "Filmdata" ("Filmreference", "Filmimage", "Dateofrelease", "Duration")
+  VALUES (filmreference, filmImage, dateofrel, duration);
+  
+INSERT INTO "FilmInfo" ("FilmName", "Price", "InformationAboutFilm")
+  VALUES  (filmName, price,infoFilm );
+$$;
+
+
+CREATE OR REPLACE FUNCTION CheckAccRaitOnFilm(filmID int, userId int) RETURNS int AS $$
+    SELECT COUNT(*) FROM "Rating"
+	WHERE "FilmId" = filmID AND "UserId" = userId ;
+$$ LANGUAGE SQL;
+
+CREATE OR REPLACE FUNCTION CheckNumRaitsOfFilm(filmID int) RETURNS int AS $$
+    SELECT COUNT(*) FROM "Rating"
+	WHERE "FilmId" = filmID;
+$$ LANGUAGE SQL;
+
+
+CREATE OR REPLACE PROCEDURE filmRait(filmID int, userId int, rait int)
+LANGUAGE SQL
+AS $$
+INSERT INTO "Rating" ("FilmId", "UserId", "Rate")
+  VALUES (filmID, userId, rait);
+$$;
+
+CREATE OR REPLACE FUNCTION getRaitOfFilm(filmID int) RETURNS float AS $$
+    SELECT AVG("Rate") FROM "Rating"
+	WHERE "FilmId" = filmID;
+$$ LANGUAGE SQL;
+
+
+
