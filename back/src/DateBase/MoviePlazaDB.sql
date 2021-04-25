@@ -129,7 +129,7 @@
 CREATE TABLE "FilmInfo" (
 	"FilmId"   serial NOT NULL,
 	"FilmName" text NOT NULL UNIQUE,
-	"Price"    int,
+	"Price"    money,
 	"InformationAboutFilm" text NOT NULL,
 	CONSTRAINT "FilmInfo_pk" PRIMARY KEY ("FilmId")
 ) WITH (
@@ -176,12 +176,11 @@ CREATE TABLE "FilmGenres" (
   *BRIEF: Creating of table TransactDetails
   *
   */
-CREATE TABLE "TransactDetails" (
+CREATE   TABLE "TransactDetails" (
 	"UserId"        int    NOT NULL,
 	"TypeId"        bigint NOT NULL,
 	"DateofPayment" DATE   NOT NULL,
-	"Amount"        int,
-	"Number"        int    
+	"Amount"        money 
 ) WITH (
   OIDS = FALSE
 );
@@ -218,10 +217,10 @@ CREATE TABLE "Filmdata" (
   *
   */
 CREATE TABLE "Rating" (
-	"FilmId"      serial NOT NULL,
-	"NumofVoices" bigint NOT NULL,
-	"Rate"        float8 NOT NULL,
-	CONSTRAINT "Reits_pk" PRIMARY KEY ("FilmId")
+	"FilmId"      int     NOT NULL,
+	"UserId"      int     NOT NULL,
+	"Rate"        float   NOT NULL,
+	CONSTRAINT "Reits_pk" PRIMARY KEY ("FilmId", "UserId")
 ) WITH (
   OIDS = FALSE
 );
@@ -243,8 +242,8 @@ CREATE TABLE "Comments" (
   *
   */
 CREATE TABLE "TypesOfTransact" (
-	"TypeId" bigint NOT NULL,
-	"Type"   serial NOT NULL,
+	"TypeId" serial NOT NULL,
+	"Type"   varchar(255)  NOT NULL,
 	CONSTRAINT "TypesOfTransact_pk" PRIMARY KEY ("TypeId")
 ) WITH (
   OIDS = FALSE
@@ -287,6 +286,8 @@ ALTER TABLE "FavouriteGenres" ADD CONSTRAINT "FavouriteGenres_fk1" FOREIGN KEY (
 ALTER TABLE "Comments"        ADD CONSTRAINT "Comments_fk1"        FOREIGN KEY ("FilmId")    REFERENCES "FilmInfo"("FilmId");
 
 ALTER TABLE "Rating"          ADD CONSTRAINT "Reits_fk1"           FOREIGN KEY ("FilmId")    REFERENCES "FilmInfo"("FilmId");
+
+ALTER TABLE "Rating"          ADD CONSTRAINT "Reits_fk2"           FOREIGN KEY ("UserId")    REFERENCES "User"("UserId");
 
 ALTER TABLE "Filmdata"        ADD CONSTRAINT "Filmdata_fk1"        FOREIGN KEY ("FilmId")    REFERENCES "FilmInfo"("FilmId");
  
@@ -369,19 +370,7 @@ INSERT INTO "UserInformation" ("Login", "Password", "userImage")
 		   (5,1);
 		   
 		   
- INSERT INTO "FilmGenres" ("FilmId","GenresId")
-    VALUES (1,1),(1,2),
-	       (2,1),
-		   (3,2),(3,3),
-		   (4,1),(4,4),
-		   (5,5),(5,6),
-		   (6,7),(6,3),
-		   (7,2),(7,3),
-		   (8,6),(8,7),
-		   (9,1),(9,3),
-		   (10,1),(10,5);
-			
-			
+		   
   INSERT INTO "FilmInfo" ("FilmName","Price","InformationAboutFilm")
     VALUES ('FilmName1',5.7,'Description-Lorem FilmName1 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.'),
 	       ('FilmName2',4  ,'Description-Lorem FilmName2 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.'),
@@ -394,6 +383,22 @@ INSERT INTO "UserInformation" ("Login", "Password", "userImage")
 		   ('FilmName9',0  ,'Description-Lorem FilmName9 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.'),
 		   ('FilmName10',7.7,'Description-Lorem FilmName10 ipsum dolor sit amet,tempor incididunt ut labore et dolore magna aliqua.');
 		   
+		   
+  INSERT INTO "FilmGenres" ("FilmId","GenresId")
+    VALUES (1,1),(1,2),
+	       (2,1),
+		   (3,2),(3,3),
+		   (4,1),(4,4),
+		   (5,5),(5,6),
+		   (6,7),(6,3),
+		   (7,2),(7,3),
+		   (8,6),(8,7),
+		   (9,1),(9,3),
+		   (10,1),(10,5);
+
+		   
+		   
+		   
   INSERT INTO "Filmdata"("Filmreference", "Filmimage", "Dateofrelease", "Duration")
   	VALUES   ('FilmName1', 'film.png','2001-07-02', 25),
 	         ('FilmName2', 'film.png','2002-07-02', 125),
@@ -405,18 +410,23 @@ INSERT INTO "UserInformation" ("Login", "Password", "userImage")
 			 ('FilmName8', 'film.png','2021-04-12', 321),
 			 ('FilmName9', 'film.png','2020-12-12', 12),
 			 ('FilmName10', 'film.png','2017-05-02', 15);
+			 
+			 
+   INSERT INTO "TypesOfTransact"("Type")
+   VALUES ('cash'), ('phone'),
+   		  ('crypto');
 
-   INSERT INTO "Rating"("NumofVoices","Rate")
-     VALUES    (10,3.3),
-	           (42,4.2),
-			   (1,5),
-			   (23,3.3),
-			   (100,3.3),
-			   (19,3.3),
-			   (35,3.3),
-			   (21,3.3),
-			   (7,3.3),
-			   (52,3.3);
+   INSERT INTO "Rating"("FilmId","UserId","Rate")
+     VALUES    (1, 1, 2.0),  (1, 2, 4.0),  (1, 4, 3.0),
+	 		   (2, 4, 4.0),  (2, 2, 5.0),  (2, 3, 1.0),
+			   (3, 5, 2.0),  (3, 1, 3.0),  (3, 2, 4.0),
+			   (4, 2, 3.0),  (4, 3, 3.0),  (4, 1, 2.0),
+			   (5, 1, 5.0),  (5, 2, 2.0),  (5, 4, 3.0),
+			   (6, 4, 4.0),  (6, 3, 1.0),  (6, 5, 3.0),
+			   (7, 2, 5.0),  (7, 4, 4.0),  (7, 5, 3.0),
+			   (8, 2, 5.0),  (8, 4, 5.0),  (8, 1, 5.0),
+			   (9, 5, 4.0),  (9, 4, 4.0),  (9, 3, 2.0),
+			   (10,1, 1.0), (10, 3, 3.0), (10, 2, 4.0);
 
    INSERT INTO "Comments"("FilmId","Comment","UserId")
       VALUES   (1, 'good1', 1),  (1, 'norm1', 3), (1, 'bored1', 2),
@@ -658,9 +668,9 @@ select * from GetComments(5);
 
 
 
-CREATE OR REPLACE FUNCTION SortFilms(minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
-								     minprice    integer DEFAULT 0, maxprice    integer DEFAULT 999,
-								     minrate     float   DEFAULT 0, maxrate       float DEFAULT 999,  genre varchar(255) DEFAULT 'Комедия')
+CREATE OR REPLACE FUNCTION SortFilmsWithoutGenreWithNAME(minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
+						  minprice    integer DEFAULT 0, maxprice    integer DEFAULT 999,
+						  minrate     float   DEFAULT 0, maxrate     float   DEFAULT 999, nameofilm varchar(255) DEFAULT '')
   RETURNS TABLE (FilmName             text
                , Price                int
                , InformationAboutFilm text
@@ -684,14 +694,10 @@ FROM   "FilmInfo" f1
         f2."Duration" <= @maxduration AND
 		f3."Rate"     >= @minrate     AND
         f3."Rate"     <= @maxrate     AND
-		f1."FilmId" IN (
-			SELECT "FilmId" FROM "FilmGenres"
-		       WHERE "GenresId" IN (
-				   SELECT "GenreId" FROM "Genres"
-				     WHERE "Genre" = genre))
-					 ORDER BY f3."Rate" DESC;
+		f1."FilmName" LIKE nameofilm
+ORDER BY f3."Rate" DESC;
 END
-$func$  LANGUAGE plpgsql;
+$func$  LANGUAGE plpgsql;		
 
 select * from SortFilms();
 
@@ -772,12 +778,13 @@ CREATE OR REPLACE FUNCTION UserInfo(Ulogin varchar(255))
                , SecondName   varchar(255)
                , BDate        date
 			   , Moneys       money
-			   , userImage    varchar(255)) AS
+			   , userImage    varchar(255)
+			   , userId       int) AS
 $func$
 BEGIN
 RETURN QUERY
 SELECT f1."FirstName",  f1."SecondName", f1."BDate",
-       f1."Money", f2."userImage"
+       f1."Money", f2."userImage", "UserId"
 FROM   "User" f1
   JOIN "UserInformation" f2 ON f2."UserId" = f1."UserId"
 WHERE f2."Login" = Ulogin;
@@ -840,9 +847,11 @@ $$ LANGUAGE SQL;
 
 SELECT * FROM "UserInformation"
 
-CREATE  PROCEDURE Registration(FirstName varchar(255) , SecondName varchar(255) ,
-						   Bdate    date DEFAULT 0, Login     varchar(255),
-						   Passw    varchar(255),   Moneys    money DEFAULT 0, Img varchar(255) DEFAULT 'user.png',)
+
+--sorting by name
+CREATE OR REPLACE FUNCTION SortFilmsWithoutGenreWithNAME(minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
+						  minprice    integer DEFAULT 0, maxprice    integer DEFAULT 999,
+						  minrate     float   DEFAULT 0, maxrate     float   DEFAULT 999, nameofilm varchar(255) DEFAULT '')
   RETURNS TABLE (FilmName             text
                , Price                int
                , InformationAboutFilm text
@@ -869,11 +878,11 @@ FROM   "FilmInfo" f1
 		f1."FilmName" LIKE nameofilm
 ORDER BY f3."Rate" DESC;
 END
-$func$  LANGUAGE plpgsql;
+$func$  LANGUAGE plpgsql;		
 
 
 
-CREATE PROCEDURE Registration(FirstName varchar(255) , SecondName varchar(255) ,
+CREATE OR REPLACE PROCEDURE Registration(FirstName varchar(255) , SecondName varchar(255) ,
 						      Bdate    date,             Login varchar(255), Passw  varchar(255),
 						      Moneys   money DEFAULT 0,  Img   varchar(255) DEFAULT 'user.png')
 LANGUAGE SQL
@@ -885,14 +894,14 @@ AS $$
 $$;
 
 SELECT * FROM "UserInformation"
-
+DELETE FROM "UserInformation"
 --НЕ ВИКЛИКАЙ КОЛ,БО ПОЛАМАЄШ ВСЕ НАФІГ, Я ЗАТЕСТИВ - ВСЕ ПРАЦЮЄ!!!!! @NPROHSYN
 CALL Registration('Naruto', 'Sobakich', '2000-10-10', 'nsobakish', '12345');
 
 
 CALL UpdateUserInfo()
 
-CREATE PROCEDURE UpdateUserInfo(newFirstName varchar(255), newSecondName varchar(255),
+CREATE OR REPLACE PROCEDURE UpdateUserInfo(newFirstName varchar(255), newSecondName varchar(255),
 						      newBdate     date,         genre         varchar(255),
 							  login varchar(255))
 LANGUAGE SQL
@@ -910,6 +919,89 @@ UPDATE "FavouriteGenres"
 	  WHERE "UserId" IN(SELECT "UserId" FROM "UserInformation"
 						 WHERE "Login" = login);
 $$;
+
+
+
+
+CREATE OR REPLACE PROCEDURE moneyTransaction(userId int,   typeId int,
+								  amount money, transactionData date DEFAULT CURRENT_DATE)
+LANGUAGE SQL
+AS $$
+	INSERT INTO "TransactDetails" ("UserId", "TypeId", "DateofPayment", "Amount")
+		VALUES (userId, typeId, transactionData, amount);
+	UPDATE "User"
+		SET "Money" = ((SELECT "Money" FROM "User" 
+					  	WHERE "UserId" = userId) + amount)
+			WHERE "UserId" = userId;
+
+$$;
+SELECT "UserId" FROM "UserInformation"
+				   WHERE "Login" = nick
+		SELECT * FROM "UserInformation"		   
+CALL moneyTransaction(2,1,'4.5'::float8::numeric::money)
+
+
+CREATE OR REPLACE PROCEDURE buyFilm(userId int,   filmId int)
+LANGUAGE SQL
+AS $$
+	INSERT INTO "BoughtFilms" ("UserId", "FilmId")
+		VALUES (userId, filmId);
+	UPDATE "User"
+		SET "Money" = ((SELECT "Money" FROM "User" 
+					  	WHERE "UserId" = userId) - 
+					   (SELECT "Price" FROM "FilmInfo"
+					    WHERE "FilmId" = filmId))
+			WHERE "UserId" = userId;
+
+$$;
+
+CALL buyFilm(2,2)
+
+CREATE OR REPLACE PROCEDURE addComment(userId int,   filmId int, com varchar(255))
+LANGUAGE SQL
+AS $$
+	INSERT INTO "Comments" ("FilmId", "Comment", "UserId" )
+		VALUES (filmId, com, userId);
+$$;
+
+
+
+
+CREATE OR REPLACE PROCEDURE addNewFilm(filmName      varchar(255), price     money,        infoFilm  text,
+									   filmreference varchar(255), filmImage varchar(255), dateofrel date,
+									   duration      int)
+LANGUAGE SQL
+AS $$
+INSERT INTO "Filmdata" ("Filmreference", "Filmimage", "Dateofrelease", "Duration")
+  VALUES (filmreference, filmImage, dateofrel, duration);
+  
+INSERT INTO "FilmInfo" ("FilmName", "Price", "InformationAboutFilm")
+  VALUES  (filmName, price,infoFilm );
+$$;
+
+
+CREATE OR REPLACE FUNCTION CheckAccRaitOnFilm(filmID int, userId int) RETURNS int AS $$
+    SELECT COUNT(*) FROM "Rating"
+	WHERE "FilmId" = filmID AND "UserId" = userId ;
+$$ LANGUAGE SQL;
+
+CREATE OR REPLACE FUNCTION CheckNumRaitsOfFilm(filmID int) RETURNS int AS $$
+    SELECT COUNT(*) FROM "Rating"
+	WHERE "FilmId" = filmID;
+$$ LANGUAGE SQL;
+
+
+CREATE OR REPLACE PROCEDURE filmRait(filmID int, userId int, rait int)
+LANGUAGE SQL
+AS $$
+INSERT INTO "Rating" ("FilmId", "UserId", "Rate")
+  VALUES (filmID, userId, rait);
+$$;
+
+CREATE OR REPLACE FUNCTION getRaitOfFilm(filmID int) RETURNS float AS $$
+    SELECT AVG("Rate") FROM "Rating"
+	WHERE "FilmId" = filmID;
+$$ LANGUAGE SQL;
 
 
 
