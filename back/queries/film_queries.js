@@ -1,7 +1,6 @@
 const client = require('./client');
 
 const getFilms = async (id) => {
-    console.log('-------------'+id);
     let filmdata = await client.query('SELECT * from FilmPage($1)',[id]);
     filmdata = filmdata.rows[0];
     const comm = await client.query('SELECT * from GetComments($1)',[id]);

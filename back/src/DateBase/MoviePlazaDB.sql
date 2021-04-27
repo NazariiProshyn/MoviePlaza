@@ -708,7 +708,7 @@ $func$  LANGUAGE plpgsql;
 SELECT * FROM LastFilms();
 		
 		
-		
+SELECT * FROM SortFilmsWithoutGenreWithNAME(nameofilm=>'%Гладиатор%')
 		
 CREATE OR REPLACE FUNCTION UserInfo(Ulogin varchar(255))
   RETURNS TABLE (FirstName    varchar(255)
