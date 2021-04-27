@@ -1,8 +1,8 @@
 const HttpStatus = require('http-status');
-const { getUser } = require('../queries/users_queries');
+const { getUserByLogin } = require('../queries/users_queries');
 function routes(fastify, opts, done) {
-    fastify.get('/users/:id', (request, reply) => {
-        const users = getUser(request.params.id);
+    fastify.get('/profile/:login', (request, reply) => {
+        const users = getUserByLogin(request.params.login);
         reply.status = HttpStatus.OK;
         return users;
     });

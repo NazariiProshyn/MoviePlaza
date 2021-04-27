@@ -2,7 +2,7 @@ const HttpStatus = require('http-status');
 const { getLastFilms } = require('../queries/newfilms_queries');
 function routes(fastify, opts, done) {
     fastify.get('/newfilms', (request, reply) => {
-        const films = getLastFilms(request, reply, request.params.id);
+        const films = getLastFilms();
         reply.status = HttpStatus.OK;
         return films;
     });

@@ -14,12 +14,12 @@ function Comment({ work }) {
             <div className={c.avatar}>
                 <img
                     className={c['avatar_img']}
-                    src={'http://localhost:3001/images/' + user.userImage}
+                    src={'http://localhost:3001/images/' + user.userimage}
                     alt={work.userid}
                 />
             </div>
             <div className={c.author}>
-                <p>{work.userid}</p>
+                <p>{user.login}</p>
             </div>
             <div className={c.comment}>
                 <p>{work.comments}</p>

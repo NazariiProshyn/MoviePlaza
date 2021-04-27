@@ -8,7 +8,7 @@ function routes(fastify, opts, done) {
             lastname,
             dateofbirthday,
             password,
-        } = request.body;
+        } = JSON.parse(request.body);
         const user = getIsRegister(
             request,
             reply,

@@ -1,5 +1,5 @@
+
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 const useForm = (callback, validate) => {
     const [values, setValues] = useState({
         username: '',
@@ -22,32 +22,34 @@ const useForm = (callback, validate) => {
 
     const handleSubmit = (e) => {
         if (window.location.pathname === '/login') {
-            axios('http://localhost:3001/login', {
+            fetch('http://localhost:3001/login', {
                 method: 'post',
                 withCredentials: true,
-                data: {
+                credentials: 'include',
+                body: JSON.stringify({
                     username: e.target.username.value,
                     password: e.target.password.value,
-                },
-            }).then(function (response) {
+                }),
+            }).then(function (response, request) {
                 console.log(response);
                 if (response.data === '') {
                     alert('Неправильний логін або пароль');
                 } else {
-                    window.location.pathname = '/user/' + values.username;
+                    window.location.pathname = '/profile/' + values.username;
                 }
             });
         } else {
-            axios('http://localhost:3001/registration', {
+            fetch('http://localhost:3001/registration', {
                 method: 'post',
                 withCredentials: true,
-                data: {
+                credentials:'include',
+                body: JSON.stringify({
                     username: e.target.username.value,
                     firstname: e.target.firstname.value,
                     lastname: e.target.lastname.value,
                     dateofbirthday: e.target.bdate.value,
                     password: e.target.password.value,
-                },
+                }),
             }).then(function (response) {
                 console.log(response);
                 if (response.data !== '') {

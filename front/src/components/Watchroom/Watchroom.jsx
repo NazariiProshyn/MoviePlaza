@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { io } from 'socket.io-client';
-import axios from 'axios';
 import Search from './../SearchSystem/Search';
 import Films from './..//Films/Films';
 import w from './Watchroom.module.css';
@@ -12,9 +11,8 @@ const Watchroom = (params) => {
     const [videosource, setSource] = useState('');
     const [currSocket, setSocket] = useState();
     const search = (searchValue) => {
-        axios
-            .get(`http://localhost:3001/catalog?value=${searchValue}`)
-            .then((res) => res.data)
+        fetch(`http://localhost:3001/catalog?value=${searchValue}`)
+            .then((res) => res.json())
             .then((res) => setFilms(res))
             .then(console.log(films));
     };
@@ -31,15 +29,16 @@ const Watchroom = (params) => {
         let playPromise = undefined;
         let username = '';
         let promiseUser = new Promise(function (resolve, reject) {
-            const user = axios.get('http://localhost:3001/', {
+            const user = fetch('http://localhost:3001/', {
                 withCredentials: true,
-            });
+                credentials: 'include',
+            }).then((res)=>res.json());
             resolve(user);
         });
 
         promiseUser.then((result) => {
-            if (result.data.name) {
-                username = result.data.name;
+            if (result.name) {
+                username = result.name;
             } else {
                 username = 'Guest' + String(Math.floor(Math.random() * 10000));
             }

@@ -34,8 +34,8 @@ function Account(params) {
             });
 
         console.log(isLogin);
-
-        fetch('http://localhost:3001/users/' + params.user)
+        console.log(params.user);
+        fetch('http://localhost:3001/profile/' + params.user)
             .then((res) => res.json())
             .then((res) => {
                 setUser(res);

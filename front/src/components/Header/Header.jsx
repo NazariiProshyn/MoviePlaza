@@ -69,7 +69,7 @@ function Header() {
                 </div>
                 {isLogin ? (
                     <div>
-                        <a href={'/user/' + isLogin}>{isLogin}</a>
+                        <a href={'/profile/' + isLogin}>{isLogin}</a>
                         <button onClick={logout}>logout</button>
                     </div>
                 ) : (
