@@ -21,7 +21,7 @@ const useForm = (callback, validate) => {
     };
 
     const handleSubmit = (e) => {
-        if (window.location.pathname === '/login'){
+        if (window.location.pathname === '/login') {
             axios('http://localhost:3001/login', {
                 method: 'post',
                 withCredentials: true,
@@ -31,16 +31,13 @@ const useForm = (callback, validate) => {
                 },
             }).then(function (response) {
                 console.log(response);
-                if (response.data ===''){
+                if (response.data === '') {
                     alert('Неправильний логін або пароль');
-                }
-                else{
-                    window.location.pathname = '/user/'+values.username;
+                } else {
+                    window.location.pathname = '/user/' + values.username;
                 }
             });
-        }
-        else{
-            
+        } else {
             axios('http://localhost:3001/registration', {
                 method: 'post',
                 withCredentials: true,
@@ -53,19 +50,17 @@ const useForm = (callback, validate) => {
                 },
             }).then(function (response) {
                 console.log(response);
-                if (response.data!==''){
+                if (response.data !== '') {
                     setIsSubmitting(true);
                     e.preventDefault();
                     setErrors(validate(values));
-                    window.location.pathname = '/user/'+values.username;
-                } 
-                else{
+                    window.location.pathname = '/user/' + values.username;
+                } else {
                     alert('Користувач вже існує');
                 }
             });
-            
         }
-        
+
         e.preventDefault();
         setErrors(validate(values));
         setIsSubmitting(true);

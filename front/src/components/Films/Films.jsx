@@ -1,11 +1,9 @@
 import f from './Films.module.css';
 import { Link } from 'react-router-dom';
-//import axios from 'axios';
 
-function Films({ work, iswatchroom=false, watchnow }) {
+function Films({ work, iswatchroom = false, watchnow }) {
     const watch = () => {
         watchnow(work.filmreference);
-
     };
     return (
         <div className={f['film-container']}>
@@ -26,11 +24,23 @@ function Films({ work, iswatchroom=false, watchnow }) {
                     <p>{work.filmname}</p>
                 </div>
                 <div className={f['item-desc']}>
-                    <p className={f['catalog_rate']}>Рейтинг фільму:{work.rate}</p>
+                    <p className={f['catalog_rate']}>
+                        Рейтинг фільму:{work.rate}
+                    </p>
                     <p>{work.informationaboutfilm}</p>
                 </div>
             </Link>
-            {iswatchroom ? (<button className={f['watch_btn']} id ={work.filmname} onClick={watch}>Дивитись зараз</button>):''}
+            {iswatchroom ? (
+                <button
+                    className={f['watch_btn']}
+                    id={work.filmname}
+                    onClick={watch}
+                >
+                    Дивитись зараз
+                </button>
+            ) : (
+                ''
+            )}
         </div>
     );
 }

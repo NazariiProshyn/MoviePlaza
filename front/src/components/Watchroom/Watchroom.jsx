@@ -74,7 +74,7 @@ const Watchroom = (params) => {
 
         // play video
         socket.on('play_video', () => {
-            playPromise= video.play();
+            playPromise = video.play();
         });
         video.addEventListener('play', () => {
             socket.emit('play_video');
@@ -82,8 +82,8 @@ const Watchroom = (params) => {
 
         // stop video
         socket.on('stop_video', () => {
-            if (playPromise !== undefined){
-                playPromise.then(_ => {
+            if (playPromise !== undefined) {
+                playPromise.then((_) => {
                     video.pause();
                 });
             }
@@ -108,8 +108,6 @@ const Watchroom = (params) => {
                 });
             }*/
             socket.emit('seeked', video.currentTime);
-
-            
         });
 
         // disconnect

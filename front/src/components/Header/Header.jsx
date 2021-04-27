@@ -4,7 +4,7 @@ import h from './Header.module.css';
 
 import logo from './../../images/Logo.png';
 import search_img from './../../images/search.png';
-import axios from 'axios';
+
 const { v4: uuidV4 } = require('uuid');
 
 function Header() {
@@ -12,24 +12,25 @@ function Header() {
 
     useEffect(() => {
         const getfilm = async () => {
-            axios.defaults.withCredentials = true;
-            const promise = await axios.get('http://localhost:3001/', {
+            fetch('http://localhost:3001/', {
                 withCredentials: true,
-            });
-            console.log(promise.data);
-            if (promise.data.name) {
-                setData(promise.data.name);
-                console.log('+');
-            }
+                credentials: 'include',
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    console.log(res);
+                    setData(res.name);
+                });
+
             //console.log(promise.data.status);
             console.log(isLogin);
         };
         getfilm();
     });
     const logout = async () => {
-        axios.defaults.withCredentials = true;
-        const promise = await axios.get('http://localhost:3001/logout', {
+        const promise = await fetch('http://localhost:3001/logout', {
             withCredentials: true,
+            credentials: 'include',
         });
         console.log(promise);
         window.location.reload();

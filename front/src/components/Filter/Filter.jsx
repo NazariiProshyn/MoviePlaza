@@ -3,33 +3,35 @@ import f from './Filter.module.css';
 
 import search_img from './../../images/search.png';
 
-const Filter = (props)=> {
+const Filter = (props) => {
     const [searchValue, setSearchValue] = useState('');
     const callSearchFunction = () => {
         props.search(
-            searchValue, document.getElementById('filter-genre').value,
-            document.getElementById('start-year').value, 
-            document.getElementById('end-year').value, 
-            document.getElementById('start-length').value,  
-            document.getElementById('end-length').value, 
-            document.getElementById('start-price').value, 
+            searchValue,
+            document.getElementById('filter-genre').value,
+            document.getElementById('start-year').value,
+            document.getElementById('end-year').value,
+            document.getElementById('start-length').value,
+            document.getElementById('end-length').value,
+            document.getElementById('start-price').value,
             document.getElementById('end-price').value,
             document.getElementById('start-rate').value,
-            document.getElementById('end-rate').value);
+            document.getElementById('end-rate').value
+        );
     };
     const handleSearchInputChanges = (e) => {
         setSearchValue(e.target.value);
     };
-    const clearFilter = ()=>{
-        document.getElementById('filter-genre').selectedIndex=0;
-        document.getElementById('start-year').value='';
-        document.getElementById('end-year').value='';
-        document.getElementById('start-length').value='';  
-        document.getElementById('end-length').value=''; 
-        document.getElementById('start-price').value=''; 
-        document.getElementById('end-price').value='';
-        document.getElementById('start-rate').value='';
-        document.getElementById('end-rate').value='';
+    const clearFilter = () => {
+        document.getElementById('filter-genre').selectedIndex = 0;
+        document.getElementById('start-year').value = '';
+        document.getElementById('end-year').value = '';
+        document.getElementById('start-length').value = '';
+        document.getElementById('end-length').value = '';
+        document.getElementById('start-price').value = '';
+        document.getElementById('end-price').value = '';
+        document.getElementById('start-rate').value = '';
+        document.getElementById('end-rate').value = '';
         callSearchFunction();
     };
     return (
@@ -52,7 +54,7 @@ const Filter = (props)=> {
             </div>
             <p>Фільтр:</p>
             <div className={f.filter}>
-                <select id='filter-genre'>
+                <select id="filter-genre">
                     <option>Жанр</option>
                     <option value="Комедия">Комедія</option>
                     <option value="Фэнтези">Фентезі</option>
@@ -65,12 +67,12 @@ const Filter = (props)=> {
                 <div className={f['filter-year']}>
                     <p>Рік:</p>
                     <input
-                        id='start-year'
+                        id="start-year"
                         placeholder="від"
                         data-filter="year_from"
                     ></input>
                     <input
-                        id='end-year'
+                        id="end-year"
                         placeholder="до"
                         data-filter="year_to"
                     ></input>
@@ -78,12 +80,12 @@ const Filter = (props)=> {
                 <div className={f['filter-length']}>
                     <p>Довжина:</p>
                     <input
-                        id='start-length'
+                        id="start-length"
                         placeholder="від"
                         data-filter="length_from"
                     ></input>
                     <input
-                        id='end-length'
+                        id="end-length"
                         placeholder="до"
                         data-filter="length_to"
                     ></input>
@@ -91,12 +93,12 @@ const Filter = (props)=> {
                 <div className={f['filter-price']}>
                     <p>Ціна:</p>
                     <input
-                        id='start-price'
+                        id="start-price"
                         placeholder="від"
                         data-filter="price_from"
                     ></input>
                     <input
-                        id='end-price'
+                        id="end-price"
                         placeholder="до"
                         data-filter="price_to"
                     ></input>
@@ -104,12 +106,12 @@ const Filter = (props)=> {
                 <div className={f['filter-rate']}>
                     <p>Рейтинг</p>
                     <input
-                        id='start-rate'
+                        id="start-rate"
                         placeholder="від"
                         data-filter="rate_from"
                     ></input>
                     <input
-                        id='end-rate'
+                        id="end-rate"
                         placeholder="до"
                         data-filter="rate_to"
                     ></input>
@@ -118,18 +120,14 @@ const Filter = (props)=> {
                     className={f['filter-button']}
                     onClick={callSearchFunction}
                 >
-                        Застосувати
+                    Застосувати
                 </button>
-                <button
-                    className={f['filter-button']}
-                    onClick={clearFilter}
-                >
-                        Очистити
+                <button className={f['filter-button']} onClick={clearFilter}>
+                    Очистити
                 </button>
             </div>
         </div>
     );
 };
-
 
 export default Filter;

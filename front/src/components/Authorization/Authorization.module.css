@@ -11,15 +11,19 @@
     height: 500px;
     display: grid;
     grid-template-columns: 1fr;
-  }
+}
 
-  .form-content {
+.form-content {
     border-radius: 0 10px 10px 0;
     position: relative;
-    background: linear-gradient(90deg, rgb(40, 40, 40) 0%, rgb(17, 17, 17) 100%);
-  }
-  
-  .form {
+    background: linear-gradient(
+        90deg,
+        rgb(40, 40, 40) 0%,
+        rgb(17, 17, 17) 100%
+    );
+}
+
+.form {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -30,35 +34,35 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
-  
-  .form h1 {
+}
+
+.form h1 {
     font-size: 1rem;
     text-align: start;
     width: 80%;
     margin-bottom: 1rem;
     color: #fff;
-  }
-  
-  .form-inputs {
+}
+
+.form-inputs {
     margin-bottom: 0.5rem;
     width: 80%;
-  }
-  
-  .form-inputs p {
+}
+
+.form-inputs p {
     font-size: 0.8rem;
     margin-top: 0.5rem;
     color: #f00e0e;
-  }
-  
-  .form-label {
+}
+
+.form-label {
     display: inline-block;
     font-size: 0.8rem;
     margin-bottom: 6px;
     color: #fff;
-  }
-  
-  .form-input {
+}
+
+.form-input {
     display: block;
     padding-left: 10px;
     outline: none;
@@ -66,50 +70,49 @@
     height: 40px;
     width: 100%;
     border: none;
-  }
-  
-  .form-input::placeholder {
+}
+
+.form-input::placeholder {
     color: #595959;
     font-size: 12px;
-  }
-  
-  .form-input-btn {
+}
+
+.form-input-btn {
     width: 80%;
     height: 50px;
     margin-top: 10px;
     border-radius: 2px;
     background: linear-gradient(
-      90deg,
-      rgb(39, 176, 255) 0%,
-      rgb(0, 232, 236) 100%
+        90deg,
+        rgb(39, 176, 255) 0%,
+        rgb(0, 232, 236) 100%
     );
     outline: none;
     border: none;
     color: #fff;
     font-size: 1rem;
-  }
-  
-  .form-input-btn:hover {
+}
+
+.form-input-btn:hover {
     cursor: pointer;
     background: linear-gradient(
-      90deg,
-      rgb(39, 143, 255) 0%,
-      rgb(12, 99, 250) 100%
+        90deg,
+        rgb(39, 143, 255) 0%,
+        rgb(12, 99, 250) 100%
     );
     transition: all 0.4s ease-out;
-  }
-  
-  .form-input-login {
+}
+
+.form-input-login {
     font-size: 0.8rem;
     margin-top: 10px;
     color: #fff;
     width: 80%;
     text-align: center;
-  }
-  
-  .form-input-login a {
+}
+
+.form-input-login a {
     text-decoration: none;
     color: #27cdff;
     font-weight: 600;
-  }
-  
+}
