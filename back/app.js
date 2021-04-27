@@ -90,6 +90,7 @@ app.ready((err) => {
                 .get('http://localhost:3001/profile/' + user.username)
                 .then((res) => res.data);
             let picture = 'user.png';
+
             if (user_data) {
                 picture = user_data.userimage;
             }

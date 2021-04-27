@@ -38,10 +38,9 @@ const getCatalog = (
             (isValid(price_to) ? '' : `maxprice=>${price_to}, `) +
             (isValid(rate_from) ? '' : `minrate=>${rate_from}, `) +
             (isValid(rate_to) ? '' : `maxrate=>${rate_to}, `) +
-            (isValid(genre) ? '' : `genre=>'${genre}'` + ', ') +
-            `nameofilm=>'%${filmname}%'` +
-            ')';
+            (isValid(genre) ? '' : `genre=>'${genre}'` + ') ');
         console.log(querystr);
+
         client.query(querystr, (error, results) => {
             if (error) {
                 throw error;
