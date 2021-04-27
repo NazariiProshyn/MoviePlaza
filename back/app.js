@@ -87,10 +87,9 @@ app.ready((err) => {
         socket.on('chat_message', async (message) => {
             const user = getCurrentUser(socket.id);
             const user_data = await axios
-                .get('http://localhost:3001/users/' + user)
+                .get('http://localhost:3001/profile/' + user.username)
                 .then((res) => res.data);
             let picture = 'user.png';
-            console.log(user_data);
             if (user_data) {
                 picture = user_data.userimage;
             }
