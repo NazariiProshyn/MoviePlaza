@@ -1,12 +1,12 @@
-const { Client } = require('pg');
+const { Pool } = require('pg');
 
-const client = new Client({
+const pool = new Pool({
     user: 'movieadmin1',
     host: 'localhost',
     database: 'movieplaza',
     password: 'movieadmin',
     port: 5432,
 });
-client.connect();
+pool.connect();
 
-module.exports = client;
+module.exports = pool;

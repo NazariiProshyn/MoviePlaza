@@ -1,4 +1,4 @@
-const client = require('./client');
+const pool = require('./pool');
 const isInvalid = (value) => {
     return !(
         value != null &&
@@ -40,7 +40,7 @@ const getCatalog = async (
             'SELECT * FROM SortFilmsWithoutGenreWithNAME($1, $2, $3, $4, $5, $6, $7, $8, $9)';
         values.push('%'+filmname+'%');
     }
-    const films = await client.query(
+    const films = await pool.query(
         querystr, values);
     return films.rows;
 };
