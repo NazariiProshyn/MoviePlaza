@@ -304,7 +304,7 @@ ALTER TABLE "Comments"        ADD CONSTRAINT "Comments_fk2"        FOREIGN KEY (
  *
  */
 
-SELECT * FROM "User"
+SELECT * FROM "Rating"
 
 INSERT INTO "User" ("FirstName", "SecondName", "BDate", "Money")
     VALUES ('Nazarii', 'Proshyn', '2001-10-05','100000');
@@ -668,73 +668,9 @@ select * from GetComments(5);
 
 
 
-CREATE OR REPLACE FUNCTION SortFilmsWithoutGenreWithNAME(minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
-						  minprice    integer DEFAULT 0, maxprice    integer DEFAULT 999,
-						  minrate     float   DEFAULT 0, maxrate     float   DEFAULT 999, nameofilm varchar(255) DEFAULT '')
-  RETURNS TABLE (FilmName             text
-               , Price                int
-               , InformationAboutFilm text
-			   , Filmimage            varchar(255)
-			   , Dateofrelease        date
-			   , Duration             int
-			   , NumofVoices          bigint
-			   , Rate                 float) AS
-$func$
-BEGIN
-RETURN QUERY
-SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
-       f2."Filmimage", f2."Dateofrelease", f2."Duration",
-	   f3."NumofVoices", f3."Rate"
-FROM   "FilmInfo" f1
-  JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
-  JOIN "Rating"   f3 ON f3."FilmId" = f1."FilmId"
-  WHERE f1."Price"    >= @minprice    AND
-        f1."Price"    <= @maxprice    AND
-		f2."Duration" >= @minduration AND
-        f2."Duration" <= @maxduration AND
-		f3."Rate"     >= @minrate     AND
-        f3."Rate"     <= @maxrate     AND
-		f1."FilmName" LIKE nameofilm
-ORDER BY f3."Rate" DESC;
-END
-$func$  LANGUAGE plpgsql;		
-
-select * from SortFilms();
 
 
 
-
-CREATE OR REPLACE FUNCTION SortFilmsWithoutGenre(minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
-								     minprice    integer DEFAULT 0, maxprice    integer DEFAULT 999,
-								     minrate     float   DEFAULT 0, maxrate       float DEFAULT 999)
-  RETURNS TABLE (FilmName             text
-               , Price                int
-               , InformationAboutFilm text
-			   , Filmimage            varchar(255)
-			   , Dateofrelease        date
-			   , Duration             int
-			   , NumofVoices          bigint
-			   , Rate                 float) AS
-$func$
-BEGIN
-RETURN QUERY
-SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
-       f2."Filmimage", f2."Dateofrelease", f2."Duration",
-	   f3."NumofVoices", f3."Rate"
-FROM   "FilmInfo" f1
-  JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
-  JOIN "Rating"   f3 ON f3."FilmId" = f1."FilmId"
-  WHERE f1."Price"    >= @minprice    AND
-        f1."Price"    <= @maxprice    AND
-		f2."Duration" >= @minduration AND
-        f2."Duration" <= @maxduration AND
-		f3."Rate"     >= @minrate     AND
-        f3."Rate"     <= @maxrate
-ORDER BY f3."Rate" DESC;
-END
-$func$  LANGUAGE plpgsql;
-
-select * from SortFilmsWithoutGenre();
 
 
 CREATE OR REPLACE FUNCTION CheckUser(Ulogin varchar(255), Upass varchar(255)) RETURNS integer AS $$
@@ -811,23 +747,21 @@ BEGIN
 RETURN QUERY
 SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
        f2."Filmimage", f2."Dateofrelease", f2."Duration",
-	   f3."NumofVoices", f3."Rate"
+	   (SELECT COUNT("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") AS "RateCount", (SELECT AVG("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") as "Rate"
 FROM   "FilmInfo" f1
   JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
-  JOIN "Rating"   f3 ON f3."FilmId" = f1."FilmId"
   WHERE f1."Price"    >= @minprice    AND
         f1."Price"    <= @maxprice    AND
 		f2."Duration" >= @minduration AND
         f2."Duration" <= @maxduration AND
-		f3."Rate"     >= @minrate     AND
-        f3."Rate"     <= @maxrate     AND
-		f1."FilmName" LIKE nameofilm
-ORDER BY f3."Rate" DESC;
+		(SELECT AVG("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") >= @minrate     AND
+        (SELECT AVG("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") <= @maxrate     AND
+		f1."FilmName" LIKE nameofilm;
 END
 $func$  LANGUAGE plpgsql;		
 
 		
-SELECT SortFilmsWithoutGenreWithNAME(0,999,0,999,0,999,'%300%'); 
+SELECT * from SortFilmsWithoutGenreWithNAME(0,999,0,999,0,999,'%%'); 
 
 
 
@@ -848,37 +782,6 @@ $$ LANGUAGE SQL;
 SELECT * FROM "UserInformation"
 
 
---sorting by name
-CREATE OR REPLACE FUNCTION SortFilmsWithoutGenreWithNAME(minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
-						  minprice    integer DEFAULT 0, maxprice    integer DEFAULT 999,
-						  minrate     float   DEFAULT 0, maxrate     float   DEFAULT 999, nameofilm varchar(255) DEFAULT '')
-  RETURNS TABLE (FilmName             text
-               , Price                int
-               , InformationAboutFilm text
-			   , Filmimage            varchar(255)
-			   , Dateofrelease        date
-			   , Duration             int
-			   , NumofVoices          bigint
-			   , Rate                 float) AS
-$func$
-BEGIN
-RETURN QUERY
-SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
-       f2."Filmimage", f2."Dateofrelease", f2."Duration",
-	   f3."NumofVoices", f3."Rate"
-FROM   "FilmInfo" f1
-  JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
-  JOIN "Rating"   f3 ON f3."FilmId" = f1."FilmId"
-  WHERE f1."Price"    >= @minprice    AND
-        f1."Price"    <= @maxprice    AND
-		f2."Duration" >= @minduration AND
-        f2."Duration" <= @maxduration AND
-		f3."Rate"     >= @minrate     AND
-        f3."Rate"     <= @maxrate     AND
-		f1."FilmName" LIKE nameofilm
-ORDER BY f3."Rate" DESC;
-END
-$func$  LANGUAGE plpgsql;		
 
 
 
