@@ -1,6 +1,6 @@
 const { getIsRegister } = require('../queries/registration_query');
 
-async function routes(fastify) {
+function routes(fastify, opts, done) {
     fastify.post('/registration', (request, reply) => {
         const {
             username,
@@ -20,6 +20,7 @@ async function routes(fastify) {
         );
         return user;
     });
+    done();
 }
 
 module.exports = routes;

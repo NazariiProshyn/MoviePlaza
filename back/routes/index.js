@@ -1,4 +1,4 @@
-async function routes(fastify) {
+function routes(fastify, opts, done) {
     fastify.get('/', (request, reply) => {
         if (request.headers.cookie) {
             let cookies = request.headers.cookie.split(';');
@@ -35,6 +35,7 @@ async function routes(fastify) {
             reply.redirect('/');
         }
     });
+    done();
 }
 
 module.exports = routes;

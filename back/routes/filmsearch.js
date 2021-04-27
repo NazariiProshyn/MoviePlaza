@@ -1,8 +1,8 @@
 const HttpStatus = require('http-status');
 const { getCatalog } = require('../queries/catalog_queries');
 
-async function routes(fastify) {
-    fastify.get('/catalog', async (request, reply) => {
+function routes(fastify, opts, done) {
+    fastify.get('/catalog', (request, reply) => {
         const films = getCatalog(
             request,
             reply,
@@ -20,6 +20,7 @@ async function routes(fastify) {
         reply.status = HttpStatus.OK;
         return films;
     });
+    done();
 }
 
 module.exports = routes;
