@@ -56,7 +56,7 @@ const useForm = (callback, validate) => {
                     setIsSubmitting(true);
                     e.preventDefault();
                     setErrors(validate(values));
-                    window.location.pathname = '/user/' + values.username;
+                    window.location.pathname = '/profile/' + values.username;
                 } else {
                     alert('Користувач вже існує');
                 }
