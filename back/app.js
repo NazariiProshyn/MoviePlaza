@@ -91,7 +91,7 @@ app.ready((err) => {
                 .then((res) => res.data);
             let picture = 'user.png';
 
-            if (user_data) {
+            if (user_data.userimage) {
                 picture = user_data.userimage;
             }
             app.io

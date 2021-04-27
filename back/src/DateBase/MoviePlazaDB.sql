@@ -629,16 +629,16 @@ CREATE OR REPLACE FUNCTION FilmPage(idfilm integer)
 			   , Dateofrelease        double precision
 			   , Duration             int
 			   , NumofVoices          bigint
-			   , Rate             float) AS
+			   , Rate             numeric) AS
 $func$
 BEGIN
 RETURN QUERY
 SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
        f2."Filmimage", date_part('year', f2."Dateofrelease"), f2."Duration",
-	   f3."NumofVoices", f3."Rate" 
+	   (SELECT COUNT("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") AS "RateCount", (SELECT ROUND(AVG("Rate")::decimal,2) FROM "Rating" WHERE "FilmId"=f1."FilmId") as "Rate"
+
 FROM   "FilmInfo" f1
   JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
-  JOIN "Rating"   f3 ON f3."FilmId" = f1."FilmId"
   WHERE f1."FilmId" = @idfilm;
 END
 $func$  LANGUAGE plpgsql;
@@ -682,29 +682,30 @@ SELECT * FROM public.checkuser('nproshyn', 'qwerty1');
 
 
 CREATE OR REPLACE FUNCTION LastFilms()
-  RETURNS TABLE (FilmName             text
+  RETURNS TABLE (Id int
+	  		   , FilmName             text
                , Price                int
                , InformationAboutFilm text
 			   , Filmimage            varchar(255)
-			   , Dateofrelease        date
+			   , Dateofrelease        int
 			   , Duration             int
 			   , NumofVoices          bigint
-			   , Rate             float) AS
+			   , Rate             numeric) AS
 $func$
 BEGIN
 RETURN QUERY
-SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
-       f2."Filmimage", f2."Dateofrelease", f2."Duration",
-	   f3."NumofVoices", f3."Rate"
+SELECT  f1."FilmId", f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
+       f2."Filmimage", date_part('year', f2."Dateofrelease")::integer, f2."Duration",
+	   (SELECT COUNT("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") AS "RateCount", (SELECT ROUND(AVG("Rate")::decimal,2) FROM "Rating" WHERE "FilmId"=f1."FilmId") as "Rate"
+
 FROM   "FilmInfo" f1
   JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
-  JOIN "Rating"   f3 ON f3."FilmId" = f1."FilmId"
 ORDER BY  f1."FilmId" DESC
-LIMIT  7;
+LIMIT  6;
 END
 $func$  LANGUAGE plpgsql;
 
-SELECT LastFilms();
+SELECT * FROM LastFilms();
 		
 		
 		
@@ -720,38 +721,44 @@ $func$
 BEGIN
 RETURN QUERY
 SELECT f1."FirstName",  f1."SecondName", f1."BDate",
-       f1."Money", f2."userImage", "UserId"
+       f1."Money", f2."userImage", f1."UserId"
 FROM   "User" f1
   JOIN "UserInformation" f2 ON f2."UserId" = f1."UserId"
 WHERE f2."Login" = Ulogin;
 END
-$func$  LANGUAGE plpgsql;		
+$func$  LANGUAGE plpgsql;	
+SELECT * FROM UserInfo('dukrainets')
 
 		
 SELECT * FROM "User"
 SELECT * FROM "UserInformation"
 		
-CREATE OR REPLACE FUNCTION SortFilmsWithoutGenreWithNAME(minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
+CREATE OR REPLACE FUNCTION SortFilmsWithoutGenreWithNAME(minyear integer DEFAULT 0, maxyear integer DEFAULT 9999,
+						  minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
 						  minprice    integer DEFAULT 0, maxprice    integer DEFAULT 999,
 						  minrate     float   DEFAULT 0, maxrate     float   DEFAULT 999, nameofilm varchar(255) DEFAULT '')
-  RETURNS TABLE (FilmName             text
+  RETURNS TABLE (Id int
+	  		   ,FilmName             text
                , Price                int
                , InformationAboutFilm text
 			   , Filmimage            varchar(255)
-			   , Dateofrelease        date
+			   , FilmReference        varchar(255)
+			   , Dateofrelease        int
 			   , Duration             int
 			   , NumofVoices          bigint
-			   , Rate                 float) AS
+			   , Rate                 numeric) AS
 $func$
 BEGIN
 RETURN QUERY
-SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
-       f2."Filmimage", f2."Dateofrelease", f2."Duration",
-	   (SELECT COUNT("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") AS "RateCount", (SELECT AVG("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") as "Rate"
+SELECT f1."FilmId", f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
+       f2."Filmimage", f2."Filmreference", EXTRACT(YEAR FROM f2."Dateofrelease")::int, f2."Duration", 
+	   (SELECT COUNT("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") AS "RateCount", (SELECT ROUND(AVG("Rate")::decimal,2) FROM "Rating" WHERE "FilmId"=f1."FilmId") as "Rate"
 FROM   "FilmInfo" f1
   JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
   WHERE f1."Price"    >= @minprice    AND
         f1."Price"    <= @maxprice    AND
+		EXTRACT(YEAR FROM f2."Dateofrelease") >= @minyear AND
+		EXTRACT(YEAR FROM f2."Dateofrelease") <= @maxyear AND
 		f2."Duration" >= @minduration AND
         f2."Duration" <= @maxduration AND
 		(SELECT AVG("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") >= @minrate     AND
@@ -761,30 +768,34 @@ END
 $func$  LANGUAGE plpgsql;		
 
 		
-SELECT * from SortFilmsWithoutGenreWithNAME(0,999,0,999,0,999,'%%'); 
+SELECT * from SortFilmsWithoutGenreWithNAME(0,9999,0,999,0,999,0,999,'%%'); 
+SELECT * FROM UserInfo('dsds')
 
-
-CREATE OR REPLACE FUNCTION SortFilms(minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
+CREATE OR REPLACE FUNCTION SortFilms(minyear integer DEFAULT 0, maxyear integer DEFAULT 9999,
+									 minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
 								     minprice    integer DEFAULT 0, maxprice    integer DEFAULT 999,
 								     minrate     float   DEFAULT 0, maxrate       float DEFAULT 999,  genre varchar(255) DEFAULT 'Комедия')
-  RETURNS TABLE (FilmName             text
+  RETURNS TABLE (Id int
+	  		   , FilmName             text
                , Price                int
                , InformationAboutFilm text
 			   , Filmimage            varchar(255)
-			   , Dateofrelease        date
+			   , Dateofrelease        int
 			   , Duration             int
 			   , NumofVoices          bigint
 			   , Rate                 numeric) AS
 $func$
 BEGIN
 RETURN QUERY
-SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
-       f2."Filmimage", f2."Dateofrelease", f2."Duration",
+SELECT  f1."FilmId", f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
+       f2."Filmimage", EXTRACT(YEAR FROM f2."Dateofrelease")::integer, f2."Duration",
 	   (SELECT COUNT("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") AS "RateCount", (SELECT ROUND(AVG("Rate")::decimal,2) FROM "Rating" WHERE "FilmId"=f1."FilmId") as "Rate"
 FROM   "FilmInfo" f1
   JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
   WHERE f1."Price"    >= @minprice    AND
         f1."Price"    <= @maxprice    AND
+		EXTRACT(YEAR FROM f2."Dateofrelease") >= @minyear AND
+		EXTRACT(YEAR FROM f2."Dateofrelease") <= @maxyear AND
 		f2."Duration" >= @minduration AND
         f2."Duration" <= @maxduration AND
 		(SELECT AVG("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") >= @minrate     AND

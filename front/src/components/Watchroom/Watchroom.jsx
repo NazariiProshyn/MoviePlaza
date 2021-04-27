@@ -158,7 +158,7 @@ const Watchroom = (params) => {
                     <div className={w['film_container']}>
                         {films.map((film) => (
                             <Films
-                                key={film.id}
+                                key={film.filmname}
                                 work={film}
                                 iswatchroom={true}
                                 watchnow={watchnow}
@@ -182,6 +182,7 @@ const createMessage = (username, pict, text) => {
     message_avatar.className = w['message-avatar'];
 
     const message_avatar_image = document.createElement('img');
+    console.log(username);
     message_avatar_image.className = w['message-avatar__image'];
     message_avatar_image.src = 'http://localhost:3001/images/' + pict;
     message_avatar_image.alt = 'avatar';

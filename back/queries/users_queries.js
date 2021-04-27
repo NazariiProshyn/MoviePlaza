@@ -11,6 +11,10 @@ const getUser = async (id) => {
 const getUserByLogin = async (login) => {
     let user = await client.query('SELECT * from UserInfo($1)', [login]);
     user = user.rows[0];
+    console.log(user);
+    if (!user){
+        return {status:'faled'};
+    }
     //user.login = login;
     return user;
 };

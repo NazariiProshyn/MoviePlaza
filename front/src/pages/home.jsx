@@ -26,7 +26,7 @@ function Home() {
             <Slider />
             <div className={c.container}>
                 {datafilm.map((film) => (
-                    <Films key={film.id} work={film} />
+                    <Films key={film.filmname} work={film} />
                 ))}
             </div>
         </div>
