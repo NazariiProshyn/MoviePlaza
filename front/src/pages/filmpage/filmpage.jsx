@@ -54,8 +54,6 @@ const Filmpage = () => {
         });
         fetch('http://localhost:3001/commentadd', {
             method: 'post',
-            withCredentials: true,
-            credentials: 'include',
             body: JSON.stringify({
                 comments: com,
                 userid: userId,

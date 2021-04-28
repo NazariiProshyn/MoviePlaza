@@ -20,10 +20,26 @@ function Account(params) {
     const handleGenreChanges = (e) => {
         setGenre(e.target.value);
     };
+    const updateProfile = () => {
+        console.log({
+            firstname: nameValue,
+            secondname: surnameValue,
+            bdate: bdate,
+            favourgenre: genre,
+            login: isLogin,
+        });
+        fetch('http://localhost:3001/updateprofile', {
+            method: 'post',
+            body: JSON.stringify({
+                firstname: document.getElementById('name').value,
+                secondname: document.getElementById('surname').value,
+                bdate: document.getElementById('bdate').value,
+                favourgenre: document.getElementById('filter-genre').value,
+                login: isLogin,
+            }),
+        });
+    };
     useEffect(() => {
-        // eslint-disable-next-line no-unused-vars
-
-        //axios.defaults.withCredentials = true;
         fetch('http://localhost:3001/', {
             withCredentials: true,
             credentials: 'include',
@@ -38,6 +54,7 @@ function Account(params) {
         fetch('http://localhost:3001/profile/' + params.user)
             .then((res) => res.json())
             .then((res) => {
+                console.log(res);
                 setUser(res);
             });
     }, [params.user, isLogin]);
@@ -118,11 +135,6 @@ function Account(params) {
                                 )}
                             </li>
                         </ul>
-                        {/*<textarea
-                            className={a['user-about']}
-                            readOnly={true} handleGenreChanges 
-                            //value={params.user.about}
-                        ></textarea>*/}
                     </div>
 
                     <div className={a['user-favourites']}>
@@ -134,9 +146,7 @@ function Account(params) {
                                         Улюблений жанр:{' '}
                                         <select
                                             id="filter-genre"
-                                            value={
-                                                genre || user.favourite_genre
-                                            }
+                                            value={genre || user.favourgenre}
                                             onChange={handleGenreChanges}
                                         >
                                             <option>Жанр</option>
@@ -161,28 +171,18 @@ function Account(params) {
                                     </label>
                                 ) : (
                                     'Улюблений жанр: ' +
-                                    (user.favourite_genre !== undefined
-                                        ? user.favourite_genre
+                                    (user.favourgenre !== undefined
+                                        ? user.favourgenre
                                         : '')
                                 )}
                             </li>
-                            {/*
-                            <li>
-                                Улюблений режисер:{' '}
-                                params.user.favourites.producer
-                            </li>
-                            <li>
-                                Улюблений актер: params.user.favourites.actor
-                            </li>
-                            <li>
-                                Улюблений фільм: params.user.favourites.film
-                            </li>
-                            */}
                         </ul>
                     </div>
                     <div className={a['changebtn']}>
                         {isLogin === params.user ? (
-                            <button>Редагувати профіль</button>
+                            <button onClick={updateProfile}>
+                                Редагувати профіль
+                            </button>
                         ) : (
                             ''
                         )}
