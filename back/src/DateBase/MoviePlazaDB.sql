@@ -715,17 +715,20 @@ SELECT * FROM SortFilmsWithoutGenreWithNAME(nameofilm=>'%Гладиатор%')
 CREATE OR REPLACE FUNCTION UserInfo(Ulogin varchar(255))
   RETURNS TABLE (FirstName    varchar(255)
                , SecondName   varchar(255)
-               , BDate        date
+               , BDate        varchar(255)
 			   , Moneys       money
 			   , userImage    varchar(255)
-			   , userId       int) AS
+			   , userId       int
+			   , favourgenre varchar(255)) AS
 $func$
 BEGIN
 RETURN QUERY
-SELECT f1."FirstName",  f1."SecondName", f1."BDate",
-       f1."Money", f2."userImage", f1."UserId"
+SELECT f1."FirstName",  f1."SecondName", f1."BDate"::varchar(255),
+       f1."Money", f2."userImage", f1."UserId", f4."Genre"
 FROM   "User" f1
   JOIN "UserInformation" f2 ON f2."UserId" = f1."UserId"
+  JOIN "FavouriteGenres" f3 ON f3."UserId" = f1."UserId"
+  JOIN "Genres" f4 ON f4."GenreId" = f3."GenresId"
 WHERE f2."Login" = Ulogin;
 END
 $func$  LANGUAGE plpgsql;	
@@ -841,12 +844,12 @@ AS $$
     VALUES (FirstName, SecondName, Bdate, Moneys);
 	INSERT INTO "UserInformation" ("Login", "Password", "userImage")
     VALUES (Login, Passw, Img);
+	INSERT INTO "FavouriteGenres"("UserId", "GenresId")
+	VALUES ((SELECT "UserId" FROM "UserInformation" WHERE "Login"=Login), 8)
 $$;
 
 SELECT * FROM "UserInformation"
-DELETE FROM "UserInformation"
---НЕ ВИКЛИКАЙ КОЛ,БО ПОЛАМАЄШ ВСЕ НАФІГ, Я ЗАТЕСТИВ - ВСЕ ПРАЦЮЄ!!!!! @NPROHSYN
-CALL Registration('Naruto', 'Sobakich', '2000-10-10', 'nsobakish', '12345');
+
 
 
 CALL UpdateUserInfo()
@@ -871,8 +874,15 @@ UPDATE "FavouriteGenres"
 $$;
 
 
-
-
+CALL UpdateUserInfo('Dmytro2', 'Ukrainets2', '08.02.2002', 'Комедия', 'testcom4')
+SELECT * FROM Userinfo('testcom4')
+SELECT * FROM "UserInformation"
+SELECT * FROM "FavouriteGenres"
+INSERT INTO "Genres"("Genre") VALUES('Не указано')
+INSERT INTO "FavouriteGenres"("UserId", "GenresId") VALUES(6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8),
+														 (12, 8), (13, 8), (14, 8), (15, 8), (16, 8), (17, 8),
+														 (18, 8), (19, 8), (20, 8), (21, 8), (22, 8), (23, 8),
+														 (24, 8),(25, 8)
 CREATE TABLE public.session (
 sid character varying PRIMARY KEY NOT NULL,
 sess json NOT NULL,
