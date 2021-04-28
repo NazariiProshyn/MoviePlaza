@@ -973,6 +973,8 @@ CREATE TABLE "UsersRoom"(
 );
 
 
+ALTER TABLE "Comments" ADD COLUMN CommentDate timestamp DEFAULT CURRENT_TIMESTAMP
 SELECT * FROM "Rooms"
+SELECT * FROM "Comments"
 
 

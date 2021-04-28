@@ -19,7 +19,8 @@ function Comment({ work }) {
                 />
             </div>
             <div className={c.author}>
-                <p>{user.login}</p>
+                <p className={c.login}>{user.login}</p>
+                <p className={c.date}>{work.commentdate.split('T').join(' ').split('.')[0]}</p>
             </div>
             <div className={c.comment}>
                 <p>{work.comments}</p>
