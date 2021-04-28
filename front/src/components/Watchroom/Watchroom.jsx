@@ -108,10 +108,11 @@ const Watchroom = (params) => {
                 Math.abs(video.currentTime - time) >= 0.5
             ) {
                 if (!seeked) {
-                    video.currentTime = time;
+                    //video.currentTime = time;
                     seeked = true;
                     console.log('seeked-change');
                 }
+                video.currentTime = time;
             }
         });
         video.onseeking = () => {
