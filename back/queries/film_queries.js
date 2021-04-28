@@ -15,16 +15,6 @@ const getFilms = async (id) => {
     return filmdata;
 };
 
-const insertFilm = (request, response) => {
-    pool.query(
-        'INSERT INTO FROM FilmInfo (GenreId, FilmName, Price, InformationAboutFilm) VALUES (1, FilmName1, 0, testdesc)',
-        (error) => {
-            if (error) {
-                throw error;
-            }
-            response.status(200).send('Add films success');
-        }
-    );
-};
 
-module.exports = { getFilms, insertFilm };
+
+module.exports = { getFilms};

@@ -3,7 +3,6 @@ const fastify = require('fastify');
 const app = fastify({ logger: true });
 const fastifySession = require('fastify-session');
 const fastifyCookie = require('fastify-cookie');
-//let sessionstore = new fastifySession.MemoryStore();
 const axios = require('axios');
 const {
     getFilm,
@@ -27,7 +26,6 @@ app.register(fastifySession, {
             'postgres://movieadmin1:movieadmin@localhost:5432/movieplaza',
         tableName: 'session',
     }),
-    //sessionstore,
     cookieName: 'sessionId',
     secret: '1qwqwqwwhjehu2372e8ywhdhu92e8uids',
     cookie: { secure: false, path: '/', maxAge: 7 * 24 * 60 * 60 * 1000 }, //срок дії cookie 7 днів, протокол http(secure: false)
@@ -63,8 +61,8 @@ app.register(require('./routes/registration'));
 app.ready((err) => {
     if (err) throw err;
     app.io.on('connection', (socket) => {
-        socket.on('join_room', ({ username, room }) => {
-            const user = userJoin(socket.id, username, room);
+        socket.on('join_room', async ({ username, room }) => {
+            const user = await userJoin(socket.id, username, room);
             socket.join(user.room);
 
             socket.emit(
@@ -75,9 +73,10 @@ app.ready((err) => {
             socket.broadcast
                 .to(user.room)
                 .emit('message', `${user.username} has joined the room`);
-
             socket.broadcast.to(user.room).emit('new_user');
-            const film = getFilm(user.room);
+            const film = await getFilm(user.room);
+
+        
             console.log(film);
             if (film) {
                 socket.emit('change_src', film.film);
@@ -85,7 +84,7 @@ app.ready((err) => {
         });
 
         socket.on('chat_message', async (message) => {
-            const user = getCurrentUser(socket.id);
+            const user = await getCurrentUser(socket.id);
             const user_data = await axios
                 .get('http://localhost:3001/profile/' + user.username)
                 .then((res) => res.data);
@@ -99,33 +98,33 @@ app.ready((err) => {
                 .emit('chat_message', user.username, picture, message);
         });
 
-        socket.on('play_video', () => {
-            const user = getCurrentUser(socket.id);
+        socket.on('play_video', async () => {
+            const user = await getCurrentUser(socket.id);
             console.log('video started');
             socket.broadcast.to(user.room).emit('play_video');
         });
 
-        socket.on('stop_video', () => {
-            const user = getCurrentUser(socket.id);
+        socket.on('stop_video', async () => {
+            const user = await getCurrentUser(socket.id);
             console.log('video paused');
             socket.broadcast.to(user.room).emit('stop_video');
         });
 
-        socket.on('seeked', (time) => {
-            const user = getCurrentUser(socket.id);
+        socket.on('seeked', async (time) => {
+            const user = await getCurrentUser(socket.id);
             console.log('time changed to: ' + time);
             socket.broadcast.to(user.room).emit('change_time', time);
         });
 
-        socket.on('change_src', (filmname) => {
-            const user = getCurrentUser(socket.id);
-            changefilm(user.room, filmname);
+        socket.on('change_src', async (filmname) => {
+            const user = await getCurrentUser(socket.id);
+            await changefilm(user.room, filmname);
             console.log('film changed to: ' + filmname);
             app.io.to(user.room).emit('change_src', filmname);
         });
 
-        socket.on('disconnect', () => {
-            const user = userLeave(socket.id);
+        socket.on('disconnect', async () => {
+            const user = await userLeave(socket.id);
             if (user) {
                 app.io
                     .to(user.room)

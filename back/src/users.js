@@ -1,43 +1,40 @@
-const users = [];
-const rooms = [];
+const pool = require('./../queries/pool');
 
-function changefilm(room, film) {
-    const roomindex = rooms.findIndex((curroom) => curroom.id === room);
-    if (roomindex !== -1) {
-        rooms.splice(roomindex, 1);
-    }
-    rooms.push({ id: room, film: film });
+async function changefilm(room, film) {
+    await pool.query('DELETE FROM "Rooms" WHERE roomId = $1', [room]);
+    await pool.query('INSERT INTO "Rooms"(roomId, film) VALUES($1, $2)', [room, film]);
 }
 
-function getFilm(room) {
-    return rooms.find((curroom) => curroom.id === room);
+async function getFilm(room) {
+    const film = await pool.query('SELECT * FROM "Rooms" WHERE roomId = $1', [room]);
+    return film.rows[0];
 }
 // Join user to chat
-function userJoin(id, username, room) {
+async function userJoin(id, username, room) {
     const user = { id, username, room };
-
-    users.push(user);
-
+    await pool.query('INSERT INTO "UsersRoom"(socketId, username, room) VALUES($1, $2, $3)', [id, username, room]);
     return user;
 }
 
 // Get current user
-function getCurrentUser(id) {
-    return users.find((user) => user.id === id);
+async function getCurrentUser(id) {
+    const user = await pool.query('SELECT * FROM "UsersRoom" WHERE socketId = $1', [id]);
+    console.log(user.rows[0]);
+    return user.rows[0];
 }
 
 // User leaves chat
-function userLeave(id) {
-    const index = users.findIndex((user) => user.id === id);
-
-    if (index !== -1) {
-        return users.splice(index, 1)[0];
-    }
+async function userLeave(id) {
+    const user = await pool.query('SELECT * FROM "UsersRoom" WHERE socketId = $1', [id]);
+    console.log(user.rows[0]);
+    await pool.query('DELETE FROM "UsersRoom" WHERE socketId = $1', [id]);
+    return user.rows[0];
 }
 
 // Get room users
-function getRoomUsers(room) {
-    return users.filter((user) => user.room === room);
+async function getRoomUsers(room) {
+    const users = await pool.query('SELECT * FROM "UsersRoom" WHERE room = $1', [room]);
+    return users;
 }
 
 module.exports = {

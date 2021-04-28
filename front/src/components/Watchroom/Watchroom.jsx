@@ -51,6 +51,7 @@ const Watchroom = (params) => {
 
         socket.on('new_user', () => {
             video.currentTime = video.currentTime + 0;
+            video.pause();
         });
         socket.on('connect', () => {
             video.muted = true;
