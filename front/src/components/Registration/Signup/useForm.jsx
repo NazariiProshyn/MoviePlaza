@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 const useForm = (callback, validate) => {
     const [values, setValues] = useState({
@@ -42,7 +41,7 @@ const useForm = (callback, validate) => {
             fetch('http://localhost:3001/registration', {
                 method: 'post',
                 withCredentials: true,
-                credentials:'include',
+                credentials: 'include',
                 body: JSON.stringify({
                     username: e.target.username.value,
                     firstname: e.target.firstname.value,

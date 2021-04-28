@@ -32,7 +32,7 @@ const Watchroom = (params) => {
             const user = fetch('http://localhost:3001/', {
                 withCredentials: true,
                 credentials: 'include',
-            }).then((res)=>res.json());
+            }).then((res) => res.json());
             resolve(user);
         });
 
