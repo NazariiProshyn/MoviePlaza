@@ -1,12 +1,25 @@
-const client = require('./client');
+const pool = require('./pool');
 
-const getUser = (request, reply, id) => {
-    client.query(`SELECT * from UserInfo('${id}')`, async (error, results) => {
-        if (error) {
-            throw error;
-        }
-        reply.send(results.rows[0]);
-    });
+const getUser = async (id) => {
+    let login = await pool.query(
+        'SELECT "Login" from "UserInformation" WHERE "UserId"=$1',
+        [id]
+    );
+    login = login.rows[0].Login;
+    let user = await pool.query('SELECT * from UserInfo($1)', [login]);
+    user = user.rows[0];
+    user.login = login;
+    return user;
+};
+const getUserByLogin = async (login) => {
+    let user = await pool.query('SELECT * from UserInfo($1)', [login]);
+    user = user.rows[0];
+    console.log(user);
+    if (!user) {
+        return { status: 'faled' };
+    }
+    //user.login = login;
+    return user;
 };
 
-module.exports = { getUser };
+module.exports = { getUser, getUserByLogin };

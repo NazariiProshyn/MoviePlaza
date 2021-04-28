@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { io } from 'socket.io-client';
-import axios from 'axios';
-//import search_img from './../../images/search.png';
 import Search from './../SearchSystem/Search';
 import Films from './..//Films/Films';
 import w from './Watchroom.module.css';
@@ -13,9 +11,8 @@ const Watchroom = (params) => {
     const [videosource, setSource] = useState('');
     const [currSocket, setSocket] = useState();
     const search = (searchValue) => {
-        axios
-            .get(`http://localhost:3001/catalog?value=${searchValue}`)
-            .then((res) => res.data)
+        fetch(`http://localhost:3001/catalog?value=${searchValue}`)
+            .then((res) => res.json())
             .then((res) => setFilms(res))
             .then(console.log(films));
     };
@@ -29,17 +26,20 @@ const Watchroom = (params) => {
         setSocket(socket);
         const video = document.getElementById('videoPlayer');
         const room = window.location.pathname.substr(6);
+        let playPromise = undefined;
         let username = '';
+        let seeked = false;
         let promiseUser = new Promise(function (resolve, reject) {
-            const user = axios.get('http://localhost:3001/', {
+            const user = fetch('http://localhost:3001/', {
                 withCredentials: true,
-            });
+                credentials: 'include',
+            }).then((res) => res.json());
             resolve(user);
         });
 
         promiseUser.then((result) => {
-            if (result.data.name) {
-                username = result.data.name;
+            if (result.name) {
+                username = result.name;
             } else {
                 username = 'Guest' + String(Math.floor(Math.random() * 10000));
             }
@@ -52,6 +52,7 @@ const Watchroom = (params) => {
 
         socket.on('new_user', () => {
             video.currentTime = video.currentTime + 0;
+            video.pause();
         });
         socket.on('connect', () => {
             video.muted = true;
@@ -74,7 +75,7 @@ const Watchroom = (params) => {
 
         // play video
         socket.on('play_video', () => {
-            video.play();
+            playPromise = video.play();
         });
         video.addEventListener('play', () => {
             socket.emit('play_video');
@@ -82,26 +83,42 @@ const Watchroom = (params) => {
 
         // stop video
         socket.on('stop_video', () => {
-            video.pause();
+            if (playPromise !== undefined) {
+                playPromise.then((_) => {
+                    video.pause();
+                    if (seeked) {
+                        seeked = false;
+                    }
+                });
+            }
         });
         video.addEventListener('pause', () => {
-            socket.emit('stop_video');
+            if (!seeked) {
+                socket.emit('stop_video');
+            } else {
+                seeked = false;
+                video.play();
+            }
         });
 
         // change video time
-        socket.on('change_time', (time) => {
+        socket.on('change_time', async (time) => {
             if (
                 video.currentTime !== time &&
                 Math.abs(video.currentTime - time) >= 0.5
             ) {
-                video.currentTime = time;
+                if (!seeked) {
+                    video.currentTime = time;
+                    seeked = true;
+                    console.log('seeked-change');
+                }
             }
         });
-        video.addEventListener('seeked', () => {
-            video.pause();
+        video.onseeking = () => {
+            seeked = true;
+            //console.log('seeked-onseek');
             socket.emit('seeked', video.currentTime);
-        });
-
+        };
         // disconnect
         socket.on('disconnect', () => console.log('Client disconnected'));
     }, [ENDPOINT]);
@@ -151,7 +168,7 @@ const Watchroom = (params) => {
                     <div className={w['film_container']}>
                         {films.map((film) => (
                             <Films
-                                key={film.id}
+                                key={film.filmname}
                                 work={film}
                                 iswatchroom={true}
                                 watchnow={watchnow}
@@ -175,6 +192,7 @@ const createMessage = (username, pict, text) => {
     message_avatar.className = w['message-avatar'];
 
     const message_avatar_image = document.createElement('img');
+    console.log(username);
     message_avatar_image.className = w['message-avatar__image'];
     message_avatar_image.src = 'http://localhost:3001/images/' + pict;
     message_avatar_image.alt = 'avatar';

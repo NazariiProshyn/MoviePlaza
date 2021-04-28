@@ -1,14 +1,18 @@
 const HttpStatus = require('http-status');
 const fs = require('fs');
 
-async function routes(fastify) {
-    fastify.get('/images/:file', async (request, reply) => {
+function routes(fastify, opts, done) {
+    fastify.get('/images/:file', (request, reply) => {
         const name = request.params.file;
-        const films = fs.createReadStream('./images/' + name);
+        let films = null;
+        if (name !== 'undefined' && name != 'null') {
+            films = fs.createReadStream('./images/' + name);
+        }
         reply.type('image/png');
         reply.status = HttpStatus.OK;
         reply.send(films);
     });
+    done();
 }
 
 module.exports = routes;

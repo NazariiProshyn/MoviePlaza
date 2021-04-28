@@ -1,8 +1,33 @@
-const db = require('./../queries/film_queries');
+const { getIsRegister } = require('../queries/registration_query');
 
-//буде добавлено 21.04
-async function routes(fastify) {
-    fastify.get('/test', db.getFilms);
+function routes(fastify, opts, done) {
+    fastify.post('/registration', async (request) => {
+        const {
+            username,
+            firstname,
+            lastname,
+            dateofbirthday,
+            password,
+        } = JSON.parse(request.body);
+        const user = await getIsRegister(
+            username,
+            password,
+            dateofbirthday,
+            firstname,
+            lastname
+        );
+        console.log('--------------' + user);
+        if (user) {
+            request.session.authenticated = true;
+            request.session.user = { name: username, id: user };
+            request.sessionstorage = request.session;
+            return { success: 'true' };
+        } else {
+            request.session.authenticated = false;
+            return { success: 'false' };
+        }
+    });
+    done();
 }
 
 module.exports = routes;

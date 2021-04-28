@@ -29,16 +29,40 @@ const Signup = ({ submitForm }) => {
                     {errors.username && <p>{errors.username}</p>}
                 </div>
                 <div className={r['form-inputs']}>
-                    <label className={r['form-label']}>Email</label>
+                    <label className={r['form-label']}>FirstName</label>
                     <input
                         className={r['form-input']}
-                        type="email"
-                        name="email"
-                        placeholder="Enter your email"
-                        value={values.email}
+                        type="text"
+                        name="firstname"
+                        placeholder="Enter your firstname"
+                        value={values.firstname}
                         onChange={handleChange}
                     />
-                    {errors.email && <p>{errors.email}</p>}
+                    {errors.username && <p>{errors.username}</p>}
+                </div>
+                <div className={r['form-inputs']}>
+                    <label className={r['form-label']}>Lastname</label>
+                    <input
+                        className={r['form-input']}
+                        type="text"
+                        name="lastname"
+                        placeholder="Enter your lastname"
+                        value={values.lastname}
+                        onChange={handleChange}
+                    />
+                    {errors.username && <p>{errors.username}</p>}
+                </div>
+                <div className={r['form-inputs']}>
+                    <label className={r['form-label']}>Birthday</label>
+                    <input
+                        className={r['form-input']}
+                        type="date"
+                        name="bdate"
+                        placeholder="Enter your birthday date"
+                        value={values.bdate}
+                        onChange={handleChange}
+                    />
+                    {errors.username && <p>{errors.username}</p>}
                 </div>
                 <div className={r['form-inputs']}>
                     <label className={r['form-label']}>Password</label>

@@ -1,58 +1,83 @@
-import ReactDOM from 'react-dom';
+//import ReactDOM from 'react-dom';
 import { useState, useEffect } from 'react';
 import './filmpage.css';
 import { Link } from 'react-router-dom';
 import Comment from '../../components/Comment/Comment';
-import axios from 'axios';
 
-const Filmpage = ()=> {
-    const [film, setFilm] = useState({comments:[], genres:[]});
-
-    
-    useEffect(()=>{
-        axios
-            .get(
-                'http://localhost:3001'+window.location.pathname
-            )
-            .then(res => res.data).then(res => setFilm(res));
-    }, []
-    );
-    
-    const addComment = () => {
-        let container = document.getElementsByClassName('container')[0];
-        const com = document.getElementById('addComment').value;
-        let div = document.createElement('div');
-        div.className = 'commentcont';
-        let work = {
-            userid: 'userAdder',
-            avatar: 'user.png',
-            comments: com,
+const Filmpage = () => {
+    const [film, setFilm] = useState({ genres: [] });
+    const [isLogin, setData] = useState('');
+    const [userId, setId] = useState('');
+    const [comments, setComment] = useState([]);
+    useEffect(() => {
+        const getLogin = async () => {
+            fetch('http://localhost:3001/', {
+                withCredentials: true,
+                credentials: 'include',
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    setData(res.name);
+                });
         };
+        getLogin();
+    });
+    useEffect(() => {
+        fetch('http://localhost:3001' + window.location.pathname)
+            .then((res) => res.json())
+            .then((res) => {
+                setFilm(res);
+                setComment(res.comments);
+            });
 
-        if (com.trim().length > 0) {
-            container.prepend(div);
-            let a = Comment({ work });
-            ReactDOM.render(a, div);
-            
-        }
+        const getLogin = async () => {
+            fetch('http://localhost:3001/', {
+                withCredentials: true,
+                credentials: 'include',
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    console.log(res);
+                    setData(res.name);
+                    setId(res.id);
+                });
+        };
+        getLogin();
+    }, []);
+
+    const addComment = () => {
+        const com = document.getElementById('addComment').value;
+        console.log({
+            comments: com,
+            userid: userId,
+            filmid: Number(window.location.pathname.split('/')[2]),
+        });
+        fetch('http://localhost:3001/commentadd', {
+            method: 'post',
+            body: JSON.stringify({
+                comments: com,
+                userid: userId,
+                filmid: Number(window.location.pathname.split('/')[2]),
+            }),
+        });
+        setComment((oldcomment) => [
+            { comments: com, userid: userId, commentdate: '' },
+            ...oldcomment,
+        ]);
+        document.getElementById('addComment').value = '';
     };
-    
+
     return (
         <div className="FilmContain">
             <div className="Filmpage">
                 <h1>{film.filmname}</h1>
                 <img
-                    src={
-                        'http://localhost:3001/images/' +
-                            film.filmimage
-                    }
+                    src={'http://localhost:3001/images/' + film.filmimage}
                     alt="titleImg"
                     className="titleImg"
                 ></img>
                 <div className="buttonsMenu">
-                    <button type="submit">
-                            Купити: {film.price}$
-                    </button>
+                    <button type="submit">Купити: {film.price}$</button>
                     <Link to="/room" className="watchroom disabled">
                         <div className="watch">
                             <p>Дивитися зараз</p>
@@ -84,73 +109,63 @@ const Filmpage = ()=> {
                                 name="rating"
                                 value="5"
                             />
-                            <label
-                                htmlFor="star-5"
-                                title="Оцінка «5»"
-                            ></label>
+                            <label htmlFor="star-5" title="Оцінка «5»"></label>
                             <input
                                 type="radio"
                                 id="star-4"
                                 name="rating"
                                 value="4"
                             />
-                            <label
-                                htmlFor="star-4"
-                                title="Оцінка «4»"
-                            ></label>
+                            <label htmlFor="star-4" title="Оцінка «4»"></label>
                             <input
                                 type="radio"
                                 id="star-3"
                                 name="rating"
                                 value="3"
                             />
-                            <label
-                                htmlFor="star-3"
-                                title="Оцінка «3»"
-                            ></label>
+                            <label htmlFor="star-3" title="Оцінка «3»"></label>
                             <input
                                 type="radio"
                                 id="star-2"
                                 name="rating"
                                 value="2"
                             />
-                            <label
-                                htmlFor="star-2"
-                                title="Оцінка «2»"
-                            ></label>
+                            <label htmlFor="star-2" title="Оцінка «2»"></label>
                             <input
                                 type="radio"
                                 id="star-1"
                                 name="rating"
                                 value="1"
                             />
-                            <label
-                                htmlFor="star-1"
-                                title="Оцінка «1»"
-                            ></label>
+                            <label htmlFor="star-1" title="Оцінка «1»"></label>
                         </div>
                     </div>
                     <p>Описання:</p>
-                    <div className="desc">
-                        {film.informationaboutfilm}
-                    </div>
+                    <div className="desc">{film.informationaboutfilm}</div>
                 </div>
 
                 <div className="filmComment">
                     <p className="commentP">Коментарі:</p>
-                    <div className="commentSection">
-                        <textarea id="addComment"></textarea>
-                        <button
-                            type="submit"
-                            id="addCommentBtn"
-                            onClick={addComment}
-                        >
+                    {isLogin ? (
+                        <div className="commentSection" id={isLogin}>
+                            <textarea id="addComment"></textarea>
+                            <button
+                                type="submit"
+                                id="addCommentBtn"
+                                onClick={addComment}
+                            >
                                 Додати коментар
-                        </button>
-                    </div>
+                            </button>
+                        </div>
+                    ) : (
+                        ''
+                    )}
                     <div className="container">
-                        {film.comments.map((commentar) => (
-                            <div className="commentcont" key={commentar.userid}>
+                        {comments.map((commentar) => (
+                            <div
+                                className="commentcont"
+                                key={commentar.userid + commentar.comments}
+                            >
                                 <Comment
                                     key={commentar.userid}
                                     work={commentar}
@@ -163,6 +178,5 @@ const Filmpage = ()=> {
         </div>
     );
 };
-
 
 export default Filmpage;

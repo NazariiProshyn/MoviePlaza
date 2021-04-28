@@ -8,13 +8,14 @@
         "start": "nodemon app.js",
         "lint": "eslint app.js src/",
         "lint:fix": "eslint --fix app.js src/",
-        "format": "prettier --write app.js package.json .eslintrc.json src/ test/",
+        "format": "prettier --write app.js package.json .eslintrc.json src/ routes/ queries/",
         "check-format": "prettier --check app.js package.json .eslintrc.json src/"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
         "axios": "^0.21.1",
+        "connect-pg-simple": "^6.2.1",
         "eslint": "^7.21.0",
         "eslint-config-prettier": "^8.1.0",
         "fastify": "^3.14.2",
@@ -23,8 +24,9 @@
         "fastify-session": "^5.2.1",
         "http-status": "^1.5.0",
         "nodemon": "^2.0.7",
-        "prettier": "^2.2.1",
-        "pg": "^8.6.0"
+        "pg": "^8.6.0",
+        "pg-format": "^1.0.4",
+        "prettier": "^2.2.1"
     },
     "devDependencies": {
         "fastify-socket.io": "^1.0.2",

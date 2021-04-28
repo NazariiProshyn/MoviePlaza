@@ -4,32 +4,29 @@ import h from './Header.module.css';
 
 import logo from './../../images/Logo.png';
 import search_img from './../../images/search.png';
-import axios from 'axios';
+
 const { v4: uuidV4 } = require('uuid');
 
 function Header() {
     const [isLogin, setData] = useState('');
 
     useEffect(() => {
-        const getfilm = async () => {
-            axios.defaults.withCredentials = true;
-            const promise = await axios.get('http://localhost:3001/', {
+        const getLogin = async () => {
+            fetch('http://localhost:3001/', {
                 withCredentials: true,
-            });
-            console.log(promise.data);
-            if (promise.data.name) {
-                setData(promise.data.name);
-                console.log('+');
-            }
-            //console.log(promise.data.status);
-            console.log(isLogin);
+                credentials: 'include',
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    setData(res.name);
+                });
         };
-        getfilm();
+        getLogin();
     });
     const logout = async () => {
-        axios.defaults.withCredentials = true;
-        const promise = await axios.get('http://localhost:3001/logout', {
+        const promise = await fetch('http://localhost:3001/logout', {
             withCredentials: true,
+            credentials: 'include',
         });
         console.log(promise);
         window.location.reload();
@@ -68,7 +65,7 @@ function Header() {
                 </div>
                 {isLogin ? (
                     <div>
-                        <a href={'/user/' + isLogin}>{isLogin}</a>
+                        <a href={'/profile/' + isLogin}>{isLogin}</a>
                         <button onClick={logout}>logout</button>
                     </div>
                 ) : (

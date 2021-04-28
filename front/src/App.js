@@ -1,6 +1,5 @@
 import './App.css';
 
-
 import { Route, Switch } from 'react-router-dom';
 import Home from './pages/home';
 import Catalog from './components/Catalog/Catalog';
@@ -22,7 +21,7 @@ function App() {
                     <Route path="/catalog/:id" component={Filmpage} />
                     <Route path="/catalog" component={Catalog} />
                     <Route path="/room/:id" component={Room} />
-                    <Route path="/user/:id" component={User} />
+                    <Route path="/profile/:login" component={User} />
                     <Route path="/registration" component={Registration} />
                     <Route path="/login" component={Authorization} />
                 </Switch>

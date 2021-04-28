@@ -3,7 +3,7 @@ import search_img from './../../images/search.png';
 import w from './../Watchroom/Watchroom.module.css';
 const Search = (props) => {
     const [searchValue, setSearchValue] = useState('');
-  
+
     const handleSearchInputChanges = (e) => {
         setSearchValue(e.target.value);
     };
@@ -11,7 +11,6 @@ const Search = (props) => {
     const callSearchFunction = (e) => {
         e.preventDefault();
         props.search(searchValue);
-
     };
 
     return (

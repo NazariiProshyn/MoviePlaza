@@ -16,7 +16,7 @@ const Registration = () => {
                 {!isSubmitted ? (
                     <Signup submitForm={submitForm} />
                 ) : (
-                    <h1>OkOkOkOkOkOkOkOk</h1>
+                    <h1>Регістрація успішна</h1>
                 )}
             </div>
         </>

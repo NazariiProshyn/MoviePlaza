@@ -1,12 +1,8 @@
-const client = require('./client');
+const pool = require('./pool');
 
-const getLastFilms = (request, reply) => {
-    client.query('SELECT * from LastFilms()', async (error, results) => {
-        if (error) {
-            throw error;
-        }
-        reply.send(results.rows);
-    });
+const getLastFilms = async () => {
+    const lastfilm = await pool.query('SELECT * from LastFilms()');
+    return lastfilm.rows;
 };
 
 module.exports = { getLastFilms };

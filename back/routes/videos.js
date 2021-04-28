@@ -1,7 +1,7 @@
 const fs = require('fs');
 
-async function routes(fastify) {
-    fastify.get('/videos/:file', async (request, reply) => {
+function routes(fastify, opts, done) {
+    fastify.get('/videos/:file', (request, reply) => {
         const videoname = request.params.file;
         const path = './videos/' + videoname;
         const videolist = videoname.split('.');
@@ -40,5 +40,6 @@ async function routes(fastify) {
             return fs.createReadStream(path);
         }
     });
+    done();
 }
 module.exports = routes;
