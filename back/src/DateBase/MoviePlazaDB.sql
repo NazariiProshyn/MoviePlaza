@@ -958,3 +958,21 @@ $$ LANGUAGE SQL;
 
 
 
+CREATE TABLE "Rooms"(
+	roomId varchar(255),
+	film varchar(255)
+) WITH (
+  OIDS = FALSE
+);
+CREATE TABLE "UsersRoom"(
+	socketId varchar(255),
+	username varchar(255),
+	room varchar(255)
+) WITH (
+  OIDS = FALSE
+);
+
+
+SELECT * FROM "Rooms"
+
+
