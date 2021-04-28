@@ -16,7 +16,8 @@ function routes(fastify, opts, done) {
             firstname,
             lastname
         );
-        if (user.success) {
+        console.log('--------------' + user);
+        if (user) {
             request.session.authenticated = true;
             request.session.user = { name: username, id: user };
             request.sessionstorage = request.session;

@@ -63,7 +63,7 @@ const Filmpage = () => {
             }),
         });
         setComment((oldcomment) => [
-            { comments: com, userid: userId },
+            { comments: com, userid: userId, commentdate: '' },
             ...oldcomment,
         ]);
         document.getElementById('addComment').value = '';
@@ -164,7 +164,10 @@ const Filmpage = () => {
                     )}
                     <div className="container">
                         {comments.map((commentar) => (
-                            <div className="commentcont" key={commentar.userid}>
+                            <div
+                                className="commentcont"
+                                key={commentar.userid + commentar.comments}
+                            >
                                 <Comment
                                     key={commentar.userid}
                                     work={commentar}

@@ -20,7 +20,13 @@ function Comment({ work }) {
             </div>
             <div className={c.author}>
                 <p className={c.login}>{user.login}</p>
-                <p className={c.date}>{work.commentdate.split('T').join(' ').split('.')[0]}</p>
+                <p className={c.date}>
+                    {work.commentdate === ''
+                        ? new Date().toLocaleDateString().split('.').join('-') +
+                          ' ' +
+                          new Date().toLocaleTimeString('ua-UA')
+                        : work.commentdate.split('T').join(' ').split('.')[0]}
+                </p>
             </div>
             <div className={c.comment}>
                 <p>{work.comments}</p>

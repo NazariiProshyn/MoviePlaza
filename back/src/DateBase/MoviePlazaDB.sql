@@ -654,17 +654,19 @@ select * from FilmPage(5);
  */
 CREATE OR REPLACE FUNCTION GetComments(idfilm integer)
   RETURNS TABLE (Comments    varchar(255)
-               , UserId      int) AS
+               , UserId      int
+			   , commentdate varchar(255)) AS
 $func$
 BEGIN
 RETURN QUERY
-SELECT "Comment", "UserId" 
+SELECT "Comment", "UserId", "Comments"."commentdate"::varchar(255)
   FROM "Comments"
-  WHERE "FilmId" = @idfilm;
+  WHERE "FilmId" = @idfilm
+ORDER BY "commentdate" DESC;
 END
 $func$  LANGUAGE plpgsql;
 
-select * from GetComments(5);
+select * from GetComments(2);
 
 
 
@@ -973,7 +975,7 @@ CREATE TABLE "UsersRoom"(
 );
 
 
-ALTER TABLE "Comments" ADD COLUMN CommentDate timestamp DEFAULT CURRENT_TIMESTAMP
+ALTER TABLE "Comments" ADD COLUMN CommentDate timestamp DEFAULT LOCALTIMESTAMP;
 SELECT * FROM "Rooms"
 SELECT * FROM "Comments"
 
