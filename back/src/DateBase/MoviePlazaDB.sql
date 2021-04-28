@@ -674,11 +674,11 @@ select * from GetComments(5);
 
 
 CREATE OR REPLACE FUNCTION CheckUser(Ulogin varchar(255), Upass varchar(255)) RETURNS integer AS $$
-    SELECT COUNT(*) FROM "UserInformation"
+    SELECT "UserId" FROM "UserInformation"
 	WHERE "Login" = Ulogin AND "Password" = Upass;
 $$ LANGUAGE SQL;
 
-SELECT * FROM public.checkuser('nproshyn', 'qwerty1');
+SELECT * FROM public.checkuser('dukrainets', 'qwerty3');
 
 
 CREATE OR REPLACE FUNCTION LastFilms()

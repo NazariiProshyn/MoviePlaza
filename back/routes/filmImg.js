@@ -5,7 +5,7 @@ function routes(fastify, opts, done) {
     fastify.get('/images/:file', (request, reply) => {
         const name = request.params.file;
         let films = null;
-        if (name!=='undefined' && name!='null'){
+        if (name !== 'undefined' && name != 'null') {
             films = fs.createReadStream('./images/' + name);
         }
         reply.type('image/png');

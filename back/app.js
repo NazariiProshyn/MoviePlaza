@@ -57,6 +57,7 @@ app.register(require('./routes/users'));
 app.register(require('./routes/profile'));
 app.register(require('./routes/videos'));
 app.register(require('./routes/registration'));
+app.register(require('./routes/commentadd'));
 
 app.ready((err) => {
     if (err) throw err;

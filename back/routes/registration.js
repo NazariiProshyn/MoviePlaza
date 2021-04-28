@@ -16,15 +16,14 @@ function routes(fastify, opts, done) {
             firstname,
             lastname
         );
-        if (user.success){
+        if (user.success) {
             request.session.authenticated = true;
-            request.session.user = { name: username };
+            request.session.user = { name: username, id: user };
             request.sessionstorage = request.session;
-            return { success: 'true'};
-        }
-        else{
+            return { success: 'true' };
+        } else {
             request.session.authenticated = false;
-            return { success: 'false'};
+            return { success: 'false' };
         }
     });
     done();

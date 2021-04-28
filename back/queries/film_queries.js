@@ -1,11 +1,11 @@
 const pool = require('./pool');
 
 const getFilms = async (id) => {
-    let filmdata = await pool.query('SELECT * from FilmPage($1)',[id]);
+    let filmdata = await pool.query('SELECT * from FilmPage($1)', [id]);
     filmdata = filmdata.rows[0];
-    const comm = await pool.query('SELECT * from GetComments($1)',[id]);
+    const comm = await pool.query('SELECT * from GetComments($1)', [id]);
     filmdata.comments = comm.rows;
-    const genres = await pool.query('SELECT * from GetGenres($1)',[id]);
+    const genres = await pool.query('SELECT * from GetGenres($1)', [id]);
     let genrows = genres.rows;
     let filmgenre = [];
     for (let i = 0; i < genrows.length; i++) {
@@ -15,6 +15,4 @@ const getFilms = async (id) => {
     return filmdata;
 };
 
-
-
-module.exports = { getFilms};
+module.exports = { getFilms };

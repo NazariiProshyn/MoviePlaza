@@ -1,33 +1,72 @@
-import ReactDOM from 'react-dom';
+//import ReactDOM from 'react-dom';
 import { useState, useEffect } from 'react';
 import './filmpage.css';
 import { Link } from 'react-router-dom';
 import Comment from '../../components/Comment/Comment';
 
 const Filmpage = () => {
-    const [film, setFilm] = useState({ comments: [], genres: [] });
+    const [film, setFilm] = useState({ genres: [] });
+    const [isLogin, setData] = useState('');
+    const [userId, setId] = useState('');
+    const [comments, setComment] = useState([]);
+    useEffect(() => {
+        const getLogin = async () => {
+            fetch('http://localhost:3001/', {
+                withCredentials: true,
+                credentials: 'include',
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    setData(res.name);
+                });
+        };
+        getLogin();
+    });
     useEffect(() => {
         fetch('http://localhost:3001' + window.location.pathname)
             .then((res) => res.json())
-            .then((res) => setFilm(res));
+            .then((res) => {
+                setFilm(res);
+                setComment(res.comments);
+            });
+
+        const getLogin = async () => {
+            fetch('http://localhost:3001/', {
+                withCredentials: true,
+                credentials: 'include',
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    console.log(res);
+                    setData(res.name);
+                    setId(res.id);
+                });
+        };
+        getLogin();
     }, []);
 
     const addComment = () => {
-        let container = document.getElementsByClassName('container')[0];
         const com = document.getElementById('addComment').value;
-        let div = document.createElement('div');
-        div.className = 'commentcont';
-        let work = {
-            userid: 'userAdder',
-            avatar: 'user.png',
+        console.log({
             comments: com,
-        };
-
-        if (com.trim().length > 0) {
-            container.prepend(div);
-            let a = Comment({ work });
-            ReactDOM.render(a, div);
-        }
+            userid: userId,
+            filmid: Number(window.location.pathname.split('/')[2]),
+        });
+        fetch('http://localhost:3001/commentadd', {
+            method: 'post',
+            withCredentials: true,
+            credentials: 'include',
+            body: JSON.stringify({
+                comments: com,
+                userid: userId,
+                filmid: Number(window.location.pathname.split('/')[2]),
+            }),
+        });
+        setComment((oldcomment) => [
+            { comments: com, userid: userId },
+            ...oldcomment,
+        ]);
+        document.getElementById('addComment').value = '';
     };
 
     return (
@@ -109,18 +148,22 @@ const Filmpage = () => {
 
                 <div className="filmComment">
                     <p className="commentP">Коментарі:</p>
-                    <div className="commentSection">
-                        <textarea id="addComment"></textarea>
-                        <button
-                            type="submit"
-                            id="addCommentBtn"
-                            onClick={addComment}
-                        >
-                            Додати коментар
-                        </button>
-                    </div>
+                    {isLogin ? (
+                        <div className="commentSection" id={isLogin}>
+                            <textarea id="addComment"></textarea>
+                            <button
+                                type="submit"
+                                id="addCommentBtn"
+                                onClick={addComment}
+                            >
+                                Додати коментар
+                            </button>
+                        </div>
+                    ) : (
+                        ''
+                    )}
                     <div className="container">
-                        {film.comments.map((commentar) => (
+                        {comments.map((commentar) => (
                             <div className="commentcont" key={commentar.userid}>
                                 <Comment
                                     key={commentar.userid}

@@ -11,21 +11,17 @@ function Header() {
     const [isLogin, setData] = useState('');
 
     useEffect(() => {
-        const getfilm = async () => {
+        const getLogin = async () => {
             fetch('http://localhost:3001/', {
                 withCredentials: true,
                 credentials: 'include',
             })
                 .then((res) => res.json())
                 .then((res) => {
-                    console.log(res);
                     setData(res.name);
                 });
-
-            //console.log(promise.data.status);
-            console.log(isLogin);
         };
-        getfilm();
+        getLogin();
     });
     const logout = async () => {
         const promise = await fetch('http://localhost:3001/logout', {
