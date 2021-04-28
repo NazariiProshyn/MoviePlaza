@@ -28,6 +28,7 @@ const Watchroom = (params) => {
         const room = window.location.pathname.substr(6);
         let playPromise = undefined;
         let username = '';
+        let seeked = false;
         let promiseUser = new Promise(function (resolve, reject) {
             const user = fetch('http://localhost:3001/', {
                 withCredentials: true,
@@ -85,31 +86,39 @@ const Watchroom = (params) => {
             if (playPromise !== undefined) {
                 playPromise.then((_) => {
                     video.pause();
+                    if (seeked) {
+                        seeked = false;
+                    }
                 });
             }
         });
         video.addEventListener('pause', () => {
-            socket.emit('stop_video');
+            if (!seeked) {
+                socket.emit('stop_video');
+            } else {
+                seeked = false;
+                video.play();
+            }
         });
 
         // change video time
-        socket.on('change_time', (time) => {
+        socket.on('change_time', async (time) => {
             if (
                 video.currentTime !== time &&
                 Math.abs(video.currentTime - time) >= 0.5
             ) {
-                video.currentTime = time;
+                if (!seeked) {
+                    video.currentTime = time;
+                    seeked = true;
+                    console.log('seeked-change');
+                }
             }
         });
-        video.addEventListener('seeked', () => {
-            /*if (playPromise !== undefined){
-                playPromise.then(_ => {
-                    video.pause();
-                });
-            }*/
+        video.onseeking = () => {
+            seeked = true;
+            //console.log('seeked-onseek');
             socket.emit('seeked', video.currentTime);
-        });
-
+        };
         // disconnect
         socket.on('disconnect', () => console.log('Client disconnected'));
     }, [ENDPOINT]);

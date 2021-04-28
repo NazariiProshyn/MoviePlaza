@@ -77,8 +77,6 @@ app.ready((err) => {
                 .emit('message', `${user.username} has joined the room`);
             socket.broadcast.to(user.room).emit('new_user');
             const film = await getFilm(user.room);
-
-            console.log(film);
             if (film) {
                 socket.emit('change_src', film.film);
             }

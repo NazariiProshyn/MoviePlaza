@@ -2,7 +2,12 @@ import a from './Account.module.css';
 import React, { useEffect, useState } from 'react';
 
 function Account(params) {
-    const [user, setUser] = useState({ bdate: '' });
+    const [user, setUser] = useState({
+        bdate: '',
+        firstname: '',
+        secondname: '',
+        favourgenre: '',
+    });
     const [isLogin, setData] = useState([]);
     const [nameValue, setnameValue] = useState('');
     const [surnameValue, setsurnameValue] = useState('');
@@ -49,12 +54,9 @@ function Account(params) {
                 setData(res.name);
             });
 
-        console.log(isLogin);
-        console.log(params.user);
         fetch('http://localhost:3001/profile/' + params.user)
             .then((res) => res.json())
             .then((res) => {
-                console.log(res);
                 setUser(res);
             });
     }, [params.user, isLogin]);
@@ -88,7 +90,6 @@ function Account(params) {
                                         <input
                                             onChange={handleNameInputChanges}
                                             id="name"
-                                            defaultValue=""
                                             value={nameValue || user.firstname}
                                         ></input>
                                     </label>
@@ -103,7 +104,6 @@ function Account(params) {
                                         <input
                                             onChange={handleSurnameInputChanges}
                                             id="surname"
-                                            defaultValue=""
                                             value={
                                                 surnameValue || user.secondname
                                             }
@@ -124,7 +124,6 @@ function Account(params) {
                                                 bdate ||
                                                 user.bdate.split('T')[0]
                                             }
-                                            defaultValue=""
                                             min="1900-01-01"
                                             onChange={handleBdateChanges}
                                         ></input>

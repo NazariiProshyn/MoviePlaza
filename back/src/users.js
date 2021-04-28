@@ -30,7 +30,6 @@ async function getCurrentUser(id) {
         'SELECT * FROM "UsersRoom" WHERE socketId = $1',
         [id]
     );
-    console.log(user.rows[0]);
     return user.rows[0];
 }
 
