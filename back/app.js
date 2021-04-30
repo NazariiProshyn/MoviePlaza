@@ -10,7 +10,7 @@ const {
     userJoin,
     getCurrentUser,
     userLeave,
-} = require('./src/users');
+} = require('./src/queries/users');
 
 app.register(fastifyCookie);
 
@@ -47,18 +47,18 @@ app.register(require('fastify-cors'), {
     ],
 });
 
-app.register(require('./routes/index'));
-app.register(require('./routes/login'));
-app.register(require('./routes/filmImg'));
-app.register(require('./routes/filmpage'));
-app.register(require('./routes/newfilms'));
-app.register(require('./routes/filmsearch'));
-app.register(require('./routes/users'));
-app.register(require('./routes/profile'));
-app.register(require('./routes/videos'));
-app.register(require('./routes/registration'));
-app.register(require('./routes/commentadd'));
-app.register(require('./routes/update_user'));
+app.register(require('./src/routes/index'));
+app.register(require('./src/routes/login'));
+app.register(require('./src/routes/filmImg'));
+app.register(require('./src/routes/filmpage'));
+app.register(require('./src/routes/newfilms'));
+app.register(require('./src/routes/filmsearch'));
+app.register(require('./src/routes/users'));
+app.register(require('./src/routes/profile'));
+app.register(require('./src/routes/videos'));
+app.register(require('./src/routes/registration'));
+app.register(require('./src/routes/commentadd'));
+app.register(require('./src/routes/update_user'));
 
 app.ready((err) => {
     if (err) throw err;

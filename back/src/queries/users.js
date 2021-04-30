@@ -1,4 +1,4 @@
-const pool = require('./../queries/pool');
+const pool = require('./pool');
 
 async function changefilm(room, film) {
     await pool.query('DELETE FROM "Rooms" WHERE roomId = $1', [room]);
