@@ -3,6 +3,7 @@ const { getCatalog } = require('../queries/catalog_queries');
 
 function routes(fastify, opts, done) {
     fastify.get('/catalog', (request, reply) => {
+        const pool = require('./../queries/pool');
         const films = getCatalog(
             request.query.value,
             request.query.genre,
@@ -13,7 +14,8 @@ function routes(fastify, opts, done) {
             request.query.pricefrom,
             request.query.priceto,
             request.query.ratefrom,
-            request.query.rateto
+            request.query.rateto,
+            pool
         );
         reply.status = HttpStatus.OK;
         return films;

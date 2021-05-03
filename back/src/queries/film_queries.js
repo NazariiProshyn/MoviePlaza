@@ -1,6 +1,5 @@
-const pool = require('./pool');
 
-const getFilms = async (id) => {
+const getFilms = async (id, pool) => {
     let filmdata = await pool.query('SELECT * from FilmPage($1)', [id]);
     filmdata = filmdata.rows[0];
     const comm = await pool.query('SELECT * from GetComments($1)', [id]);

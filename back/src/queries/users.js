@@ -1,6 +1,5 @@
-const pool = require('./pool');
 
-async function changefilm(room, film) {
+async function changefilm(room, film, pool) {
     await pool.query('DELETE FROM "Rooms" WHERE roomId = $1', [room]);
     await pool.query('INSERT INTO "Rooms"(roomId, film) VALUES($1, $2)', [
         room,
@@ -8,14 +7,14 @@ async function changefilm(room, film) {
     ]);
 }
 
-async function getFilm(room) {
+async function getFilm(room, pool) {
     const film = await pool.query('SELECT * FROM "Rooms" WHERE roomId = $1', [
         room,
     ]);
     return film.rows[0];
 }
 // Join user to chat
-async function userJoin(id, username, room) {
+async function userJoin(id, username, room, pool) {
     const user = { id, username, room };
     await pool.query(
         'INSERT INTO "UsersRoom"(socketId, username, room) VALUES($1, $2, $3)',
@@ -25,7 +24,7 @@ async function userJoin(id, username, room) {
 }
 
 // Get current user
-async function getCurrentUser(id) {
+async function getCurrentUser(id, pool) {
     const user = await pool.query(
         'SELECT * FROM "UsersRoom" WHERE socketId = $1',
         [id]
@@ -34,7 +33,7 @@ async function getCurrentUser(id) {
 }
 
 // User leaves chat
-async function userLeave(id) {
+async function userLeave(id, pool) {
     const user = await pool.query(
         'SELECT * FROM "UsersRoom" WHERE socketId = $1',
         [id]
@@ -55,7 +54,7 @@ async function userLeave(id) {
 }
 
 // Get room users
-async function getRoomUsers(room) {
+async function getRoomUsers(room, pool) {
     const users = await pool.query(
         'SELECT * FROM "UsersRoom" WHERE room = $1',
         [room]

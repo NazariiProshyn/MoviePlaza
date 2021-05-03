@@ -1,6 +1,6 @@
-const pool = require('./pool');
+//const pool = require('./pool');
 
-const getUser = async (id) => {
+const getUser = async (id, pool) => {
     let login = await pool.query(
         'SELECT "Login" from "UserInformation" WHERE "UserId"=$1',
         [id]
@@ -11,7 +11,7 @@ const getUser = async (id) => {
     user.login = login;
     return user;
 };
-const getUserByLogin = async (login) => {
+const getUserByLogin = async (login, pool) => {
     let user = await pool.query('SELECT * from UserInfo($1)', [login]);
     user = user.rows[0];
     console.log(user);

@@ -1,4 +1,4 @@
-const pool = require('./pool');
+
 const isInvalid = (value) => {
     return !(
         value != null &&
@@ -18,7 +18,8 @@ const getCatalog = async (
     price_from,
     price_to,
     rate_from,
-    rate_to
+    rate_to,
+    pool
 ) => {
     let querystr;
     let values = [

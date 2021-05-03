@@ -9,15 +9,15 @@ function routes(fastify, opts, done) {
             dateofbirthday,
             password,
         } = JSON.parse(request.body);
-
+        const pool = require('./../queries/pool');
         const user = await getIsRegister(
             username,
             password,
             dateofbirthday,
             firstname,
-            lastname
+            lastname,
+            pool
         );
-        console.log('--------------' + user);
         if (user) {
             request.session.authenticated = true;
             request.session.user = { name: username, id: user };

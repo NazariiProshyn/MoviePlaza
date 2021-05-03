@@ -1,6 +1,5 @@
-const pool = require('./pool');
 
-const getIsRegister = async (login, password, bdate, firstname, lastname) => {
+const getIsRegister = async (login, password, bdate, firstname, lastname, pool) => {
     console.log('SELECT * from CheckNick($1)', [login]);
     const isNickFree = await pool.query('SELECT * from CheckNick($1)', [login]);
 
