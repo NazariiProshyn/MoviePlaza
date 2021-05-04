@@ -1,6 +1,6 @@
 const fastify = require('fastify');
 
-const app = fastify({ logger: true });
+const app = fastify();
 const fastifySession = require('fastify-session');
 const fastifyCookie = require('fastify-cookie');
 const axios = require('axios');
@@ -134,9 +134,4 @@ app.ready((err) => {
     });
 });
 
-app.listen(3001, (err) => {
-    if (err) {
-        app.log.error(err);
-        process.exit(1);
-    }
-});
+module.exports = app;

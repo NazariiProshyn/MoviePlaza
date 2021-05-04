@@ -6,7 +6,7 @@ function routes(fastify, opts, done) {
         const { firstname, secondname, bdate, favourgenre, login } = JSON.parse(
             request.body
         );
-        console.log(request.body);
+
         await changeUserInfo(firstname, secondname, bdate, favourgenre, login, pool);
     });
     done();

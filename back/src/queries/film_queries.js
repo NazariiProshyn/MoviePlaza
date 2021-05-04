@@ -6,7 +6,6 @@ const getFilms = async (id, pool) => {
 
     filmdata.comments = comm.rows;
     const genres = await pool.query('SELECT * from GetGenres($1)', [id]);
-    console.log(comm);
     let genrows = genres.rows;
     let filmgenre = [];
     for (let i = 0; i < genrows.length; i++) {

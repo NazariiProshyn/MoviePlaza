@@ -4,7 +4,6 @@ function routes(fastify, opts, done) {
     fastify.post('/commentadd', async (request) => {
         const { comments, userid, filmid } = JSON.parse(request.body);
         const pool = require('./../queries/pool');
-        console.log(request.body);
         await addComment(filmid, comments, userid, pool);
     });
     done();

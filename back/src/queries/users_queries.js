@@ -14,7 +14,6 @@ const getUser = async (id, pool) => {
 const getUserByLogin = async (login, pool) => {
     let user = await pool.query('SELECT * from UserInfo($1)', [login]);
     user = user.rows[0];
-    console.log(user);
     if (!user) {
         return { status: 'faled' };
     }
