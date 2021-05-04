@@ -1,4 +1,3 @@
-
 const getFilms = async (id, pool) => {
     let filmdata = await pool.query('SELECT * from FilmPage($1)', [id]);
     filmdata = filmdata.rows[0];

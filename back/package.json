@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "jest --forceExit --detectOpenHandles",
+        "test": "jest --forceExit",
         "start": "nodemon index.js",
         "lint": "eslint app.js src/",
         "lint:fix": "eslint --fix app.js src/",

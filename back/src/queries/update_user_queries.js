@@ -1,4 +1,3 @@
-
 const changeUserInfo = async (
     firstname,
     secondname,

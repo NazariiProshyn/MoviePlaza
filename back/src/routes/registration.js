@@ -2,13 +2,19 @@ const { getIsRegister } = require('../queries/registration_query');
 
 function routes(fastify, opts, done) {
     fastify.post('/registration', async (request) => {
+        let regdata;
+        try {
+            regdata = JSON.parse(request.body);
+        } catch (error) {
+            regdata = request.body;
+        }
         const {
             username,
             firstname,
             lastname,
             dateofbirthday,
             password,
-        } = JSON.parse(request.body);
+        } = regdata;
         const pool = require('./../queries/pool');
         const user = await getIsRegister(
             username,
@@ -22,7 +28,7 @@ function routes(fastify, opts, done) {
             request.session.authenticated = true;
             request.session.user = { name: username, id: user };
             request.sessionstorage = request.session;
-            return { success: 'true' };
+            return { success: 'true', userid: user };
         } else {
             request.session.authenticated = false;
             return { success: 'false' };

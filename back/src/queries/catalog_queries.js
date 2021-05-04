@@ -1,4 +1,3 @@
-
 const isInvalid = (value) => {
     return !(
         value != null &&
