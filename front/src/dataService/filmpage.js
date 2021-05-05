@@ -38,7 +38,5 @@ export const addNewComment = (comment, userId) => {
     });
 };
 
-
-
-const methods = {getLogin, setFilmPage, addNewComment, setFilmComments};
+const methods = { getLogin, setFilmPage, addNewComment, setFilmComments };
 export default methods;

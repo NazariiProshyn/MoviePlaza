@@ -30,5 +30,5 @@ export const setProfileInfo = (isLogin) => {
     });
 };
 
-const methods = {getUserData, getLogin, setProfileInfo};
+const methods = { getUserData, getLogin, setProfileInfo };
 export default methods;

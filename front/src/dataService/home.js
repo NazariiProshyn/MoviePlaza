@@ -1,4 +1,3 @@
-
 export const getfilms = (setData) => {
     fetch('http://localhost:3001/newfilms', {
         withCredentials: true,
@@ -17,6 +16,5 @@ export const getLocalStorageFilms = () => {
     return localStorage.getItem('films');
 };
 
-const methods = {getfilms, setLocalStorageFilms, getLocalStorageFilms};
+const methods = { getfilms, setLocalStorageFilms, getLocalStorageFilms };
 export default methods;
-

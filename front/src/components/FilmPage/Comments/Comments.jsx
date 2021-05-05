@@ -37,7 +37,7 @@ const Comments = (params) => {
                         id="addCommentBtn"
                         onClick={addComment}
                     >
-                            Додати коментар
+                        Додати коментар
                     </button>
                 </div>
             ) : (
@@ -49,10 +49,7 @@ const Comments = (params) => {
                         className="commentcont"
                         key={comment.userid + comment.comments}
                     >
-                        <Comment
-                            key={comment.userid}
-                            work={comment}
-                        />
+                        <Comment key={comment.userid} work={comment} />
                     </div>
                 ))}
             </div>
