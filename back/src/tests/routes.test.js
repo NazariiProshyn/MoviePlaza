@@ -132,6 +132,13 @@ describe('routes test', () => {
         expect(res.body.favourgenre).toEqual('Комедия');
         done();
     });
+    test('user profile not found', async (done) => {
+        const res = await request(app.server).get('/profile/nproshynqqqq');
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toBeDefined();
+        expect(res.body.status).toEqual('faled');
+        done();
+    });
     test('user data is awailable', async (done) => {
         const res = await request(app.server).get('/users/10');
         expect(res.statusCode).toEqual(200);
@@ -152,16 +159,42 @@ describe('routes test', () => {
         done();
     });
     test('is logined', async (done) => {
+        const login = await request(app.server).post('/login').send({
+            username: 'dukrainets',
+            password: 'qwerty3',
+        });
+        const cookie = login.headers['set-cookie'][0].split(';')[0];
         const res = await request(app.server)
             .get('/')
             .set(
                 'Cookie',
-                'sessionId=KgpNgOEeLreG2PqaLxd5HAxYRTkA1hQ7.JS3VpezGz70%2BiB22RlmLbFEU5H1%2BBsNPQCr6e4nNjUc'
+                cookie
             );
         expect(res.statusCode).toEqual(200);
         expect(res.body).toBeDefined();
         expect(res.body).toHaveProperty('id');
         expect(res.body.id).toEqual(3);
+        done();
+    });
+    test('logout', async (done) => {
+        const login = await request(app.server).post('/login').send({
+            username: 'dukrainets',
+            password: 'qwerty3',
+        });
+        const cookie = login.headers['set-cookie'][0].split(';')[0];
+        const res = await request(app.server)
+            .get('/logout')
+            .set(
+                'Cookie',
+                cookie
+            );
+        expect(res.statusCode).toEqual(302);
+        done();
+    });
+    test('logout is already', async (done) => {
+        const res = await request(app.server).get('/logout');
+        expect(res.statusCode).toEqual(302);
+        expect(res.body).toBeDefined();
         done();
     });
     test('POST add comment', async (done) => {

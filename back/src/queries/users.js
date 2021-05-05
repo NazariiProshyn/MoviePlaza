@@ -56,7 +56,7 @@ async function getRoomUsers(room, pool) {
         'SELECT * FROM "UsersRoom" WHERE room = $1',
         [room]
     );
-    return users;
+    return users.rows;
 }
 
 module.exports = {
