@@ -6,7 +6,7 @@ import {
     getfilms,
     getLocalStorageFilms,
     setLocalStorageFilms,
-} from '../dataService/getfilms';
+} from '../dataService/home';
 import useInterval from '../dataService/useInterval';
 
 import { useEffect, useState } from 'react';
