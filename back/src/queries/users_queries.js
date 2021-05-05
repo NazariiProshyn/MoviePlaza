@@ -17,7 +17,6 @@ const getUserByLogin = async (login, pool) => {
     if (!user) {
         return { status: 'faled' };
     }
-    //user.login = login;
     return user;
 };
 

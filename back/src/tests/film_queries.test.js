@@ -1,6 +1,6 @@
 process.env.NODE_ENV = 'test';
-const db = require('./../queries/pool');
-const { getFilms } = require('./../queries/film_queries');
+const db = require('../queries/pool');
+const { getFilms } = require('../queries/film_queries');
 describe('GET film', () => {
     test('GET film', async (done) => {
         const film = await getFilms(1, db);

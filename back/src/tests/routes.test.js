@@ -3,7 +3,7 @@ const db = require('./../queries/pool');
 const request = require('supertest');
 const app = require('./../../app');
 
-beforeAll(async () => {
+beforeAll(async (done) => {
     await db.query('call DeleteUser($1)', ['jesttestnew1']);
     await db.query(
         'DELETE FROM "Comments" WHERE "FilmId"=$1 AND "UserId" = $2',
@@ -16,12 +16,15 @@ beforeAll(async () => {
         'Триллер',
         'dukrainets',
     ]);
+    done();
 });
-beforeEach(async () => {
+beforeEach(async (done) => {
     await app.ready();
+    done();
 });
-afterAll(async () => {
+afterAll(async (done) => {
     db.end();
+    done();
 });
 
 describe('routes test', () => {
@@ -164,12 +167,7 @@ describe('routes test', () => {
             password: 'qwerty3',
         });
         const cookie = login.headers['set-cookie'][0].split(';')[0];
-        const res = await request(app.server)
-            .get('/')
-            .set(
-                'Cookie',
-                cookie
-            );
+        const res = await request(app.server).get('/').set('Cookie', cookie);
         expect(res.statusCode).toEqual(200);
         expect(res.body).toBeDefined();
         expect(res.body).toHaveProperty('id');
@@ -184,10 +182,7 @@ describe('routes test', () => {
         const cookie = login.headers['set-cookie'][0].split(';')[0];
         const res = await request(app.server)
             .get('/logout')
-            .set(
-                'Cookie',
-                cookie
-            );
+            .set('Cookie', cookie);
         expect(res.statusCode).toEqual(302);
         done();
     });

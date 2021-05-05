@@ -1,9 +1,11 @@
 process.env.NODE_ENV = 'test';
-const db = require('./../queries/pool');
-const { getCatalog } = require('./../queries/catalog_queries');
+const db = require('../queries/pool');
+const { getCatalog } = require('../queries/catalog_queries');
 describe('GET film', () => {
     test('GET film', async (done) => {
-        const films= await getCatalog('', 'Комедия',
+        const films = await getCatalog(
+            '',
+            'Комедия',
             1997,
             2020,
             70,
@@ -11,12 +13,12 @@ describe('GET film', () => {
             0,
             5,
             3,
-            '', db);
+            '',
+            db
+        );
         for (let i = 0; i < films.length; i++) {
             expect(Number(films[i].rate)).toBeGreaterThanOrEqual(3);
-            expect(Number(films[i].dateofrelease)).toBeGreaterThanOrEqual(
-                1997
-            );
+            expect(Number(films[i].dateofrelease)).toBeGreaterThanOrEqual(1997);
             expect(Number(films[i].dateofrelease)).toBeLessThanOrEqual(2020);
             expect(Number(films[i].duration)).toBeGreaterThanOrEqual(70);
             expect(Number(films[i].duration)).toBeLessThanOrEqual(130);
@@ -25,7 +27,9 @@ describe('GET film', () => {
         done();
     });
     test('GET film by name', async (done) => {
-        const films= await getCatalog('Семейка', undefined,
+        const films = await getCatalog(
+            'Семейка',
+            undefined,
             '',
             '',
             '',
@@ -33,7 +37,9 @@ describe('GET film', () => {
             '',
             '',
             '',
-            '', db);
+            '',
+            db
+        );
         for (let i = 0; i < films.length; i++) {
             expect(films[i]).toHaveProperty('filmname');
             expect(films[i].filmname.toLowerCase()).toMatch(/семейка/);
