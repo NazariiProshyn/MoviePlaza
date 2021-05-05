@@ -8,7 +8,6 @@ function routes(fastify, opts, done) {
         sessionID = sessionID.substring(0, sessionID.indexOf('.'));
         console.log(sessionID);
         if (request.session != null && request.session.authenticated == true) {
-            console.log(request.session.user.id);
             reply.send({
                 name: request.session.user.name,
                 id: request.session.user.id,

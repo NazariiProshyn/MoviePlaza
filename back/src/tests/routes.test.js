@@ -41,6 +41,15 @@ describe('routes test', () => {
         expect(res.headers['content-type']).toEqual('image/png');
         done();
     });
+    test('user image is awailable', async (done) => {
+        const res = await request(app.server).get('/images/undefined');
+        expect(res.body).toBeDefined();
+        expect(res.body.films).toEqual(undefined);
+        expect(res.statusCode).toEqual(200);
+        expect(res.headers['content-type']).toEqual('image/png');
+
+        done();
+    });
     test('film is awailable', async (done) => {
         const res = await request(app.server).get('/videos/FilmName1.mp4');
         expect(res.statusCode).toEqual(200);
@@ -49,6 +58,26 @@ describe('routes test', () => {
         expect(res.headers['accept-ranges']).toEqual('bytes');
         done();
         //expect(res.headers).toHaveProperty('content-length');
+    });
+    test('film-part is awailable', async (done) => {
+        const res = await request(app.server)
+            .get('/videos/FilmName1.mp4')
+            .set('Range', 'bytes=0-300');
+        expect(res.statusCode).toEqual(206);
+        expect(res.body).toBeDefined();
+        expect(res.headers['content-type']).toEqual('video/mp4');
+        expect(res.headers['accept-ranges']).toEqual('bytes');
+        done();
+    });
+    test('film-part end is awailable', async (done) => {
+        const res = await request(app.server)
+            .get('/videos/FilmName1.mp4')
+            .set('Range', 'bytes=300-');
+        expect(res.statusCode).toEqual(206);
+        expect(res.body).toBeDefined();
+        expect(res.headers['content-type']).toEqual('video/mp4');
+        expect(res.headers['accept-ranges']).toEqual('bytes');
+        done();
     });
     test('filmpage is awailable', async (done) => {
         const res = await request(app.server).get('/catalog/1');
@@ -114,6 +143,27 @@ describe('routes test', () => {
         expect(res.body.firstname).toEqual('successtest');
         done();
     });
+    test('is no logined', async (done) => {
+        const res = await request(app.server).get('/');
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toBeDefined();
+        expect(res.body).toHaveProperty('status');
+        expect(res.body.status).toEqual('not_autorized');
+        done();
+    });
+    test('is logined', async (done) => {
+        const res = await request(app.server)
+            .get('/')
+            .set(
+                'Cookie',
+                'sessionId=KgpNgOEeLreG2PqaLxd5HAxYRTkA1hQ7.JS3VpezGz70%2BiB22RlmLbFEU5H1%2BBsNPQCr6e4nNjUc'
+            );
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toBeDefined();
+        expect(res.body).toHaveProperty('id');
+        expect(res.body.id).toEqual(3);
+        done();
+    });
     test('POST add comment', async (done) => {
         const res = await request(app.server).post('/commentadd').send({
             comments: 'jesttest',
@@ -134,7 +184,17 @@ describe('routes test', () => {
         expect(res.body.success).toEqual('true');
         done();
     });
-    test('POST registration', async (done) => {
+    test('POST login faile', async (done) => {
+        const res = await request(app.server).post('/login').send({
+            username: 'dukrainets',
+            password: 'qwerty3hhhhhhh',
+        });
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toHaveProperty('success');
+        expect(res.body.success).toEqual('false');
+        done();
+    });
+    test('POST registration new user', async (done) => {
         const res = await request(app.server).post('/registration').send({
             username: 'jesttestnew1',
             firstname: 'Iae',
@@ -145,6 +205,19 @@ describe('routes test', () => {
         expect(res.statusCode).toEqual(200);
         expect(res.body).toHaveProperty('success');
         expect(res.body.success).toEqual('true');
+        done();
+    });
+    test('POST registration user is already registred', async (done) => {
+        const res = await request(app.server).post('/registration').send({
+            username: 'dukrainest',
+            firstname: 'Iae',
+            lastname: 'Qah',
+            dateofbirthday: '2020-02-04',
+            password: 'qwerty4',
+        });
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toHaveProperty('success');
+        expect(res.body.success).toEqual('false');
         done();
     });
     test('POST update user info', async (done) => {

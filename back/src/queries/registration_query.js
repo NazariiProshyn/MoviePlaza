@@ -9,7 +9,6 @@ const getIsRegister = async (
     const isNickFree = await pool.query('SELECT * from CheckNick($1)', [login]);
 
     if (isNickFree.rows[0].checknick === 1) {
-        console.log('++++');
         return 0;
     } else {
         await pool.query('CALL Registration($1, $2, $3, $4, $5)', [
