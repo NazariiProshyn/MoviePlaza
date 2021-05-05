@@ -4,18 +4,14 @@ import { io } from 'socket.io-client';
 import Search from './../SearchSystem/Search';
 import Films from './..//Films/Films';
 import w from './Watchroom.module.css';
+import getUser from './../../dataService/user';
 
 const Watchroom = (params) => {
     const ENDPOINT = 'localhost:3001';
     const [films, setFilms] = useState([]);
     const [videosource, setSource] = useState('');
     const [currSocket, setSocket] = useState();
-    const search = (searchValue) => {
-        fetch(`http://localhost:3001/catalog?value=${searchValue}`)
-            .then((res) => res.json())
-            .then((res) => setFilms(res))
-            .then(console.log(films));
-    };
+
     const watchnow = (filmname) => {
         setSource(`http://localhost:3001/videos/${filmname}.mp4`);
         document.getElementById('videoPlayer').load();
@@ -30,10 +26,7 @@ const Watchroom = (params) => {
         let username = '';
         let seeked = false;
         let promiseUser = new Promise(function (resolve, reject) {
-            const user = fetch('http://localhost:3001/', {
-                withCredentials: true,
-                credentials: 'include',
-            }).then((res) => res.json());
+            const user = getUser();
             resolve(user);
         });
 
@@ -164,7 +157,7 @@ const Watchroom = (params) => {
                 </div>
             </div>
             <div className={w['movie_select']}>
-                <Search search={search}></Search>
+                <Search setfilms={setFilms}></Search>
                 <div>
                     <div className={w['film_container']}>
                         {films.map((film) => (

@@ -1,7 +1,7 @@
 export const search = (
     setFilms,
     searchValue,
-    genre = null,
+    genre = 'Жанр',
     year_from = null,
     year_to = null,
     len_from = null,
