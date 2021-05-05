@@ -8,8 +8,7 @@ const {
 } = require('./queries/users');
 
 function watchroomsocket(app) {
-    //if (err) throw err;
-    (err) => {
+    return (err) => {
         if (err) throw err;
         const pool = require('./queries/pool');
         app.io.on('connection', (socket) => {
