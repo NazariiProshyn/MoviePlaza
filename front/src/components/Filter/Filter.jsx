@@ -3,7 +3,7 @@ import f from './Filter.module.css';
 import { search } from './../../dataService/search';
 import search_img from './../../images/search.png';
 
-const Filter = (props) => {
+const Filter = (catalogData) => {
     const [searchValue, setSearchValue] = useState('');
     const [genre, setGenre] = useState('');
     const [startyear, setStartyear] = useState('');
@@ -17,7 +17,7 @@ const Filter = (props) => {
 
     const callSearchFunction = () => {
         search(
-            props.setfilms,
+            catalogData.setfilms,
             searchValue,
             genre,
             startyear,
@@ -43,7 +43,19 @@ const Filter = (props) => {
         setEndPrice('');
         setStartrate('');
         setEndrate('');
-        search(props.setfilms, '', 'Жанр', '', '', '', '', '', '', '', '');
+        search(
+            catalogData.setfilms,
+            '',
+            'Жанр',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            ''
+        );
     };
     return (
         <div className={f.container}>
