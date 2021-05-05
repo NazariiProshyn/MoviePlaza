@@ -11,11 +11,18 @@ export const getLogin = (setIsLogin, setUserId) => {
         });
 };
 
-export const setFilmPage = (setFilm,setComments) => {
+export const setFilmPage = (setFilm) => {
     fetch('http://localhost:3001' + window.location.pathname)
         .then((res) => res.json())
         .then((res) => {
             setFilm(res);
+        });
+};
+
+export const setFilmComments = (setComments) => {
+    fetch('http://localhost:3001' + window.location.pathname)
+        .then((res) => res.json())
+        .then((res) => {
             setComments(res.comments);
         });
 };
@@ -31,5 +38,7 @@ export const addNewComment = (comment, userId) => {
     });
 };
 
-const methods = {getLogin, setFilmPage, addNewComment};
+
+
+const methods = {getLogin, setFilmPage, addNewComment, setFilmComments};
 export default methods;
