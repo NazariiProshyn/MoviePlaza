@@ -1,4 +1,3 @@
-const pool = require('./pool');
 const isInvalid = (value) => {
     return !(
         value != null &&
@@ -18,7 +17,8 @@ const getCatalog = async (
     price_from,
     price_to,
     rate_from,
-    rate_to
+    rate_to,
+    pool
 ) => {
     let querystr;
     let values = [
@@ -34,7 +34,7 @@ const getCatalog = async (
     if (genre != undefined && genre != 'Жанр') {
         querystr =
             'SELECT * FROM SortFilms($1, $2, $3, $4, $5, $6, $7, $8, $9)';
-        values.push(isInvalid(genre) ? '' : genre);
+        values.push(genre);
     } else {
         querystr =
             'SELECT * FROM SortFilmsWithoutGenreWithNAME($1, $2, $3, $4, $5, $6, $7, $8, $9)';

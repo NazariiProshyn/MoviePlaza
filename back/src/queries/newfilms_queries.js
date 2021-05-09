@@ -1,6 +1,4 @@
-const pool = require('./pool');
-
-const getLastFilms = async () => {
+const getLastFilms = async (pool) => {
     const lastfilm = await pool.query('SELECT * from LastFilms()');
     return lastfilm.rows;
 };

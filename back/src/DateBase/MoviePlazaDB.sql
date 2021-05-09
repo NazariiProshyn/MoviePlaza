@@ -990,3 +990,13 @@ SELECT * FROM "Rooms"
 SELECT * FROM "Comments"
 
 
+CREATE OR REPLACE PROCEDURE DeleteUser(Login varchar(255))
+LANGUAGE SQL
+AS $$
+	DELETE FROM "FavouriteGenres"
+	WHERE "UserId" = (SELECT "UserId" FROM "UserInformation" WHERE "Login"=Login);
+	DELETE FROM "User"
+	WHERE "UserId" = (SELECT "UserId" FROM "UserInformation" WHERE "Login"=Login);
+	DELETE FROM "UserInformation"
+	WHERE "Login"=Login;
+$$;
