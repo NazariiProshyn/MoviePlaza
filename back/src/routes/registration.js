@@ -1,21 +1,15 @@
 const { getIsRegister } = require('../queries/registration_query');
+const pool = require('./../queries/pool');
 
 function routes(fastify, opts, done) {
     fastify.post('/registration', async (request) => {
-        let regdata;
-        try {
-            regdata = JSON.parse(request.body);
-        } catch (error) {
-            regdata = request.body;
-        }
         const {
             username,
             firstname,
             lastname,
             dateofbirthday,
             password,
-        } = regdata;
-        const pool = require('./../queries/pool');
+        } = request.body;
         const user = await getIsRegister(
             username,
             password,

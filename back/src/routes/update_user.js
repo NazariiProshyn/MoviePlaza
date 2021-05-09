@@ -1,21 +1,15 @@
 const { changeUserInfo } = require('../queries/update_user_queries');
+const pool = require('./../queries/pool');
 
 function routes(fastify, opts, done) {
     fastify.post('/updateprofile', async (request) => {
-        const pool = require('./../queries/pool');
-        let newuserdata;
-        try {
-            newuserdata = JSON.parse(request.body);
-        } catch (error) {
-            newuserdata = request.body;
-        }
         const {
             firstname,
             secondname,
             bdate,
             favourgenre,
             login,
-        } = newuserdata;
+        } = request.body;
 
         await changeUserInfo(
             firstname,

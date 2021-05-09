@@ -1,15 +1,9 @@
 const { getIsLogin } = require('../queries/login_queries');
+const pool = require('./../queries/pool');
 
 function routes(fastify, opts, done) {
     fastify.post('/login', async (request) => {
-        let logindata;
-        try {
-            logindata = JSON.parse(request.body);
-        } catch (error) {
-            logindata = request.body;
-        }
-        const { username, password } = logindata;
-        const pool = require('./../queries/pool');
+        const { username, password } = request.body;
         const user = await getIsLogin(username, password, pool);
         if (user) {
             request.session.authenticated = true;

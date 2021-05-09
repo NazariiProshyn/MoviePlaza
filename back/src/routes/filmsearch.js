@@ -1,9 +1,9 @@
 const HttpStatus = require('http-status');
 const { getCatalog } = require('../queries/catalog_queries');
+const pool = require('./../queries/pool');
 
 function routes(fastify, opts, done) {
     fastify.get('/catalog', (request, reply) => {
-        const pool = require('./../queries/pool');
         const films = getCatalog(
             request.query.value,
             request.query.genre,
