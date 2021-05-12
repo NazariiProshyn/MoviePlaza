@@ -7,7 +7,6 @@ import w from './Watchroom.module.css';
 import {
     Socket,
     emitOnSourceChange,
-    emitOnMessage,
 } from '../../dataService/watchroom';
 
 const Watchroom = () => {
@@ -43,14 +42,15 @@ const Watchroom = () => {
             createMessage: createMessage,
         };
 
-        Socket(io, vars, functions);
-    }, [ENDPOINT]);
+        const {emitOnMessage} = Socket(io, vars, functions);
 
-    document.getElementById('chat-button').onclick = () => {
-        const text = document.getElementById('chat-input').value;
-        document.getElementById('chat-input').value = '';
-        emitOnMessage(currSocket, text);
-    };
+        document.getElementById('chat-button').onclick = () => {
+            const text = document.getElementById('chat-input').value;
+            document.getElementById('chat-input').value = '';
+            emitOnMessage(text);
+        };
+
+    }, [ENDPOINT]);
 
     return (
         <div className={w['container']}>

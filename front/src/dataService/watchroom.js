@@ -101,16 +101,18 @@ export const Socket = (io, vars, functions) => {
     // disconnect
     socket.on('disconnect', () => console.log('Client disconnected'));
 
-    return;
+    const emitOnMessage = (text) => {
+        socket.emit('chat_message', text);
+    };
+    
+
+    return {emitOnMessage};
 };
 
 export const emitOnSourceChange = (currSocket, filmname) => {
     currSocket.emit('change_src', filmname);
 };
 
-export const emitOnMessage = (_socket, text) => {
-    _socket.emit('chat_message', text);
-};
 
-const methods = {Socket, emitOnSourceChange, emitOnMessage};
+const methods = {Socket, emitOnSourceChange,};
 export default methods;
