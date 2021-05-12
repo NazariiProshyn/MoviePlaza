@@ -1,5 +1,6 @@
 const HttpStatus = require('http-status');
 const { getCatalog } = require('../queries/catalog_queries');
+const pool = require('./../queries/pool');
 
 function routes(fastify, opts, done) {
     fastify.get('/catalog', (request, reply) => {
@@ -13,7 +14,8 @@ function routes(fastify, opts, done) {
             request.query.pricefrom,
             request.query.priceto,
             request.query.ratefrom,
-            request.query.rateto
+            request.query.rateto,
+            pool
         );
         reply.status = HttpStatus.OK;
         return films;

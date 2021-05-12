@@ -6,12 +6,9 @@ function routes(fastify, opts, done) {
         const path = './videos/' + videoname;
         const videolist = videoname.split('.');
         const videotype = videolist[videolist.length - 1];
-        console.log(videoname);
-        console.log(videolist);
         const stat = fs.statSync(path);
         const fileSize = stat.size;
         const range = request.headers.range;
-        console.log(range);
         if (range) {
             const parts = range.replace(/bytes=/, '').split('-');
             const start = parseInt(parts[0], 10);

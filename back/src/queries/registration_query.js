@@ -1,7 +1,11 @@
-const pool = require('./pool');
-
-const getIsRegister = async (login, password, bdate, firstname, lastname) => {
-    console.log('SELECT * from CheckNick($1)', [login]);
+const getIsRegister = async (
+    login,
+    password,
+    bdate,
+    firstname,
+    lastname,
+    pool
+) => {
     const isNickFree = await pool.query('SELECT * from CheckNick($1)', [login]);
 
     if (isNickFree.rows[0].checknick === 1) {
@@ -18,7 +22,6 @@ const getIsRegister = async (login, password, bdate, firstname, lastname) => {
             'SELECT "UserId" FROM "UserInformation" WHERE "Login"=$1',
             [login]
         );
-        console.log(userId.rows[0].UserId);
         return userId.rows[0].UserId;
     }
 };

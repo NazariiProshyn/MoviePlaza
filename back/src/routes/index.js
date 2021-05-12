@@ -3,12 +3,7 @@ function routes(fastify, opts, done) {
         if (!request.headers.cookie) {
             reply.send({ status: 'not_autorized' });
         }
-        let cookies = request.headers.cookie.split(';');
-        let sessionID = cookies[0].substring(10).trim();
-        sessionID = sessionID.substring(0, sessionID.indexOf('.'));
-        console.log(sessionID);
         if (request.session != null && request.session.authenticated == true) {
-            console.log(request.session.user.id);
             reply.send({
                 name: request.session.user.name,
                 id: request.session.user.id,
