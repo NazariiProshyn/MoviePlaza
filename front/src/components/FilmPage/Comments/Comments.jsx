@@ -49,7 +49,7 @@ const Comments = (params) => {
                         className="commentcont"
                         key={comment.userid + comment.comments}
                     >
-                        <Comment key={comment.userid} work={comment} />
+                        <Comment comments={comment} />
                     </div>
                 ))}
             </div>

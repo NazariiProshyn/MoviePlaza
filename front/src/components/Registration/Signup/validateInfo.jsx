@@ -4,9 +4,18 @@ export default function validateInfo(values) {
     if (!values.username.trim()) {
         errors.username = 'Username required';
     }
-    // else if (!/^[A-Za-z]+/.test(values.name.trim())) {
-    //   errors.name = 'Enter a valid name';
-    // }
+
+    if (!values.firstName) {
+        errors.firstName = 'First name is required';
+    }
+
+    if (!values.secondName) {
+        errors.secondName = 'Second name is required';
+    }
+
+    if (!values.bdate) {
+        errors.bdate = 'Birthday is required';
+    }
 
     if (!values.email) {
         errors.email = 'Email required';
@@ -20,7 +29,7 @@ export default function validateInfo(values) {
     }
 
     if (!values.password2) {
-        errors.password2 = 'Password is required';
+        errors.password2 = 'Confirm password is required';
     } else if (values.password2 !== values.password) {
         errors.password2 = 'Passwords do not match';
     }

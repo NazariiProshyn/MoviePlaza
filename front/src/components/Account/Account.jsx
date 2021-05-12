@@ -32,8 +32,8 @@ function Account(username) {
     const [bdate, setBdate] = useState('');
     const [genre, setGenre] = useState('');
 
-    const handleInputChange = (functionName, e) => {
-        functionName(e.target.value);
+    const handleNameInputChange = (e) => {
+        setNameValue(e.target.value);
     };
     const handleSurnameInputChanges = (e) => {
         setSurnameValue(e.target.value);
@@ -75,9 +75,7 @@ function Account(username) {
                                     <label>
                                         Імя:{' '}
                                         <input
-                                            onChange={handleInputChange(
-                                                setNameValue
-                                            )}
+                                            onChange={handleNameInputChange}
                                             id="name"
                                             value={nameValue || user.firstname}
                                         ></input>

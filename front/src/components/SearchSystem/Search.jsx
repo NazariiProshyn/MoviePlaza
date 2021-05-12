@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import search_img from './../../images/search.png';
 import w from './../Watchroom/Watchroom.module.css';
 import { search } from './../../dataService/search';
-// Компонта для пошуку фільма в кімнаті перегляду
+
+// Компонента для пошуку фільму в кімнаті перегляду
 const Search = (props) => {
     const [searchValue, setSearchValue] = useState('');
 

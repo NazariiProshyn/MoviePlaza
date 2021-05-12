@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import f from './Filter.module.css';
-import { search } from './../../dataService/search';
+import { search } from '../../dataService/search';
 import search_img from './../../images/search.png';
 
 const Filter = (catalogData) => {

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import h from './Header.module.css';
+import { setLogin, Logout } from '../../dataService/header';
 
 import logo from './../../images/Logo.png';
 import search_img from './../../images/search.png';
@@ -8,27 +9,16 @@ import search_img from './../../images/search.png';
 const { v4: uuidV4 } = require('uuid');
 
 function Header() {
-    const [isLogin, setData] = useState('');
+    const [isLogin, setIsLogin] = useState('');
 
+    // Перевіряємо чи зайшов користувач у систему
     useEffect(() => {
-        const getLogin = async () => {
-            fetch('http://localhost:3001/', {
-                withCredentials: true,
-                credentials: 'include',
-            })
-                .then((res) => res.json())
-                .then((res) => {
-                    setData(res.name);
-                });
-        };
-        getLogin();
-    });
-    const logout = async () => {
-        const promise = await fetch('http://localhost:3001/logout', {
-            withCredentials: true,
-            credentials: 'include',
-        });
-        console.log(promise);
+        setLogin(setIsLogin);
+    }, []);
+
+    // Функція для виходу із системи
+    const logout = () => {
+        Logout();
         window.location.reload();
     };
 
@@ -64,9 +54,16 @@ function Header() {
                     </div>
                 </div>
                 {isLogin ? (
-                    <div>
-                        <a href={'/profile/' + isLogin}>{isLogin}</a>
-                        <button onClick={logout}>logout</button>
+                    <div className={h['user-bar']}>
+                        <a
+                            className={h['header-link']}
+                            href={'/profile/' + isLogin}
+                        >
+                            {isLogin}
+                        </a>
+                        <div className={h['header-link']} onClick={logout}>
+                            logout
+                        </div>
                     </div>
                 ) : (
                     <div className={h['user-bar']}>

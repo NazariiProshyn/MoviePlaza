@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react';
+
+import { handleSignup } from '../../../dataService/useForm';
+
 const useForm = (callback, validate) => {
     const [values, setValues] = useState({
         username: '',
@@ -20,61 +23,7 @@ const useForm = (callback, validate) => {
     };
 
     const handleSubmit = (e) => {
-        if (window.location.pathname === '/login') {
-            fetch('http://localhost:3001/login', {
-                method: 'post',
-                withCredentials: true,
-                credentials: 'include',
-                body: JSON.stringify({
-                    username: e.target.username.value,
-                    password: e.target.password.value,
-                }),
-            })
-                .then((response) => {
-                    return response.json();
-                })
-                .then(function (response, request) {
-                    console.log(response);
-                    if (response.success === 'false') {
-                        alert('Неправильний логін або пароль');
-                    } else {
-                        window.location.pathname =
-                            '/profile/' + values.username;
-                    }
-                });
-        } else {
-            fetch('http://localhost:3001/registration', {
-                method: 'post',
-                withCredentials: true,
-                credentials: 'include',
-                body: JSON.stringify({
-                    username: e.target.username.value,
-                    firstname: e.target.firstname.value,
-                    lastname: e.target.lastname.value,
-                    dateofbirthday: e.target.bdate.value,
-                    password: e.target.password.value,
-                }),
-            })
-                .then((response) => {
-                    return response.json();
-                })
-                .then(function (response) {
-                    console.log(response);
-                    if (response.success === 'false') {
-                        alert('Користувач вже існує');
-                    } else {
-                        setIsSubmitting(true);
-                        e.preventDefault();
-                        setErrors(validate(values));
-                        window.location.pathname =
-                            '/profile/' + values.username;
-                    }
-                });
-        }
-
-        e.preventDefault();
-        setErrors(validate(values));
-        setIsSubmitting(true);
+        handleSignup(e, setIsSubmitting, setErrors, validate, values);
     };
 
     useEffect(() => {
