@@ -950,18 +950,21 @@ CREATE OR REPLACE FUNCTION CheckAccRaitOnFilm(filmID int, userId int) RETURNS in
 	WHERE "FilmId" = filmID AND "UserId" = userId ;
 $$ LANGUAGE SQL;
 
-CREATE OR REPLACE FUNCTION CheckNumRaitsOfFilm(filmID int) RETURNS int AS $$
-    SELECT COUNT(*) FROM "Rating"
-	WHERE "FilmId" = filmID;
-$$ LANGUAGE SQL;
-
-
 CREATE OR REPLACE PROCEDURE filmRait(filmID int, userId int, rait int)
-LANGUAGE SQL
 AS $$
-INSERT INTO "Rating" ("FilmId", "UserId", "Rate")
-  VALUES (filmID, userId, rait);
-$$;
+BEGIN
+IF CheckNumRaitsOfFilm(filmID) > 0 THEN
+    UPDATE "Rating" 
+	SET  "Rate"    = rait
+	WHERE "FilmId" = filmID AND
+	"UserId"       = userId;
+ELSIF CheckNumRaitsOfFilm(filmID) = 0 THEN
+	INSERT INTO "Rating" ("FilmId", "UserId", "Rate")
+  	VALUES (filmID, userId, rait);
+	END IF;
+END
+$$ LANGUAGE plpgsql;
+
 
 CREATE OR REPLACE FUNCTION getRaitOfFilm(filmID int) RETURNS float AS $$
     SELECT AVG("Rate") FROM "Rating"
