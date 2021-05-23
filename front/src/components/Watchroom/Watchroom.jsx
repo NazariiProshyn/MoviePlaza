@@ -4,124 +4,62 @@ import { io } from 'socket.io-client';
 import Search from './../SearchSystem/Search';
 import Films from './..//Films/Films';
 import w from './Watchroom.module.css';
+import c from '../Catalog/Catalog.module.css';
+import { Socket, emitOnSourceChange } from '../../dataService/watchroom';
+import { getSource } from '../../dataService/getsource';
 
-const Watchroom = (params) => {
-    const ENDPOINT = 'localhost:3001';
+const Watchroom = () => {
+    // Установлюємо звідки беремо дані 
+    const ENDPOINT = 'http://localhost:3001';
     const [films, setFilms] = useState([]);
     const [videosource, setSource] = useState('');
     const [currSocket, setSocket] = useState();
-    const search = (searchValue) => {
-        fetch(`http://localhost:3001/catalog?value=${searchValue}`)
-            .then((res) => res.json())
-            .then((res) => setFilms(res))
-            .then(console.log(films));
-    };
+
+    // Функція яка задає джерело відеоданих
     const watchnow = (filmname) => {
-        setSource(`http://localhost:3001/videos/${filmname}.mp4`);
+        setSource(getSource(ENDPOINT, filmname));
         document.getElementById('videoPlayer').load();
-        currSocket.emit('change_src', filmname);
+        emitOnSourceChange(currSocket, filmname);
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
     };
+
+
     useEffect(() => {
-        const socket = io.connect(ENDPOINT);
-        setSocket(socket);
+        // Задаємо змінні 
         const video = document.getElementById('videoPlayer');
         const room = window.location.pathname.substr(6);
         let playPromise = undefined;
         let username = '';
         let seeked = false;
-        let promiseUser = new Promise(function (resolve, reject) {
-            const user = fetch('http://localhost:3001/', {
-                withCredentials: true,
-                credentials: 'include',
-            }).then((res) => res.json());
-            resolve(user);
-        });
 
-        promiseUser.then((result) => {
-            if (result.name) {
-                username = result.name;
-            } else {
-                username = 'Guest' + String(Math.floor(Math.random() * 10000));
-            }
-            socket.emit('join_room', { username, room });
-        });
+        const vars = {
+            ENDPOINT: ENDPOINT,
+            video: video,
+            room: room,
+            playPromise: playPromise,
+            username: username,
+            seeked: seeked,
+        };
+        
+        // Набір функцій для задання сокета, джерела та створення повідомлення 
+        const functions = {
+            setSocket: setSocket,
+            setSource: setSource,
+            createMessage: createMessage,
+        };
 
-        socket.on('message', (message) => {
-            console.log(message);
-        });
+        // Задаємо сокет для користувача
+        const { emitOnMessage } = Socket(io, vars, functions);
 
-        socket.on('new_user', () => {
-            video.currentTime = video.currentTime + 0;
-            video.pause();
-        });
-        socket.on('connect', () => {
-            video.muted = true;
-            console.log(`Client connected: ${socket.id}`);
-        });
-        socket.on('change_src', (src) => {
-            setSource(`http://localhost:3001/videos/${src}.mp4`);
-            document.getElementById('videoPlayer').load();
-        });
-        // send message to chat
-        socket.on('chat_message', (username, pict, text) =>
-            createMessage(username, pict, text)
-        );
-
+        // Відправити повідомлення
         document.getElementById('chat-button').onclick = () => {
             const text = document.getElementById('chat-input').value;
             document.getElementById('chat-input').value = '';
-            socket.emit('chat_message', text);
+            emitOnMessage(text);
         };
-
-        // play video
-        socket.on('play_video', () => {
-            playPromise = video.play();
-        });
-        video.addEventListener('play', () => {
-            socket.emit('play_video');
-        });
-
-        // stop video
-        socket.on('stop_video', () => {
-            if (playPromise !== undefined) {
-                playPromise.then((_) => {
-                    video.pause();
-                    if (seeked) {
-                        seeked = false;
-                    }
-                });
-            }
-        });
-        video.addEventListener('pause', () => {
-            if (!seeked) {
-                socket.emit('stop_video');
-            } else {
-                seeked = false;
-                video.play();
-            }
-        });
-
-        // change video time
-        socket.on('change_time', async (time) => {
-            if (
-                video.currentTime !== time &&
-                Math.abs(video.currentTime - time) >= 0.5
-            ) {
-                if (!seeked) {
-                    //video.currentTime = time;
-                    seeked = true;
-                    console.log('seeked-change');
-                }
-                video.currentTime = time;
-            }
-        });
-        video.onseeking = () => {
-            seeked = true;
-            //console.log('seeked-onseek');
-            socket.emit('seeked', video.currentTime);
-        };
-        // disconnect
-        socket.on('disconnect', () => console.log('Client disconnected'));
     }, [ENDPOINT]);
 
     return (
@@ -164,9 +102,9 @@ const Watchroom = (params) => {
                 </div>
             </div>
             <div className={w['movie_select']}>
-                <Search search={search}></Search>
-                <div>
-                    <div className={w['film_container']}>
+                <Search setfilms={setFilms}></Search>
+                <div className="container">
+                    <div className={c['films-container']}>
                         {films.map((film) => (
                             <Films
                                 key={film.filmname}

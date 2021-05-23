@@ -1,23 +1,45 @@
 import a from './Account.module.css';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-function Account(params) {
+import {
+    getUserData,
+    getLogin,
+    setProfileInfo,
+} from '../../dataService/account';
+
+import { getImage } from '../../dataService/getimage';
+
+const Account = (username) => {
+    const HOSTNAME = 'http://localhost:3001';
+    // Інформація про сторінку користувача
     const [user, setUser] = useState({
-        bdate: '',
         firstname: '',
         secondname: '',
+        bdate: '',
         favourgenre: '',
+        userimage: 'user.png',
     });
-    const [isLogin, setData] = useState([]);
-    const [nameValue, setnameValue] = useState('');
-    const [surnameValue, setsurnameValue] = useState('');
+    const [isLogin, setIsLogin] = useState([]);
+
+    // Отримуємо дані про користувача та інформацію про його авторизацію на сайті
+    useEffect(() => {
+        getUserData(setUser, username);
+    }, [username]);
+
+    useEffect(() => {
+        getLogin(setIsLogin);
+    }, []);
+
+    const [nameValue, setNameValue] = useState('');
+    const [surnameValue, setSurnameValue] = useState('');
     const [bdate, setBdate] = useState('');
     const [genre, setGenre] = useState('');
-    const handleNameInputChanges = (e) => {
-        setnameValue(e.target.value);
+
+    const handleNameInputChange = (e) => {
+        setNameValue(e.target.value);
     };
     const handleSurnameInputChanges = (e) => {
-        setsurnameValue(e.target.value);
+        setSurnameValue(e.target.value);
     };
     const handleBdateChanges = (e) => {
         setBdate(e.target.value);
@@ -26,40 +48,8 @@ function Account(params) {
         setGenre(e.target.value);
     };
     const updateProfile = () => {
-        console.log({
-            firstname: nameValue,
-            secondname: surnameValue,
-            bdate: bdate,
-            favourgenre: genre,
-            login: isLogin,
-        });
-        fetch('http://localhost:3001/updateprofile', {
-            method: 'post',
-            body: JSON.stringify({
-                firstname: document.getElementById('name').value,
-                secondname: document.getElementById('surname').value,
-                bdate: document.getElementById('bdate').value,
-                favourgenre: document.getElementById('filter-genre').value,
-                login: isLogin,
-            }),
-        });
+        setProfileInfo(isLogin);
     };
-    useEffect(() => {
-        fetch('http://localhost:3001/', {
-            withCredentials: true,
-            credentials: 'include',
-        })
-            .then((res) => res.json())
-            .then((res) => {
-                setData(res.name);
-            });
-
-        fetch('http://localhost:3001/profile/' + params.user)
-            .then((res) => res.json())
-            .then((res) => {
-                setUser(res);
-            });
-    }, [params.user, isLogin]);
 
     return (
         <div className={a.Account}>
@@ -68,14 +58,12 @@ function Account(params) {
                     <div className={a['profile-avatar']}>
                         <img
                             className={a['profile-avatar__img']}
-                            src={
-                                'http://localhost:3001/images/' + user.userimage
-                            }
+                            src={getImage(HOSTNAME, user.userimage)}
                             alt="avatar"
                         />
                     </div>
                     <div className={a['profile-name']}>
-                        <span className={a.username}>{params.user}</span>
+                        <span className={a.username}>{username.user}</span>
                     </div>
                 </div>
 
@@ -84,11 +72,11 @@ function Account(params) {
                         <span>Про себе:</span>
                         <ul>
                             <li>
-                                {isLogin === params.user ? (
+                                {isLogin === username.user ? (
                                     <label>
                                         Імя:{' '}
                                         <input
-                                            onChange={handleNameInputChanges}
+                                            onChange={handleNameInputChange}
                                             id="name"
                                             value={nameValue || user.firstname}
                                         ></input>
@@ -98,7 +86,7 @@ function Account(params) {
                                 )}
                             </li>
                             <li>
-                                {isLogin === params.user ? (
+                                {isLogin === username.user ? (
                                     <label>
                                         Прізвище:{' '}
                                         <input
@@ -114,7 +102,7 @@ function Account(params) {
                                 )}
                             </li>
                             <li>
-                                {isLogin === params.user ? (
+                                {isLogin === username.user ? (
                                     <label>
                                         День народження:{' '}
                                         <input
@@ -140,7 +128,7 @@ function Account(params) {
                         <span>Уподобання:</span>
                         <ul>
                             <li>
-                                {isLogin === params.user ? (
+                                {isLogin === username.user ? (
                                     <label>
                                         Улюблений жанр:{' '}
                                         <select
@@ -178,7 +166,7 @@ function Account(params) {
                         </ul>
                     </div>
                     <div className={a['changebtn']}>
-                        {isLogin === params.user ? (
+                        {isLogin === username.user ? (
                             <button onClick={updateProfile}>
                                 Редагувати профіль
                             </button>
@@ -190,6 +178,6 @@ function Account(params) {
             </div>
         </div>
     );
-}
+};
 
 export default Account;

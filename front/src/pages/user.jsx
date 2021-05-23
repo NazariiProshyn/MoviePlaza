@@ -1,9 +1,11 @@
-import { Component } from 'react';
 import Account from '../components/Account/Account';
 
-class User extends Component {
-    render() {
-        return <Account user={this.props.match.params.login} />;
-    }
-}
+const User = () => {
+    // Беремо ім'я користувача з посилання
+    const user = window.location.pathname.slice(
+        window.location.pathname.lastIndexOf('/') + 1
+    );
+    return <Account user={user} />;
+};
+
 export default User;

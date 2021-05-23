@@ -45,17 +45,12 @@
     width: 80%;
 }
 
-.form-inputs p {
-    font-size: 0.8rem;
-    margin-top: 0.5rem;
-    color: #f00e0e;
-}
-
 .form-label {
     display: inline-block;
     font-size: 0.8rem;
     margin-bottom: 6px;
     color: #fff;
+    padding-right: 15px;
 }
 
 .form-input {
@@ -111,4 +106,9 @@
     text-decoration: none;
     color: #27cdff;
     font-weight: 600;
+}
+
+.form-error {
+    font-size: 0.8rem;
+    color: #f00e0e;
 }

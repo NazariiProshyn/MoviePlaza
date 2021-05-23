@@ -18,6 +18,11 @@ const Signup = ({ submitForm }) => {
                 </h1>
                 <div className={r['form-inputs']}>
                     <label className={r['form-label']}>Username</label>
+                    {errors.username && (
+                        <span className={r['form-error']}>
+                            {errors.username}
+                        </span>
+                    )}
                     <input
                         className={r['form-input']}
                         type="text"
@@ -26,10 +31,14 @@ const Signup = ({ submitForm }) => {
                         value={values.username}
                         onChange={handleChange}
                     />
-                    {errors.username && <p>{errors.username}</p>}
                 </div>
                 <div className={r['form-inputs']}>
                     <label className={r['form-label']}>FirstName</label>
+                    {errors.firstName && (
+                        <span className={r['form-error']}>
+                            {errors.firstName}
+                        </span>
+                    )}
                     <input
                         className={r['form-input']}
                         type="text"
@@ -38,10 +47,14 @@ const Signup = ({ submitForm }) => {
                         value={values.firstname}
                         onChange={handleChange}
                     />
-                    {errors.username && <p>{errors.username}</p>}
                 </div>
                 <div className={r['form-inputs']}>
                     <label className={r['form-label']}>Lastname</label>
+                    {errors.secondName && (
+                        <span className={r['form-error']}>
+                            {errors.secondName}
+                        </span>
+                    )}
                     <input
                         className={r['form-input']}
                         type="text"
@@ -50,10 +63,12 @@ const Signup = ({ submitForm }) => {
                         value={values.lastname}
                         onChange={handleChange}
                     />
-                    {errors.username && <p>{errors.username}</p>}
                 </div>
                 <div className={r['form-inputs']}>
                     <label className={r['form-label']}>Birthday</label>
+                    {errors.bdate && (
+                        <span className={r['form-error']}>{errors.bdate}</span>
+                    )}
                     <input
                         className={r['form-input']}
                         type="date"
@@ -62,10 +77,14 @@ const Signup = ({ submitForm }) => {
                         value={values.bdate}
                         onChange={handleChange}
                     />
-                    {errors.username && <p>{errors.username}</p>}
                 </div>
                 <div className={r['form-inputs']}>
                     <label className={r['form-label']}>Password</label>
+                    {errors.password && (
+                        <span className={r['form-error']}>
+                            {errors.password}
+                        </span>
+                    )}
                     <input
                         className={r['form-input']}
                         type="password"
@@ -74,10 +93,14 @@ const Signup = ({ submitForm }) => {
                         value={values.password}
                         onChange={handleChange}
                     />
-                    {errors.password && <p>{errors.password}</p>}
                 </div>
                 <div className={r['form-inputs']}>
                     <label className={r['form-label']}>Confirm Password</label>
+                    {errors.password2 && (
+                        <span className={r['form-error']}>
+                            {errors.password2}
+                        </span>
+                    )}
                     <input
                         className={r['form-input']}
                         type="password"
@@ -86,7 +109,6 @@ const Signup = ({ submitForm }) => {
                         value={values.password2}
                         onChange={handleChange}
                     />
-                    {errors.password2 && <p>{errors.password2}</p>}
                 </div>
                 <button className={r['form-input-btn']} type="submit">
                     Sign up

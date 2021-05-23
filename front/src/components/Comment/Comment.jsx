@@ -1,35 +1,42 @@
 import c from './Comment.module.css';
-import { /*React,*/ useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { setUsersComments } from '../../dataService/comment';
 
-function Comment({ work }) {
+import { getImage } from '../../dataService/getimage';
+
+function Comment({ comments }) {
+    const HOSTNAME = 'http://localhost:3001';
     const [user, setUser] = useState({});
-    //console.log(work);
+
+    // Отримуємо інформацію про користувача
     useEffect(() => {
-        fetch('http://localhost:3001/users/' + work.userid)
-            .then((res) => res.json())
-            .then((res) => setUser(res));
-    }, [work.userid]);
+        setUsersComments(comments.userid, setUser);
+    }, [comments.userid]);
+
     return (
         <div className={c['comment-block']}>
             <div className={c.avatar}>
                 <img
                     className={c['avatar_img']}
-                    src={'http://localhost:3001/images/' + user.userimage}
-                    alt={work.userid}
+                    src={getImage(HOSTNAME, user.userimage)}
+                    alt={comments.userid}
                 />
             </div>
             <div className={c.author}>
                 <p className={c.login}>{user.login}</p>
                 <p className={c.date}>
-                    {work.commentdate === ''
+                    {comments.commentdate === ''
                         ? new Date().toLocaleDateString().split('.').join('-') +
                           ' ' +
                           new Date().toLocaleTimeString('ua-UA')
-                        : work.commentdate.split('T').join(' ').split('.')[0]}
+                        : comments.commentdate
+                            .split('T')
+                            .join(' ')
+                            .split('.')[0]}
                 </p>
             </div>
             <div className={c.comment}>
-                <p>{work.comments}</p>
+                <p>{comments.comments}</p>
             </div>
         </div>
     );

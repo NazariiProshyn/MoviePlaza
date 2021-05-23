@@ -146,14 +146,6 @@
     background-color: #000;
 }
 
-.movie_select {
-    display: inline-block;
-    background-color: brown;
-    width: 100%;
-
-    padding-right: 300px;
-}
-
 .container {
     height: 100%;
 }
@@ -175,11 +167,4 @@
     height: 30px;
     width: 100%;
     outline: none;
-}
-
-.film_container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding-bottom: 5vh;
-    margin-left: 10px;
 }

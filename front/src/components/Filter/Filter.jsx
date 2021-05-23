@@ -1,45 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import f from './Filter.module.css';
-
+import { search } from '../../dataService/search';
 import search_img from './../../images/search.png';
 
-const Filter = (props) => {
+const Filter = (catalogData) => {
     const [searchValue, setSearchValue] = useState('');
+    const [genre, setGenre] = useState('');
+    const [startyear, setStartyear] = useState('');
+    const [endyear, setEndYear] = useState('');
+    const [startlength, setStartlength] = useState('');
+    const [endlength, setEndLength] = useState('');
+    const [startprice, setStartprice] = useState('');
+    const [endprice, setEndPrice] = useState('');
+    const [startrate, setStartrate] = useState('');
+    const [endrate, setEndrate] = useState('');
+
     const callSearchFunction = () => {
-        props.search(
+        search(
+            catalogData.setfilms,
             searchValue,
-            document.getElementById('filter-genre').value,
-            document.getElementById('start-year').value,
-            document.getElementById('end-year').value,
-            document.getElementById('start-length').value,
-            document.getElementById('end-length').value,
-            document.getElementById('start-price').value,
-            document.getElementById('end-price').value,
-            document.getElementById('start-rate').value,
-            document.getElementById('end-rate').value
+            genre,
+            startyear,
+            endyear,
+            startlength,
+            endlength,
+            startprice,
+            endprice,
+            startrate,
+            endrate
         );
     };
     const handleSearchInputChanges = (e) => {
         setSearchValue(e.target.value);
     };
     const clearFilter = () => {
-        document.getElementById('filter-genre').selectedIndex = 0;
-        document.getElementById('start-year').value = '';
-        document.getElementById('end-year').value = '';
-        document.getElementById('start-length').value = '';
-        document.getElementById('end-length').value = '';
-        document.getElementById('start-price').value = '';
-        document.getElementById('end-price').value = '';
-        document.getElementById('start-rate').value = '';
-        document.getElementById('end-rate').value = '';
-        callSearchFunction();
+        setGenre('Жанр');
+        setStartyear('');
+        setEndYear('');
+        setStartlength('');
+        setEndLength('');
+        setStartprice('');
+        setEndPrice('');
+        setStartrate('');
+        setEndrate('');
+        search(
+            catalogData.setfilms,
+            '',
+            'Жанр',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+            ''
+        );
     };
+
+    useEffect(() => {
+        clearFilter();
+    }, []);
+
     return (
         <div className={f.container}>
-            <p>Каталог фільмів</p>
+            <p className={f['catalog-heading']}>Каталог фільмів</p>
+
             <div className={f['search-block']}>
                 <input
                     id={f['search-block__input']}
+                    className={f['search-input']}
                     type="search"
                     value={searchValue}
                     onChange={handleSearchInputChanges}
@@ -52,79 +82,111 @@ const Filter = (props) => {
                     onClick={callSearchFunction}
                 ></img>
             </div>
-            <p>Фільтр:</p>
-            <div className={f.filter}>
-                <select id="filter-genre">
-                    <option>Жанр</option>
-                    <option value="Комедия">Комедія</option>
-                    <option value="Фэнтези">Фентезі</option>
-                    <option value="Боевик">Бойовик</option>
-                    <option value="Детектив">Детектив</option>
-                    <option value="Ужасы">Жахи</option>
-                    <option value="Триллер">Триллер</option>
-                    <option value="Драма">Драма</option>
-                </select>
-                <div className={f['filter-year']}>
-                    <p>Рік:</p>
-                    <input
-                        id="start-year"
-                        placeholder="від"
-                        data-filter="year_from"
-                    ></input>
-                    <input
-                        id="end-year"
-                        placeholder="до"
-                        data-filter="year_to"
-                    ></input>
+
+            <p className={f['filter-heading']}>Фільтр:</p>
+            <div className={f['filter-wrapper']}>
+                <div className={f.filter}>
+                    <div className={f['filter-select']}>
+                        <p>Жанр: </p>
+                        <select
+                            id="filter-genre"
+                            value={genre}
+                            onChange={(e) => setGenre(e.target.value)}
+                        >
+                            <option value="Жанр">Жанр</option>
+                            <option value="Комедия">Комедія</option>
+                            <option value="Фэнтези">Фентезі</option>
+                            <option value="Боевик">Бойовик</option>
+                            <option value="Детектив">Детектив</option>
+                            <option value="Ужасы">Жахи</option>
+                            <option value="Триллер">Триллер</option>
+                            <option value="Драма">Драма</option>
+                        </select>
+                    </div>
+
+                    <div className={f['filter-year']}>
+                        <p>Рік: </p>
+                        <input
+                            onChange={(e) => setStartyear(e.target.value)}
+                            id="start-year"
+                            placeholder="від"
+                            data-filter="year_from"
+                            value={startyear}
+                        ></input>
+                        <input
+                            onChange={(e) => setEndYear(e.target.value)}
+                            id="end-year"
+                            placeholder="до"
+                            data-filter="year_to"
+                            value={endyear}
+                        ></input>
+                    </div>
+                    <div className={f['filter-length']}>
+                        <p>Довжина: </p>
+                        <input
+                            onChange={(e) => setStartlength(e.target.value)}
+                            id="start-length"
+                            placeholder="від"
+                            data-filter="length_from"
+                            value={startlength}
+                        ></input>
+                        <input
+                            onChange={(e) => setEndLength(e.target.value)}
+                            id="end-length"
+                            placeholder="до"
+                            data-filter="length_to"
+                            value={endlength}
+                        ></input>
+                    </div>
+                    <div className={f['filter-price']}>
+                        <p>Ціна: </p>
+                        <input
+                            onChange={(e) => setStartprice(e.target.value)}
+                            id="start-price"
+                            placeholder="від"
+                            data-filter="price_from"
+                            value={startprice}
+                        ></input>
+                        <input
+                            onChange={(e) => setEndPrice(e.target.value)}
+                            id="end-price"
+                            placeholder="до"
+                            data-filter="price_to"
+                            value={endprice}
+                        ></input>
+                    </div>
+                    <div className={f['filter-rate']}>
+                        <p>Рейтинг: </p>
+                        <input
+                            onChange={(e) => setStartrate(e.target.value)}
+                            id="start-rate"
+                            placeholder="від"
+                            data-filter="rate_from"
+                            value={startrate}
+                        ></input>
+                        <input
+                            onChange={(e) => setEndrate(e.target.value)}
+                            id="end-rate"
+                            placeholder="до"
+                            data-filter="rate_to"
+                            value={endrate}
+                        ></input>
+                    </div>
                 </div>
-                <div className={f['filter-length']}>
-                    <p>Довжина:</p>
-                    <input
-                        id="start-length"
-                        placeholder="від"
-                        data-filter="length_from"
-                    ></input>
-                    <input
-                        id="end-length"
-                        placeholder="до"
-                        data-filter="length_to"
-                    ></input>
+                <div className={f['filter-buttons-wrapper']}>
+                    <button
+                        className={f['filter-button']}
+                        onClick={callSearchFunction}
+                    >
+                        Застосувати
+                    </button>
+                    <button
+                        className={f['filter-button']}
+                        onClick={clearFilter}
+                    >
+                        Очистити
+                    </button>
                 </div>
-                <div className={f['filter-price']}>
-                    <p>Ціна:</p>
-                    <input
-                        id="start-price"
-                        placeholder="від"
-                        data-filter="price_from"
-                    ></input>
-                    <input
-                        id="end-price"
-                        placeholder="до"
-                        data-filter="price_to"
-                    ></input>
-                </div>
-                <div className={f['filter-rate']}>
-                    <p>Рейтинг</p>
-                    <input
-                        id="start-rate"
-                        placeholder="від"
-                        data-filter="rate_from"
-                    ></input>
-                    <input
-                        id="end-rate"
-                        placeholder="до"
-                        data-filter="rate_to"
-                    ></input>
-                </div>
-                <button
-                    className={f['filter-button']}
-                    onClick={callSearchFunction}
-                >
-                    Застосувати
-                </button>
-                <button className={f['filter-button']} onClick={clearFilter}>
-                    Очистити
-                </button>
             </div>
         </div>
     );

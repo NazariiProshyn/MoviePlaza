@@ -11,15 +11,13 @@ const Registration = () => {
     }
 
     return (
-        <>
-            <div className={r['form-container']}>
-                {!isSubmitted ? (
-                    <Signup submitForm={submitForm} />
-                ) : (
-                    <h1>Регістрація успішна</h1>
-                )}
-            </div>
-        </>
+        <div className={r['form-container']}>
+            {!isSubmitted ? (
+                <Signup submitForm={submitForm} />
+            ) : (
+                <h1>Регістрація успішна</h1>
+            )}
+        </div>
     );
 };
 export default Registration;

@@ -1,180 +1,32 @@
-//import ReactDOM from 'react-dom';
-import { useState, useEffect } from 'react';
 import './filmpage.css';
-import { Link } from 'react-router-dom';
-import Comment from '../../components/Comment/Comment';
+
+import { useState, useEffect } from 'react';
+import FilmPage from '../../components/FilmPage/Filmpage';
+import Comments from '../../components/FilmPage/Comments/Comments';
+
+import { getLogin, setFilmPage } from '../../dataService/filmpage';
 
 const Filmpage = () => {
+    // Зберігаємо інформацію про фільм, коментарі до фільму та користувача
     const [film, setFilm] = useState({ genres: [] });
-    const [isLogin, setData] = useState('');
-    const [userId, setId] = useState('');
-    const [comments, setComment] = useState([]);
-    useEffect(() => {
-        const getLogin = async () => {
-            fetch('http://localhost:3001/', {
-                withCredentials: true,
-                credentials: 'include',
-            })
-                .then((res) => res.json())
-                .then((res) => {
-                    setData(res.name);
-                });
-        };
-        getLogin();
-    });
-    useEffect(() => {
-        fetch('http://localhost:3001' + window.location.pathname)
-            .then((res) => res.json())
-            .then((res) => {
-                setFilm(res);
-                setComment(res.comments);
-            });
+    const [isLogin, setIsLogin] = useState('');
+    const [userId, setUserId] = useState('');
 
-        const getLogin = async () => {
-            fetch('http://localhost:3001/', {
-                withCredentials: true,
-                credentials: 'include',
-            })
-                .then((res) => res.json())
-                .then((res) => {
-                    console.log(res);
-                    setData(res.name);
-                    setId(res.id);
-                });
-        };
-        getLogin();
+    // При завантаженні сторінки фільму перевіряємо чи користувач увійшов в систему та заповнюємо сторінку потрібною інформацією
+    useEffect(() => {
+        setFilmPage(setFilm);
+        getLogin(setIsLogin, setUserId);
     }, []);
 
-    const addComment = () => {
-        const com = document.getElementById('addComment').value;
-        console.log({
-            comments: com,
-            userid: userId,
-            filmid: Number(window.location.pathname.split('/')[2]),
-        });
-        fetch('http://localhost:3001/commentadd', {
-            method: 'post',
-            body: JSON.stringify({
-                comments: com,
-                userid: userId,
-                filmid: Number(window.location.pathname.split('/')[2]),
-            }),
-        });
-        setComment((oldcomment) => [
-            { comments: com, userid: userId, commentdate: '' },
-            ...oldcomment,
-        ]);
-        document.getElementById('addComment').value = '';
+    const comments_info = {
+        isLogin: isLogin,
+        userId: userId,
     };
 
     return (
         <div className="FilmContain">
-            <div className="Filmpage">
-                <h1>{film.filmname}</h1>
-                <img
-                    src={'http://localhost:3001/images/' + film.filmimage}
-                    alt="titleImg"
-                    className="titleImg"
-                ></img>
-                <div className="buttonsMenu">
-                    <button type="submit">Купити: {film.price}$</button>
-                    <Link to="/room" className="watchroom disabled">
-                        <div className="watch">
-                            <p>Дивитися зараз</p>
-                        </div>
-                    </Link>
-                </div>
-
-                <div className="filmdesc">
-                    <div>
-                        <b>Рік випуску:</b> {film.dateofrelease}
-                    </div>
-                    <div>
-                        <b>Жанри:</b> {film.genres.join(', ')}
-                    </div>
-                    <div>
-                        <b>Довжина:</b> {film.duration} хв
-                    </div>
-                    <div className="filmRate">
-                        <p>Оцінка фільма: </p>
-                        <div className="star"></div>
-                        <div className="rate">{film.rate}</div>
-                    </div>
-                    <div className="yourRate">
-                        <p>Ваша оцінка: </p>
-                        <div className="rating-area">
-                            <input
-                                type="radio"
-                                id="star-5"
-                                name="rating"
-                                value="5"
-                            />
-                            <label htmlFor="star-5" title="Оцінка «5»"></label>
-                            <input
-                                type="radio"
-                                id="star-4"
-                                name="rating"
-                                value="4"
-                            />
-                            <label htmlFor="star-4" title="Оцінка «4»"></label>
-                            <input
-                                type="radio"
-                                id="star-3"
-                                name="rating"
-                                value="3"
-                            />
-                            <label htmlFor="star-3" title="Оцінка «3»"></label>
-                            <input
-                                type="radio"
-                                id="star-2"
-                                name="rating"
-                                value="2"
-                            />
-                            <label htmlFor="star-2" title="Оцінка «2»"></label>
-                            <input
-                                type="radio"
-                                id="star-1"
-                                name="rating"
-                                value="1"
-                            />
-                            <label htmlFor="star-1" title="Оцінка «1»"></label>
-                        </div>
-                    </div>
-                    <p>Описання:</p>
-                    <div className="desc">{film.informationaboutfilm}</div>
-                </div>
-
-                <div className="filmComment">
-                    <p className="commentP">Коментарі:</p>
-                    {isLogin ? (
-                        <div className="commentSection" id={isLogin}>
-                            <textarea id="addComment"></textarea>
-                            <button
-                                type="submit"
-                                id="addCommentBtn"
-                                onClick={addComment}
-                            >
-                                Додати коментар
-                            </button>
-                        </div>
-                    ) : (
-                        ''
-                    )}
-                    <div className="container">
-                        {comments.map((commentar) => (
-                            <div
-                                className="commentcont"
-                                key={commentar.userid + commentar.comments}
-                            >
-                                <Comment
-                                    key={commentar.userid}
-                                    work={commentar}
-                                />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
+            <FilmPage data={film} login_data={comments_info.isLogin} />
+            <Comments data={comments_info} />
         </div>
     );
 };
