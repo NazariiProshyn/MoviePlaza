@@ -43,11 +43,13 @@ function Home() {
 
     return (
         <div className="Home">
-            <Slider />
-            <div className={c.container}>
-                {filmsData.map((film) => (
-                    <Films key={film.filmname} work={film} />
-                ))}
+            <div className="container">
+                <Slider films_list={filmsData} />
+                <div className={c['films-container']}>
+                    {filmsData.map((film) => (
+                        <Films key={film.filmname} work={film} />
+                    ))}
+                </div>
             </div>
         </div>
     );

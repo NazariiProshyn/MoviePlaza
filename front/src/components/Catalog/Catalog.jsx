@@ -3,6 +3,7 @@ import Films from '../Films/Films';
 import c from './Catalog.module.css';
 import React, { useEffect, useState } from 'react';
 import { getfilms } from './../../dataService/search';
+
 const Catalog = () => {
     const [films, setFilms] = useState([]);
 
@@ -12,11 +13,13 @@ const Catalog = () => {
 
     return (
         <div className="Catalog">
-            <Filter setfilms={setFilms} />
-            <div className={c.container}>
-                {films.map((film) => (
-                    <Films key={film.id} work={film} />
-                ))}
+            <div className="container">
+                <Filter setfilms={setFilms} />
+                <div className={c['films-container']}>
+                    {films.map((film) => (
+                        <Films key={film.id} work={film} />
+                    ))}
+                </div>
             </div>
         </div>
     );

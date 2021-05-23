@@ -5,7 +5,7 @@ import { setLogin, Logout } from '../../dataService/header';
 
 const { v4: uuidV4 } = require('uuid');
 
-function Header() {
+const Header = () => {
     const [isLogin, setIsLogin] = useState('');
 
     // Перевіряємо чи зайшов користувач у систему
@@ -66,6 +66,6 @@ function Header() {
             </div>
         </header>
     );
-}
+};
 
 export default Header;

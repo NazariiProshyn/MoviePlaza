@@ -6,7 +6,7 @@
 }
 
 .App {
-    background-image: url('./images/img.jpg');
+    background: rgb(46, 46, 46)
 }
 
 .container {

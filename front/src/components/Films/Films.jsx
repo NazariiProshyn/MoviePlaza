@@ -20,14 +20,16 @@ function Films({ work, iswatchroom = false, watchnow }) {
                         alt={work.filmimage}
                     />
                 </div>
-                <div className={f['item-title']}>
-                    <p>{work.filmname}</p>
-                </div>
-                <div className={f['item-desc']}>
-                    <p className={f['catalog_rate']}>
-                        Рейтинг фільму:{work.rate}
-                    </p>
-                    <p>{work.informationaboutfilm}</p>
+                <div className={f['item-content']}>
+                    <div className={f['item-title']}>
+                        <p>{work.filmname}</p>
+                    </div>
+                    <div className={f['item-desc']}>
+                        Рейтинг фільму:
+                        <span className={f['catalog-rate']}> {work.rate}</span>
+                        /5
+                        <p className={f['item-about']}>{work.informationaboutfilm}</p>
+                    </div>
                 </div>
             </Link>
             {iswatchroom ? (

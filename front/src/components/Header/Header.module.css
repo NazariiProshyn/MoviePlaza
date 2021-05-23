@@ -61,7 +61,26 @@ header {
 }
 
 @media screen and (max-width: 768px) {
+    .header-logo {
+        padding: 0;
+    }
+
     .header-wrapper {
         flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .navbar {
+        flex-direction: column;
+        padding: 0;
+    }
+
+    .user-bar {
+        flex-direction: column;
+    }
+
+    .header-link {
+        width: 100%;
     }
 }
