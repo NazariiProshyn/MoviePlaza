@@ -4,9 +4,9 @@ import './comments.css';
 import Comment from '../../Comment/Comment';
 import { addNewComment, setFilmComments } from '../../../dataService/filmpage';
 
-const Comments = (params) => {
-    const isLogin = params.data.isLogin;
-    const userId = params.data.userId;
+const Comments = (filmpage_data) => {
+    const isLogin = filmpage_data.data.isLogin;
+    const userId = filmpage_data.data.userId;
 
     const [comments, setComments] = useState([]);
 

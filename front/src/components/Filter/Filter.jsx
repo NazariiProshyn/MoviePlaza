@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import f from './Filter.module.css';
 import { search } from '../../dataService/search';
 import search_img from './../../images/search.png';
@@ -57,6 +57,11 @@ const Filter = (catalogData) => {
             ''
         );
     };
+
+    useEffect(() => {
+        clearFilter();
+    }, []);
+
     return (
         <div className={f.container}>
             <p className={f['catalog-heading']}>Каталог фільмів</p>

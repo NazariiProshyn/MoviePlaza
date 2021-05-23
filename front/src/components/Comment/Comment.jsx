@@ -2,7 +2,10 @@ import c from './Comment.module.css';
 import { useState, useEffect } from 'react';
 import { setUsersComments } from '../../dataService/comment';
 
+import { getImage } from '../../dataService/getimage';
+
 function Comment({ comments }) {
+    const HOSTNAME = 'http://localhost:3001';
     const [user, setUser] = useState({});
 
     // Отримуємо інформацію про користувача
@@ -15,7 +18,7 @@ function Comment({ comments }) {
             <div className={c.avatar}>
                 <img
                     className={c['avatar_img']}
-                    src={'http://localhost:3001/images/' + user.userimage}
+                    src={getImage(HOSTNAME, user.userimage)}
                     alt={comments.userid}
                 />
             </div>

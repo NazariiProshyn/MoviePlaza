@@ -25,7 +25,7 @@ const Filmpage = () => {
 
     return (
         <div className="FilmContain">
-            <FilmPage data={film} />
+            <FilmPage data={film} login_data={comments_info.isLogin} />
             <Comments data={comments_info} />
         </div>
     );

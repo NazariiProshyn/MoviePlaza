@@ -1,7 +1,11 @@
 import f from './Films.module.css';
 import { Link } from 'react-router-dom';
 
+import { getImage } from '../../dataService/getimage';
+
 function Films({ work, iswatchroom = false, watchnow }) {
+    const HOSTNAME = 'http://localhost:3001';
+
     const watch = () => {
         watchnow(work.filmreference);
     };
@@ -16,7 +20,7 @@ function Films({ work, iswatchroom = false, watchnow }) {
                 <div className={f['item-picture']}>
                     <img
                         className={f['item-picture__img']}
-                        src={'http://localhost:3001/images/' + work.filmimage}
+                        src={getImage(HOSTNAME, work.filmimage)}
                         alt={work.filmimage}
                     />
                 </div>
@@ -28,7 +32,9 @@ function Films({ work, iswatchroom = false, watchnow }) {
                         Рейтинг фільму:
                         <span className={f['catalog-rate']}> {work.rate}</span>
                         /5
-                        <p className={f['item-about']}>{work.informationaboutfilm}</p>
+                        <p className={f['item-about']}>
+                            {work.informationaboutfilm}
+                        </p>
                     </div>
                 </div>
             </Link>

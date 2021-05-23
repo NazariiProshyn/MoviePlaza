@@ -7,7 +7,10 @@ import {
     setProfileInfo,
 } from '../../dataService/account';
 
-function Account(username) {
+import { getImage } from '../../dataService/getimage';
+
+const Account = (username) => {
+    const HOSTNAME = 'http://localhost:3001';
     // Інформація про сторінку користувача
     const [user, setUser] = useState({
         firstname: '',
@@ -55,9 +58,7 @@ function Account(username) {
                     <div className={a['profile-avatar']}>
                         <img
                             className={a['profile-avatar__img']}
-                            src={
-                                'http://localhost:3001/images/' + user.userimage
-                            }
+                            src={getImage(HOSTNAME, user.userimage)}
                             alt="avatar"
                         />
                     </div>
@@ -177,6 +178,6 @@ function Account(username) {
             </div>
         </div>
     );
-}
+};
 
 export default Account;
