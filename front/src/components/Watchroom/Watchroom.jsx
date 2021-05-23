@@ -4,24 +4,31 @@ import { io } from 'socket.io-client';
 import Search from './../SearchSystem/Search';
 import Films from './..//Films/Films';
 import w from './Watchroom.module.css';
-import {
-    Socket,
-    emitOnSourceChange,
-} from '../../dataService/watchroom';
+import c from '../Catalog/Catalog.module.css';
+import { Socket, emitOnSourceChange } from '../../dataService/watchroom';
+import { getSource } from '../../dataService/getsource';
 
 const Watchroom = () => {
-    const ENDPOINT = 'localhost:3001';
+    // Установлюємо звідки беремо дані 
+    const ENDPOINT = 'http://localhost:3001';
     const [films, setFilms] = useState([]);
     const [videosource, setSource] = useState('');
     const [currSocket, setSocket] = useState();
 
+    // Функція яка задає джерело відеоданих
     const watchnow = (filmname) => {
-        setSource(`http://localhost:3001/videos/${filmname}.mp4`);
+        setSource(getSource(ENDPOINT, filmname));
         document.getElementById('videoPlayer').load();
         emitOnSourceChange(currSocket, filmname);
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
     };
 
+
     useEffect(() => {
+        // Задаємо змінні 
         const video = document.getElementById('videoPlayer');
         const room = window.location.pathname.substr(6);
         let playPromise = undefined;
@@ -36,20 +43,23 @@ const Watchroom = () => {
             username: username,
             seeked: seeked,
         };
+        
+        // Набір функцій для задання сокета, джерела та створення повідомлення 
         const functions = {
             setSocket: setSocket,
             setSource: setSource,
             createMessage: createMessage,
         };
 
-        const {emitOnMessage} = Socket(io, vars, functions);
+        // Задаємо сокет для користувача
+        const { emitOnMessage } = Socket(io, vars, functions);
 
+        // Відправити повідомлення
         document.getElementById('chat-button').onclick = () => {
             const text = document.getElementById('chat-input').value;
             document.getElementById('chat-input').value = '';
             emitOnMessage(text);
         };
-
     }, [ENDPOINT]);
 
     return (
@@ -93,8 +103,8 @@ const Watchroom = () => {
             </div>
             <div className={w['movie_select']}>
                 <Search setfilms={setFilms}></Search>
-                <div>
-                    <div className={w['film_container']}>
+                <div className="container">
+                    <div className={c['films-container']}>
                         {films.map((film) => (
                             <Films
                                 key={film.filmname}

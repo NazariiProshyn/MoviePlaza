@@ -9,6 +9,7 @@ function Films({ work, iswatchroom = false, watchnow }) {
     const watch = () => {
         watchnow(work.filmreference);
     };
+
     return (
         <div className={f['film-container']}>
             <Link
@@ -32,17 +33,22 @@ function Films({ work, iswatchroom = false, watchnow }) {
                         Рейтинг фільму:
                         <span className={f['catalog-rate']}> {work.rate}</span>
                         /5
-                        <p className={f['item-about']}>
-                            {work.informationaboutfilm}
-                        </p>
+                        {iswatchroom ? (
+                            ''
+                        ) : (
+                            <p className={f['item-about']}>
+                                {work.informationaboutfilm}
+                            </p>
+                        )}
                     </div>
                 </div>
             </Link>
             {iswatchroom ? (
                 <button
-                    className={f['watch_btn']}
+                    className={f['watch-btn']}
                     id={work.filmname}
                     onClick={watch}
+                    
                 >
                     Дивитись зараз
                 </button>
