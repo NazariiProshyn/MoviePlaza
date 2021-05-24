@@ -48,7 +48,6 @@ function Films({ work, iswatchroom = false, watchnow }) {
                     className={f['watch-btn']}
                     id={work.filmname}
                     onClick={watch}
-                    
                 >
                     Дивитись зараз
                 </button>

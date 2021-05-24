@@ -16,6 +16,5 @@ export const Logout = () => {
     });
 };
 
-
 const methods = { setLogin, Logout };
 export default methods;

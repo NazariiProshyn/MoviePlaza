@@ -5,7 +5,6 @@
     align-items: center;
     width: 100%;
     padding: 25px 0;
-
 }
 
 .slider-wrapper::before {
@@ -49,7 +48,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
-
 
 .slider-buttons > div {
     color: #fff;
@@ -95,7 +93,6 @@
         object-fit: cover;
     }
 }
-
 
 @media screen and (max-width: 768px) {
     .slider {

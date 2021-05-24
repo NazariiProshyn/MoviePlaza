@@ -21,8 +21,8 @@ export const setProfileInfo = (isLogin) => {
     fetch('http://localhost:3001/updateprofile', {
         method: 'post',
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({
             firstname: document.getElementById('name').value,

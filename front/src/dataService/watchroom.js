@@ -29,7 +29,6 @@ export const Socket = (io, vars, functions) => {
         socket.emit('join_room', { username, room });
     });
 
-
     socket.on('message', (message) => {
         console.log(message);
     });
@@ -104,15 +103,13 @@ export const Socket = (io, vars, functions) => {
     const emitOnMessage = (text) => {
         socket.emit('chat_message', text);
     };
-    
 
-    return {emitOnMessage};
+    return { emitOnMessage };
 };
 
 export const emitOnSourceChange = (currSocket, filmname) => {
     currSocket.emit('change_src', filmname);
 };
 
-
-const methods = {Socket, emitOnSourceChange,};
+const methods = { Socket, emitOnSourceChange };
 export default methods;

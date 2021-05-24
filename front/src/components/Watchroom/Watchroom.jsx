@@ -9,7 +9,7 @@ import { Socket, emitOnSourceChange } from '../../dataService/watchroom';
 import { getSource } from '../../dataService/getsource';
 
 const Watchroom = () => {
-    // Установлюємо звідки беремо дані 
+    // Установлюємо звідки беремо дані
     const ENDPOINT = 'http://localhost:3001';
     const [films, setFilms] = useState([]);
     const [videosource, setSource] = useState('');
@@ -26,9 +26,8 @@ const Watchroom = () => {
         });
     };
 
-
     useEffect(() => {
-        // Задаємо змінні 
+        // Задаємо змінні
         const video = document.getElementById('videoPlayer');
         const room = window.location.pathname.substr(6);
         let playPromise = undefined;
@@ -43,8 +42,8 @@ const Watchroom = () => {
             username: username,
             seeked: seeked,
         };
-        
-        // Набір функцій для задання сокета, джерела та створення повідомлення 
+
+        // Набір функцій для задання сокета, джерела та створення повідомлення
         const functions = {
             setSocket: setSocket,
             setSource: setSource,

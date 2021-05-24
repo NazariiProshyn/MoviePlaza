@@ -6,9 +6,7 @@
 /videos
 videos/
 .pnp.js
-/package-lock.json
-/front/package-lock.json
-/back/package-lock.json
+
 
 # testing
 /coverage

@@ -7,13 +7,11 @@ footer {
 .footer-wrapper,
 .footer-logo,
 .contact-title,
-.contacts-link a
-{
+.contacts-link a {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
-
 
 .footer-wrapper {
     width: 100%;
@@ -43,8 +41,8 @@ footer {
 
 .contacts {
     display: grid;
-    grid-template-columns: repeat(2,1fr);
-    grid-template-rows: repeat(2,1fr);
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
     grid-gap: 5px;
 }
 
@@ -70,7 +68,6 @@ footer {
     filter: invert(1);
     height: 100%;
     width: 100%;
-
 }
 
 @media screen and (max-width: 992px) {
@@ -92,8 +89,8 @@ footer {
 
     .contacts {
         order: 2;
-        grid-template-columns: repeat(4,1fr);
-        grid-template-rows: repeat(1,1fr);
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(1, 1fr);
     }
 
     .footer-description {
@@ -108,7 +105,7 @@ footer {
     .footer-wrapper {
         flex-direction: column;
     }
-    
+
     .contacts-wrapper {
         width: 100%;
     }
@@ -121,7 +118,7 @@ footer {
     }
 
     .contacts {
-        grid-template-columns: repeat(2,1fr);
-        grid-template-rows: repeat(2,1fr);
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
     }
 }

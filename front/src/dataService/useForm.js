@@ -1,12 +1,16 @@
-export const handleSignup = (e, setIsSubmitting, setErrors, validate, values) => {
-  
-
+export const handleSignup = (
+    e,
+    setIsSubmitting,
+    setErrors,
+    validate,
+    values
+) => {
     if (window.location.pathname === '/login') {
         fetch('http://localhost:3001/login', {
             method: 'post',
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
             },
             withCredentials: true,
             credentials: 'include',
@@ -23,19 +27,25 @@ export const handleSignup = (e, setIsSubmitting, setErrors, validate, values) =>
                 if (response.success === 'false') {
                     alert('Неправильний логін або пароль');
                 } else {
-                    window.location.pathname =
-                        '/profile/' + values.username;
+                    window.location.pathname = '/profile/' + values.username;
                 }
             });
     } else {
-        if (values.username === '' || values.firstname === '' || values.lastname === '' || values.bdate === '' || values.password === '' || values.password2 === '') {
+        if (
+            values.username === '' ||
+            values.firstname === '' ||
+            values.lastname === '' ||
+            values.bdate === '' ||
+            values.password === '' ||
+            values.password2 === ''
+        ) {
             alert('Всі поля повинні бути заповнені!');
         } else {
             fetch('http://localhost:3001/registration', {
                 method: 'post',
                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
                 },
                 withCredentials: true,
                 credentials: 'include',
@@ -63,7 +73,6 @@ export const handleSignup = (e, setIsSubmitting, setErrors, validate, values) =>
                     }
                 });
         }
-        
     }
 
     e.preventDefault();
@@ -71,5 +80,5 @@ export const handleSignup = (e, setIsSubmitting, setErrors, validate, values) =>
     setIsSubmitting(true);
 };
 
-const methods = { handleSignup};
+const methods = { handleSignup };
 export default methods;

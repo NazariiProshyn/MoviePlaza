@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import f from './Filter.module.css';
 import { search } from '../../dataService/search';
 import search_img from './../../images/search.png';
@@ -33,7 +33,7 @@ const Filter = (catalogData) => {
     const handleSearchInputChanges = (e) => {
         setSearchValue(e.target.value);
     };
-    const clearFilter = () => {
+    const clearFilter = useCallback(() => {
         setGenre('Жанр');
         setStartyear('');
         setEndYear('');
@@ -56,11 +56,11 @@ const Filter = (catalogData) => {
             '',
             ''
         );
-    };
+    }, [catalogData.setfilms]);
 
     useEffect(() => {
         clearFilter();
-    }, []);
+    }, [clearFilter]);
 
     return (
         <div className={f.container}>
