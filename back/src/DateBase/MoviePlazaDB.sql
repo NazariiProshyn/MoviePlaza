@@ -951,7 +951,6 @@ BEGIN
 END
 $$ LANGUAGE plpgsql;
 
-
 CREATE OR REPLACE FUNCTION getRaitOfFilm(filmID int) RETURNS float AS $$
     SELECT AVG("Rate") FROM "Rating"
 	WHERE "FilmId" = filmID;
