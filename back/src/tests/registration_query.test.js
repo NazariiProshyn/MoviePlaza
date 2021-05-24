@@ -1,8 +1,11 @@
-process.env.NODE_ENV = 'test';
 const db = require('../queries/pool');
 const { getIsRegister } = require('../queries/registration_query');
 
 beforeAll(async (done) => {
+    await db.query('call DeleteUser($1)', ['jesttestnew1']);
+    done();
+});
+afterAll(async (done) => {
     await db.query('call DeleteUser($1)', ['jesttestnew1']);
     done();
 });

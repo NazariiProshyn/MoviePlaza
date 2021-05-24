@@ -1,4 +1,3 @@
-process.env.NODE_ENV = 'test';
 const db = require('../queries/pool');
 const { getIsLogin } = require('../queries/login_queries');
 describe('get is user login and password allow to enter', () => {

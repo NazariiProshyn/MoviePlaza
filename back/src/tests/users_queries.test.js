@@ -1,4 +1,3 @@
-process.env.NODE_ENV = 'test';
 const db = require('./../queries/pool');
 const { getUser, getUserByLogin } = require('./../queries/users_queries');
 describe('GET user by login or id', () => {

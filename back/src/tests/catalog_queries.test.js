@@ -1,4 +1,3 @@
-process.env.NODE_ENV = 'test';
 const db = require('../queries/pool');
 const { getCatalog } = require('../queries/catalog_queries');
 describe('GET film', () => {

@@ -1,4 +1,3 @@
-process.env.NODE_ENV = 'test';
 const db = require('../queries/pool');
 const { changeUserInfo } = require('../queries/update_user_queries');
 
@@ -13,7 +12,16 @@ beforeAll(async (done) => {
     ]);
     done();
 });
-
+afterAll(async (done) => {
+    await db.query('CALL UpdateUserInfo($1, $2, $3, $4, $5)', [
+        'Dmytro',
+        'Ukrainets',
+        '2002-02-08',
+        'Триллер',
+        'dukrainets',
+    ]);
+    done();
+});
 describe('Add comment to film', () => {
     test('POST update user info', async (done) => {
         const olduser = await db.query('SELECT * from UserInfo($1)', [

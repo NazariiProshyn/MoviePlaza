@@ -1,4 +1,3 @@
-process.env.NODE_ENV = 'test';
 const db = require('../queries/pool');
 const { addComment } = require('../queries/comment_queries');
 

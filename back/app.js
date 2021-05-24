@@ -12,19 +12,28 @@ const pgSession = require('connect-pg-simple')(fastifySession);
 
 app.register(fastifySession, {
     store: new pgSession({
-        conString:
-            'postgres://movieadmin1:movieadmin@localhost:5432/movieplaza',
-        tableName: 'session',
+        conObject: {
+            connectionString:
+                process.env.DATABASE_URL ||
+                'postgres://bshemyphktauco:97f8bea4d382c99b4749da4440914853debec42bdc83771aeaf13c1a7b1822a5@ec2-34-255-134-200.eu-west-1.compute.amazonaws.com:5432/dboqj906ps4mnl',
+            ssl: { rejectUnauthorized: false },
+            tableName: 'session',
+        },
     }),
     cookieName: 'sessionId',
     secret: '1qwqwqwwhjehu2372e8ywhdhu92e8uids',
-    cookie: { secure: false, path: '/', maxAge: 7 * 24 * 60 * 60 * 1000 }, //срок дії cookie 7 днів, протокол http(secure: false)
+    cookie: {
+        secure: true,
+        sameSite: 'None',
+        path: '/',
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+    }, //срок дії cookie 7 днів, протокол http(secure: false)
 });
 
 app.register(require('fastify-cors'), {
-    origin: 'http://localhost:3000',
+    origin: 'https://movie-plaza-1.vercel.app',
 
-    credentials: 'same-origin',
+    credentials: true,
     allowMethods:
         'PROPFIND, PROPPATCH, COPY, MOVE, DELETE, MKCOL, LOCK, UNLOCK, PUT, GETLIB, VERSION-CONTROL, CHECKIN, CHECKOUT, UNCHECKOUT, REPORT, UPDATE, CANCELUPLOAD, HEAD, OPTIONS, GET, POST',
     allowedHeaders: [
