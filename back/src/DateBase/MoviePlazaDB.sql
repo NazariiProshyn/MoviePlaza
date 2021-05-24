@@ -103,8 +103,9 @@
 	"SecondName" varchar(255) NOT NULL,
 	"BDate"      DATE         NOT NULL,
 	"Money"      money,
-	CONSTRAINT "User_pk" PRIMARY KEY ("UserId")
- ) WITH (
+	CONSTRAINT "User_pk" 
+	 	PRIMARY KEY ("UserId")
+  ) WITH (
   OIDS = FALSE
  );
 
@@ -117,9 +118,10 @@
 	"Login"     varchar(255) NOT NULL UNIQUE,
 	"Password"  varchar(255) NOT NULL,
 	"userImage" varchar(255) NOT NULL,
-	CONSTRAINT "UserInformation_pk" PRIMARY KEY ("UserId")
-) WITH (
-  OIDS = FALSE
+	CONSTRAINT "UserInformation_pk" 
+	 	PRIMARY KEY ("UserId")
+ )  WITH (
+OIDS = FALSE
 );
 
  /*
@@ -128,11 +130,12 @@
   */
 CREATE TABLE "FilmInfo" (
 	"FilmId"   serial NOT NULL,
-	"FilmName" text NOT NULL UNIQUE,
+	"FilmName" text   NOT NULL UNIQUE,
 	"Price"    money,
 	"InformationAboutFilm" text NOT NULL,
-	CONSTRAINT "FilmInfo_pk" PRIMARY KEY ("FilmId")
-) WITH (
+	CONSTRAINT "FilmInfo_pk" 
+		PRIMARY KEY ("FilmId")
+  ) WITH (
   OIDS = FALSE
 );
 
@@ -143,9 +146,10 @@ CREATE TABLE "FilmInfo" (
 CREATE TABLE "BoughtFilms" (
 	"UserId" int NOT NULL,
 	"FilmId" int NOT NULL,
-	CONSTRAINT "BoughtFilms_pk" PRIMARY KEY ("UserId","FilmId")
-) WITH (
-  OIDS = FALSE
+	CONSTRAINT "BoughtFilms_pk" 
+		PRIMARY KEY ("UserId","FilmId")
+  ) WITH (
+    OIDS = FALSE
 );
 
  /*
@@ -155,9 +159,10 @@ CREATE TABLE "BoughtFilms" (
 CREATE TABLE "FavouriteGenres" (
 	"UserId"   int NOT NULL,
 	"GenresId" int NOT NULL,
-	CONSTRAINT "FavouriteGenres_pk" PRIMARY KEY ("UserId","GenresId")
-) WITH (
-  OIDS = FALSE
+	CONSTRAINT "FavouriteGenres_pk" 
+		PRIMARY KEY ("UserId","GenresId")
+  ) WITH (
+	OIDS = FALSE
 );
 
  /*
@@ -167,9 +172,10 @@ CREATE TABLE "FavouriteGenres" (
 CREATE TABLE "FilmGenres" (
 	"FilmId"   int NOT NULL,
 	"GenresId" int NOT NULL,
-	CONSTRAINT "FilmGenres_pk" PRIMARY KEY ("FilmId","GenresId")
-) WITH (
-  OIDS = FALSE
+	CONSTRAINT "FilmGenres_pk" 
+		PRIMARY KEY ("FilmId","GenresId")
+  ) WITH (
+	  OIDS = FALSE
 );
 
  /*
@@ -181,8 +187,8 @@ CREATE   TABLE "TransactDetails" (
 	"TypeId"        bigint NOT NULL,
 	"DateofPayment" DATE   NOT NULL,
 	"Amount"        money 
-) WITH (
-  OIDS = FALSE
+  ) WITH (
+	OIDS = FALSE
 );
 
  /*
@@ -192,9 +198,10 @@ CREATE   TABLE "TransactDetails" (
 CREATE TABLE "Genres" (
 	"GenreId" serial       NOT NULL,
 	"Genre"   varchar(255) NOT NULL UNIQUE,
-	CONSTRAINT "Genres_pk" PRIMARY KEY ("GenreId")
-) WITH (
-  OIDS = FALSE
+	CONSTRAINT "Genres_pk" 
+		PRIMARY KEY ("GenreId")
+  ) WITH (
+	OIDS = FALSE
 );
 
  /*
@@ -207,9 +214,10 @@ CREATE TABLE "Filmdata" (
 	"Filmimage"     varchar(255)  NOT NULL,
 	"Dateofrelease" date,
 	"Duration"      int,
-	CONSTRAINT "Filmdata_pk" PRIMARY KEY ("FilmId")
-) WITH (
-  OIDS = FALSE
+	CONSTRAINT "Filmdata_pk"
+		PRIMARY KEY ("FilmId")
+  ) WITH (
+	OIDS = FALSE
 );
 
  /*
@@ -220,9 +228,10 @@ CREATE TABLE "Rating" (
 	"FilmId"      int     NOT NULL,
 	"UserId"      int     NOT NULL,
 	"Rate"        float   NOT NULL,
-	CONSTRAINT "Reits_pk" PRIMARY KEY ("FilmId", "UserId")
-) WITH (
-  OIDS = FALSE
+	CONSTRAINT "Reits_pk"
+		PRIMARY KEY ("FilmId", "UserId")
+  ) WITH (
+	OIDS = FALSE
 );
 
  /*
@@ -233,8 +242,8 @@ CREATE TABLE "Comments" (
 	"FilmId"  int          NOT NULL,
 	"Comment" varchar(255) NOT NULL,
 	"UserId"  int          NOT NULL
-) WITH (
-  OIDS = FALSE
+  ) WITH (
+	OIDS = FALSE
 );
 
  /*
@@ -242,11 +251,12 @@ CREATE TABLE "Comments" (
   *
   */
 CREATE TABLE "TypesOfTransact" (
-	"TypeId" serial NOT NULL,
+	"TypeId" serial        NOT NULL,
 	"Type"   varchar(255)  NOT NULL,
-	CONSTRAINT "TypesOfTransact_pk" PRIMARY KEY ("TypeId")
-) WITH (
-  OIDS = FALSE
+	CONSTRAINT "TypesOfTransact_pk"
+		PRIMARY KEY ("TypeId")
+  ) WITH (
+	OIDS = FALSE
 );
 
  /*
@@ -258,9 +268,31 @@ CREATE TABLE "RoomInformation" (
 	"RoomKey"   varchar(255) NOT NULL,
 	"Film"      varchar(255),
 	"Time"      int,
-	CONSTRAINT "RoomInformation_pk" PRIMARY KEY ("RoomKey")
-) WITH (
-  OIDS = FALSE
+	CONSTRAINT "RoomInformation_pk"
+		PRIMARY KEY ("RoomKey")
+  ) WITH (
+	OIDS = FALSE
+);
+CREATE TABLE public.session (
+	sid    character varying PRIMARY KEY  NOT NULL,
+	sess   json 						  NOT NULL,
+	expire timestamp(6) without time zone NOT NULL
+);
+
+
+CREATE TABLE "Rooms"(
+	roomId varchar(255),
+	film   varchar(255)
+  ) WITH (
+	OIDS = FALSE
+);
+
+CREATE TABLE "UsersRoom"(
+	socketId varchar(255),
+	username varchar(255),
+	room     varchar(255)
+  ) WITH (
+	OIDS = FALSE
 );
 
  /*
@@ -297,6 +329,8 @@ ALTER TABLE "FilmGenres"      ADD CONSTRAINT "FilmGenres_fk1"      FOREIGN KEY (
 
 ALTER TABLE "Comments"        ADD CONSTRAINT "Comments_fk2"        FOREIGN KEY ("UserId")    REFERENCES "User"("UserId");
 
+
+ALTER TABLE "Comments" ADD COLUMN CommentDate timestamp DEFAULT LOCALTIMESTAMP;
 
 /*
  *
@@ -386,7 +420,7 @@ INSERT INTO "UserInformation" ("Login", "Password", "userImage")
 		   
   INSERT INTO "FilmGenres" ("FilmId","GenresId")
     VALUES (1,1),(1,2),
-	       (2,1),
+	       (2,1),(1,4),
 		   (3,2),(3,3),
 		   (4,1),(4,4),
 		   (5,5),(5,6),
@@ -409,7 +443,7 @@ INSERT INTO "UserInformation" ("Login", "Password", "userImage")
 			 ('FilmName7', 'film.png','1975-10-10', 141),
 			 ('FilmName8', 'film.png','2021-04-12', 321),
 			 ('FilmName9', 'film.png','2020-12-12', 12),
-			 ('FilmName10', 'film.png','2017-05-02', 15);
+			 ('FilmName10','film.png','2017-05-02', 15);
 			 
 			 
    INSERT INTO "TypesOfTransact"("Type")
@@ -447,172 +481,168 @@ INSERT INTO "UserInformation" ("Login", "Password", "userImage")
  */
  select * from "FilmInfo"
  
-    UPDATE "FilmInfo" 
-	  SET  "FilmName"             = 'Семейка Аддамс',
-	       "InformationAboutFilm" = 'Черная комедия о колоритной семейке, обитающей в не менее колоритном доме.
-		  Глава семьи, Гомес Аддамс - очень самоуверенный и довольно импульсивный тип, который четверть века тому 
-		  назад страшно поругался со своим старшим братом Фестером, после чего тот пропал без вести. Все попытки
-		  отыскать его были безуспешными. Но вот, однажды на пороге фамильного особняка появляется некто,
-		  очень похожий на Фестера.'
-	   WHERE "FilmId" = 1;
+UPDATE "FilmInfo" 
+  SET  "FilmName"             = 'Семейка Аддамс',
+	   "InformationAboutFilm" = 'Черная комедия о колоритной семейке, обитающей в не менее колоритном доме.
+	  Глава семьи, Гомес Аддамс - очень самоуверенный и довольно импульсивный тип, который четверть века тому 
+	  назад страшно поругался со своим старшим братом Фестером, после чего тот пропал без вести. Все попытки
+	  отыскать его были безуспешными. Но вот, однажды на пороге фамильного особняка появляется некто,
+	  очень похожий на Фестера.'
+WHERE "FilmId" = 1;
 	   
-	UPDATE "FilmInfo" 
-	  SET  "FilmName"             = 'Рыцари справедливости',
-	       "InformationAboutFilm" = 'Когда жена Маркуса трагически погибает в железнодорожной катастрофе,
-		  это кажется нелепой случайностью. А если это тщательно спланированное убийство? Военный,
-		  сумасшедший математик и парочка гиков объединяются,чтобы выяснить, что случилось на самом деле.
-		  Теперь они — Рыцари справедливости.'
-	   WHERE "FilmId" = 2;
+UPDATE "FilmInfo" 
+  SET  "FilmName"             = 'Рыцари справедливости',
+	   "InformationAboutFilm" = 'Когда жена Маркуса трагически погибает в железнодорожной катастрофе,
+	  это кажется нелепой случайностью. А если это тщательно спланированное убийство? Военный,
+	  сумасшедший математик и парочка гиков объединяются,чтобы выяснить, что случилось на самом деле.
+	  Теперь они — Рыцари справедливости.'
+WHERE "FilmId" = 2;
 	     
-	UPDATE "FilmInfo" 
-	  SET  "FilmName"             = 'Охотник на монстров',
-	       "InformationAboutFilm" = 'Параллельно нашему миру существует иной: мир,
-		  где правят крайне опасные и наделенные невероятной силой монстры, яростно
-		  оберегающие свои владения от чужаков. Именно сюда через пространственный
-		  портал попадают лейтенант Артемис и ее отряд элитных бойцов. И теперь им
-		  предстоит проверить себя на прочность перед лицом невиданной ранее угрозы.
-		  В попытке выжить и найти дорогу домой, Артемис объединяет силы с таинственным
-		  Охотником, который научился выживать в этих враждебных землях.
-		  Вместе героям предстоит вступить в беспощадную схватку с монстрами, не знающими страха и жалости.'
-	   WHERE "FilmId" = 3;
+UPDATE "FilmInfo" 
+  SET  "FilmName"             = 'Охотник на монстров',
+	   "InformationAboutFilm" = 'Параллельно нашему миру существует иной: мир,
+	  где правят крайне опасные и наделенные невероятной силой монстры, яростно
+	  оберегающие свои владения от чужаков. Именно сюда через пространственный
+	  портал попадают лейтенант Артемис и ее отряд элитных бойцов. И теперь им
+	  предстоит проверить себя на прочность перед лицом невиданной ранее угрозы.
+	  В попытке выжить и найти дорогу домой, Артемис объединяет силы с таинственным
+	  Охотником, который научился выживать в этих враждебных землях.
+	  Вместе героям предстоит вступить в беспощадную схватку с монстрами, не знающими страха и жалости.'
+WHERE "FilmId" = 3;
 	     
-	UPDATE "FilmInfo" 
-	  SET  "FilmName"             = 'Эйс Вентура 2: Когда зовет природа',
-	       "InformationAboutFilm" = 'Место действия - Африка. Знаменитый детектив Эйс Вентура, единственный
-		  в мире специалист по розыску пропавших домашних любимцев, снова в деле. На этот раз Эйс должен
-		  найти Шикаку - священное животное племени Вачати. Без Шикаки не может состояться свадьба дочери
-		  вождя племени Вачати и сына вождя воинственного племени Вачуту. Если Эйс провалит задание, начнется
-		  межплеменная война. Но Эйс Вентура не из тех, кто отступает перед трудностями. В поисках священной
-		  Шикаки он сражается с аллигаторами, приручает слонов, подражает обезьянам, качается на лианах, 
-		  ходит по раскаленным углям, вылезает, к ужасу семьи американских туристов, из задницы носорога и 
-		  ставит «на уши» всю Африку.'
-	   WHERE "FilmId" = 4;
+UPDATE "FilmInfo" 
+  SET  "FilmName"             = 'Эйс Вентура 2: Когда зовет природа',
+	   "InformationAboutFilm" = 'Место действия - Африка. Знаменитый детектив Эйс Вентура, единственный
+	  в мире специалист по розыску пропавших домашних любимцев, снова в деле. На этот раз Эйс должен
+	  найти Шикаку - священное животное племени Вачати. Без Шикаки не может состояться свадьба дочери
+	  вождя племени Вачати и сына вождя воинственного племени Вачуту. Если Эйс провалит задание, начнется
+	  межплеменная война. Но Эйс Вентура не из тех, кто отступает перед трудностями. В поисках священной
+	  Шикаки он сражается с аллигаторами, приручает слонов, подражает обезьянам, качается на лианах, 
+	  ходит по раскаленным углям, вылезает, к ужасу семьи американских туристов, из задницы носорога и 
+	  ставит «на уши» всю Африку.'
+WHERE "FilmId" = 4;
 	   
-	UPDATE "FilmInfo" 
-	  SET  "FilmName"             = 'Людоед',
-	       "InformationAboutFilm" = 'Действие фильма происходит в 1847 году, в период войны Америки с Мексикой.
-		  Капитана Джона Бойда чествуют и награждают различными медалями, однако он не рад этим обстоятельствам.
-		  Причиной его чествования стал захват ставки противника в одиночку, но только он один знает все обстоятельства
-		  столь смелого поступка — он просто струсил, бросил оружие и притворился мёртвым. Так он пролежал длительное
-		  время среди мёртвых товарищей, а впоследствии в состоянии аффекта поубивал всех неприятелей. Однако продвижения
-		  по службе Джон не получил, вместо этого его направляют в одинокий форт в горах Калифорнии.Через некоторое время
-		  в форт приходит оборванный и изголодавшийся мужчина по имени Калхун. Из его истории становится ясно,
-          что он был членом каравана, который вёл проводник. Проводник заблудился и люди, в связи с наступившей зимой,
-          поселились в пещере. Однако запасов еды было мало и в тот момент, когда они кончились люди начали поедать друг
-		  друга. Калхуну удалось бежать.'
-	   WHERE "FilmId" = 5;
+UPDATE "FilmInfo" 
+  SET  "FilmName"             = 'Людоед',
+	   "InformationAboutFilm" = 'Действие фильма происходит в 1847 году, в период войны Америки с Мексикой.
+	  Капитана Джона Бойда чествуют и награждают различными медалями, однако он не рад этим обстоятельствам.
+	  Причиной его чествования стал захват ставки противника в одиночку, но только он один знает все обстоятельства
+	  столь смелого поступка — он просто струсил, бросил оружие и притворился мёртвым. Так он пролежал длительное
+	  время среди мёртвых товарищей, а впоследствии в состоянии аффекта поубивал всех неприятелей. Однако продвижения
+	  по службе Джон не получил, вместо этого его направляют в одинокий форт в горах Калифорнии.Через некоторое время
+	  в форт приходит оборванный и изголодавшийся мужчина по имени Калхун. Из его истории становится ясно,
+	  что он был членом каравана, который вёл проводник. Проводник заблудился и люди, в связи с наступившей зимой,
+	  поселились в пещере. Однако запасов еды было мало и в тот момент, когда они кончились люди начали поедать друг
+	  друга. Калхуну удалось бежать.'
+WHERE "FilmId" = 5;
 	   
-	UPDATE "FilmInfo" 
-	  SET  "FilmName"             = 'Гладиатор',
-	       "InformationAboutFilm" = 'Максимус прославился на всю Римскую империю, как справедливый и храбрый военачальник. 
-		  Воины, которым довелось быть в рядах его армии, уважали генерала, боготворили его и готовы были идти на любые
-		  жертвы ради него. Казалось, что он непобедим, но придворные интриги все же его подкосили.
-          Не желая присягнуть наследнику престола, который попросту убил своего отца, Максимус оказывается
-          приговоренным к смертной казни. Ему чудом удается спастись, однако недруги не пощадили его супругу и сына.
-		  Впоследствии судьба приводит бывшего военачальника в Колизей, где он становится гладиатором. Раз за разом он поражает
-          публику своим непревзойденным мастерством, и вскоре ему предстоит сойтись на арене со своим главным врагом.'
-	   WHERE "FilmId" = 6;
+UPDATE "FilmInfo" 
+  SET  "FilmName"             = 'Гладиатор',
+	   "InformationAboutFilm" = 'Максимус прославился на всю Римскую империю, как справедливый и храбрый военачальник. 
+	  Воины, которым довелось быть в рядах его армии, уважали генерала, боготворили его и готовы были идти на любые
+	  жертвы ради него. Казалось, что он непобедим, но придворные интриги все же его подкосили.
+	  Не желая присягнуть наследнику престола, который попросту убил своего отца, Максимус оказывается
+	  приговоренным к смертной казни. Ему чудом удается спастись, однако недруги не пощадили его супругу и сына.
+	  Впоследствии судьба приводит бывшего военачальника в Колизей, где он становится гладиатором. Раз за разом он поражает
+	  публику своим непревзойденным мастерством, и вскоре ему предстоит сойтись на арене со своим главным врагом.'
+WHERE "FilmId" = 6;
 	   
-	UPDATE "FilmInfo" 
-	  SET  "FilmName"             = '300 спартанцев',
-	       "InformationAboutFilm" = 'На пороге далекого 480 года, ушедшего столетия, территория Греции окружена персидскими
-		  войсками. Вражеская армия стремительно наступает по всем направлениям, атакуяпротивников и пытаясь прорвать оборону.
-		  Цель персидского царя Ксеркса захватить власть и расширить собственные горизонты.Правитель надеется на успех, ведь
-		  в его распоряжении тысячи воинов.Уверенно подступая к греческим землям, войска неожиданно сталкиваются с серьезной
-		  преградой. Отряд храбрых и бесстрашных спартанцев, под руководством царя Леонида, дает достойный отпор противнику.
-		  Бойцы стараются выдержать оборону и не допустить вторжения врага. Благодаря мужеству, силе, отваге и героизму
-		  300 спартанцев, народ объединяется и встает на защиту Греции. Теперь им вместе предстоит отвоевать родные земли
-		  и нанести персидским воинам ответный удар. Но удастся ли сплоченному народу одержать победу, сокрушить сильного
-		  и практически неуязвимого противника?'
-	   WHERE "FilmId" = 7;
+UPDATE "FilmInfo" 
+  SET  "FilmName"             = '300 спартанцев',
+	   "InformationAboutFilm" = 'На пороге далекого 480 года, ушедшего столетия, территория Греции окружена персидскими
+	  войсками. Вражеская армия стремительно наступает по всем направлениям, атакуяпротивников и пытаясь прорвать оборону.
+	  Цель персидского царя Ксеркса захватить власть и расширить собственные горизонты.Правитель надеется на успех, ведь
+	  в его распоряжении тысячи воинов.Уверенно подступая к греческим землям, войска неожиданно сталкиваются с серьезной
+	  преградой. Отряд храбрых и бесстрашных спартанцев, под руководством царя Леонида, дает достойный отпор противнику.
+	  Бойцы стараются выдержать оборону и не допустить вторжения врага. Благодаря мужеству, силе, отваге и героизму
+	  300 спартанцев, народ объединяется и встает на защиту Греции. Теперь им вместе предстоит отвоевать родные земли
+	  и нанести персидским воинам ответный удар. Но удастся ли сплоченному народу одержать победу, сокрушить сильного
+	  и практически неуязвимого противника?'
+WHERE "FilmId" = 7;
 	   
-	UPDATE "FilmInfo" 
-	  SET  "FilmName"             = 'Омерзительная восьмерка',
-	       "InformationAboutFilm" = 'США после Гражданской войны. Легендарный охотник за головами Джон Рут по кличке
-		  Вешатель конвоирует заключенную. По пути к ним прибиваются еще несколько путешественников. Снежная буря
-		  вынуждает компанию искать укрытие в лавке на отшибе, где уже расположилось весьма пестрое общество:
-		  генерал конфедератов, мексиканец, ковбой... И один из них - не тот, за кого себя выдает.'
-	   WHERE "FilmId" = 8;
+UPDATE "FilmInfo" 
+  SET  "FilmName"             = 'Омерзительная восьмерка',
+	   "InformationAboutFilm" = 'США после Гражданской войны. Легендарный охотник за головами Джон Рут по кличке
+	  Вешатель конвоирует заключенную. По пути к ним прибиваются еще несколько путешественников. Снежная буря
+	  вынуждает компанию искать укрытие в лавке на отшибе, где уже расположилось весьма пестрое общество:
+	  генерал конфедератов, мексиканец, ковбой... И один из них - не тот, за кого себя выдает.'
+WHERE "FilmId" = 8;
 	   
-	UPDATE "FilmInfo" 
-	  SET  "FilmName"             = 'Такси',
-	       "InformationAboutFilm" = 'Молодой таксист Даниэль помешан на быстрой езде. Как ураган, проносится он
-		  по извилистым улицам Марселя на своём мощном ревущем звере «Пежо», пугая пассажиров и прохожих.
-		  Неподкупный полицейский Эмильен вынуждает его помочь в поимке банды грабителей, ускользающих от полиции 
-		  на своих неуловимых «Мерседесах».И до самого конца не ясно, кто же сможет удержаться на крутом вираже.'
-	   WHERE "FilmId" = 9;
+UPDATE "FilmInfo" 
+  SET  "FilmName"             = 'Такси',
+	   "InformationAboutFilm" = 'Молодой таксист Даниэль помешан на быстрой езде. Как ураган, проносится он
+	  по извилистым улицам Марселя на своём мощном ревущем звере «Пежо», пугая пассажиров и прохожих.
+	  Неподкупный полицейский Эмильен вынуждает его помочь в поимке банды грабителей, ускользающих от полиции 
+	  на своих неуловимых «Мерседесах».И до самого конца не ясно, кто же сможет удержаться на крутом вираже.'
+WHERE "FilmId" = 9;
 	   
-	UPDATE "FilmInfo" 
-	  SET  "FilmName"             = 'Живая мертвечина',
-	       "InformationAboutFilm" = 'С острова Суматра вывезена обезьяна, из-за одного укуса которой туземцы отрубили
-		  зоологу, приехавшему ее отловить, обе руки, а затем и голову. Уже в наше время эта тварь укусила злобную
-		  мамашу нашего героя, которая не дает ему встречаться с любимой девушкой.Последствия укуса ужасны, картину
-		  постепенно населяют жуткие зомби...'
-	   WHERE "FilmId" = 10;
+UPDATE "FilmInfo" 
+  SET  "FilmName"             = 'Живая мертвечина',
+	   "InformationAboutFilm" = 'С острова Суматра вывезена обезьяна, из-за одного укуса которой туземцы отрубили
+	  зоологу, приехавшему ее отловить, обе руки, а затем и голову. Уже в наше время эта тварь укусила злобную
+	  мамашу нашего героя, которая не дает ему встречаться с любимой девушкой.Последствия укуса ужасны, картину
+	  постепенно населяют жуткие зомби...'
+WHERE "FilmId" = 10;
 	   
-	   SELECT * FROM "FilmInfo" ORDER BY "FilmId"
-	   
-	   
-	   
-	UPDATE "Filmdata" 
-	  SET  "Filmimage"     = 'film1.png',
-	       "Dateofrelease" = '1991-01-01',
-		   "Duration"      = 99
-	   WHERE "FilmId" = 1;
+UPDATE "Filmdata" 
+  SET  "Filmimage"     = 'film1.png',
+	   "Dateofrelease" = '1991-01-01',
+	   "Duration"      = 99
+WHERE "FilmId" = 1;
 	      
-	UPDATE "Filmdata" 
-	  SET  "Filmimage"     = 'film2.png',
-	       "Dateofrelease" = '2020-01-01',
-		   "Duration"      = 116
-	   WHERE "FilmId" = 2;
+UPDATE "Filmdata" 
+  SET  "Filmimage"     = 'film2.png',
+	   "Dateofrelease" = '2020-01-01',
+	   "Duration"      = 116
+WHERE "FilmId" = 2;
 	      
-	UPDATE "Filmdata" 
-	  SET  "Filmimage"     = 'film3.png',
-	       "Dateofrelease" = '2020-01-01',
-		   "Duration"      = 103
-	   WHERE "FilmId" = 3;
+UPDATE "Filmdata" 
+  SET  "Filmimage"     = 'film3.png',
+	   "Dateofrelease" = '2020-01-01',
+	   "Duration"      = 103
+WHERE "FilmId" = 3;
 	   
-	UPDATE "Filmdata" 
-	  SET  "Filmimage"     = 'film4.png',
-	       "Dateofrelease" = '1995-01-01',
-		   "Duration"      = 94
-	   WHERE "FilmId" = 4;
+UPDATE "Filmdata" 
+  SET  "Filmimage"     = 'film4.png',
+	   "Dateofrelease" = '1995-01-01',
+	   "Duration"      = 94
+WHERE "FilmId" = 4;
 	   
-	UPDATE "Filmdata" 
-	  SET  "Filmimage"     = 'film5.png',
-	       "Dateofrelease" = '1999-01-01',
-		   "Duration"      = 101
-	   WHERE "FilmId" = 5;
+UPDATE "Filmdata" 
+  SET  "Filmimage"     = 'film5.png',
+	   "Dateofrelease" = '1999-01-01',
+	   "Duration"      = 101
+WHERE "FilmId" = 5;
 	   
-	UPDATE "Filmdata" 
-	  SET  "Filmimage"     = 'film6.png',
-	       "Dateofrelease" = '2000-01-01',
-		   "Duration"      = 170
-	   WHERE "FilmId" = 6;
+UPDATE "Filmdata" 
+  SET  "Filmimage"     = 'film6.png',
+	   "Dateofrelease" = '2000-01-01',
+	   "Duration"      = 170
+WHERE "FilmId" = 6;
 	   
-	UPDATE "Filmdata" 
-	  SET  "Filmimage"     = 'film7.png',
-	       "Dateofrelease" = '2007-01-01',
-		   "Duration"      = 101
-	   WHERE "FilmId" = 7;
+UPDATE "Filmdata" 
+  SET  "Filmimage"     = 'film7.png',
+	   "Dateofrelease" = '2007-01-01',
+	   "Duration"      = 101
+WHERE "FilmId" = 7;
 	   
-	UPDATE "Filmdata" 
-	  SET  "Filmimage"     = 'film8.png',
-	       "Dateofrelease" = '2015-01-01',
-		   "Duration"      = 167
-	   WHERE "FilmId" = 8;
+UPDATE "Filmdata" 
+  SET  "Filmimage"     = 'film8.png',
+	   "Dateofrelease" = '2015-01-01',
+	   "Duration"      = 167
+WHERE "FilmId" = 8;
 	   
-	UPDATE "Filmdata" 
-	  SET  "Filmimage"     = 'film9.png',
-	       "Dateofrelease" = '1998-01-01',
-		   "Duration"      = 89
-	   WHERE "FilmId" = 9;
+UPDATE "Filmdata" 
+  SET  "Filmimage"     = 'film9.png',
+	   "Dateofrelease" = '1998-01-01',
+	   "Duration"      = 89
+WHERE "FilmId" = 9;
 	   
-	UPDATE "Filmdata" 
-	  SET  "Filmimage"     = 'film10.png',
-	       "Dateofrelease" = '1992-01-01',
-		   "Duration"      = 93
-	   WHERE "FilmId" = 10;
+UPDATE "Filmdata" 
+  SET  "Filmimage"     = 'film10.png',
+	   "Dateofrelease" = '1992-01-01',
+	   "Duration"      = 93
+WHERE "FilmId" = 10;
 	   
  /*
  *
@@ -633,18 +663,16 @@ CREATE OR REPLACE FUNCTION FilmPage(idfilm integer)
 $func$
 BEGIN
 RETURN QUERY
-SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
-       f2."Filmimage", date_part('year', f2."Dateofrelease"), f2."Duration",
-	   (SELECT COUNT("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") AS "RateCount", (SELECT ROUND(AVG("Rate")::decimal,2) FROM "Rating" WHERE "FilmId"=f1."FilmId") as "Rate"
-
-FROM   "FilmInfo" f1
-  JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
-  WHERE f1."FilmId" = @idfilm;
+	SELECT f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
+		   f2."Filmimage", date_part('year', f2."Dateofrelease"), f2."Duration",
+		   (SELECT COUNT("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") AS "RateCount",
+		   (SELECT ROUND(AVG("Rate")::decimal,2)
+			FROM "Rating" WHERE "FilmId"=f1."FilmId") AS "Rate"
+	FROM   "FilmInfo" f1
+	  JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
+	  WHERE f1."FilmId" = @idfilm;
 END
 $func$  LANGUAGE plpgsql;
-
-select * from FilmPage(5);
-
 
  /*
  *
@@ -659,29 +687,18 @@ CREATE OR REPLACE FUNCTION GetComments(idfilm integer)
 $func$
 BEGIN
 RETURN QUERY
-SELECT "Comment", "UserId", "Comments"."commentdate"::varchar(255)
-  FROM "Comments"
-  WHERE "FilmId" = @idfilm
-ORDER BY "commentdate" DESC;
+	SELECT "Comment", "UserId", "Comments"."commentdate"::varchar(255)
+	  FROM "Comments"
+	  WHERE "FilmId" = @idfilm
+	ORDER BY "commentdate" DESC;
 END
 $func$  LANGUAGE plpgsql;
-
-select * from GetComments(2);
-
-
-
-
-
-
 
 
 CREATE OR REPLACE FUNCTION CheckUser(Ulogin varchar(255), Upass varchar(255)) RETURNS integer AS $$
     SELECT "UserId" FROM "UserInformation"
 	WHERE "Login" = Ulogin AND "Password" = Upass;
 $$ LANGUAGE SQL;
-
-SELECT * FROM public.checkuser('dukrainets', 'qwerty3');
-
 
 CREATE OR REPLACE FUNCTION LastFilms()
   RETURNS TABLE (Id int
@@ -696,19 +713,19 @@ CREATE OR REPLACE FUNCTION LastFilms()
 $func$
 BEGIN
 RETURN QUERY
-SELECT  f1."FilmId", f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
-       f2."Filmimage", date_part('year', f2."Dateofrelease")::integer, f2."Duration",
-	   (SELECT COUNT("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") AS "RateCount", (SELECT ROUND(AVG("Rate")::decimal,2) FROM "Rating" WHERE "FilmId"=f1."FilmId") as "Rate"
+	SELECT  f1."FilmId", f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
+		   f2."Filmimage", date_part('year', f2."Dateofrelease")::integer, f2."Duration",
+		   (SELECT COUNT("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") AS "RateCount",
+			(SELECT ROUND(AVG("Rate")::decimal,2)
+			FROM "Rating" 
+			WHERE "FilmId"=f1."FilmId") AS "Rate"
 
-FROM   "FilmInfo" f1
-  JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
-ORDER BY  f1."FilmId" DESC
-LIMIT  6;
+	FROM   "FilmInfo" f1
+	  JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
+	ORDER BY  f1."FilmId" DESC
+	LIMIT  6;
 END
 $func$  LANGUAGE plpgsql;
-
-SELECT * FROM LastFilms();
-		
 		
 SELECT * FROM SortFilmsWithoutGenreWithNAME(nameofilm=>'%Гладиатор%')
 		
@@ -732,11 +749,6 @@ FROM   "User" f1
 WHERE f2."Login" = Ulogin;
 END
 $func$  LANGUAGE plpgsql;	
-SELECT * FROM UserInfo('dukrainets')
-
-		
-SELECT * FROM "User"
-SELECT * FROM "UserInformation"
 		
 CREATE OR REPLACE FUNCTION SortFilmsWithoutGenreWithNAME(minyear integer DEFAULT 0, maxyear integer DEFAULT 9999,
 						  minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
@@ -755,20 +767,23 @@ CREATE OR REPLACE FUNCTION SortFilmsWithoutGenreWithNAME(minyear integer DEFAULT
 $func$
 BEGIN
 RETURN QUERY
-SELECT f1."FilmId", f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
-       f2."Filmimage", f2."Filmreference", EXTRACT(YEAR FROM f2."Dateofrelease")::int, f2."Duration", 
-	   (SELECT COUNT("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") AS "RateCount", (SELECT ROUND(AVG("Rate")::decimal,2) FROM "Rating" WHERE "FilmId"=f1."FilmId") as "Rate"
-FROM   "FilmInfo" f1
-  JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
-  WHERE f1."Price"    >= @minprice    AND
-        f1."Price"    <= @maxprice    AND
-		EXTRACT(YEAR FROM f2."Dateofrelease") >= @minyear AND
-		EXTRACT(YEAR FROM f2."Dateofrelease") <= @maxyear AND
-		f2."Duration" >= @minduration AND
-        f2."Duration" <= @maxduration AND
-		(SELECT AVG("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") >= @minrate     AND
-        (SELECT AVG("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") <= @maxrate     AND
-		f1."FilmName" LIKE nameofilm;
+	SELECT f1."FilmId", f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
+		   f2."Filmimage", f2."Filmreference", EXTRACT(YEAR FROM f2."Dateofrelease")::int, f2."Duration", 
+		   (SELECT COUNT("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") AS "RateCount",
+			(SELECT ROUND(AVG("Rate")::decimal,2) 
+			FROM "Rating" 
+			WHERE "FilmId"=f1."FilmId") AS "Rate"
+	FROM   "FilmInfo" f1
+	  JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
+	  WHERE f1."Price"    >= @minprice    AND
+			f1."Price"    <= @maxprice    AND
+			EXTRACT(YEAR FROM f2."Dateofrelease") >= @minyear AND
+			EXTRACT(YEAR FROM f2."Dateofrelease") <= @maxyear AND
+			f2."Duration" >= @minduration AND
+			f2."Duration" <= @maxduration AND
+			(SELECT AVG("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") >= @minrate     AND
+			(SELECT AVG("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") <= @maxrate     AND
+			f1."FilmName" LIKE nameofilm;
 END
 $func$  LANGUAGE plpgsql;		
 
@@ -779,7 +794,8 @@ SELECT * FROM UserInfo('dsds')
 CREATE OR REPLACE FUNCTION SortFilms(minyear integer DEFAULT 0, maxyear integer DEFAULT 9999,
 									 minduration integer DEFAULT 0, maxduration integer DEFAULT 999,
 								     minprice    integer DEFAULT 0, maxprice    integer DEFAULT 999,
-								     minrate     float   DEFAULT 0, maxrate       float DEFAULT 999,  genre varchar(255) DEFAULT 'Комедия')
+								     minrate     float   DEFAULT 0, maxrate       float DEFAULT 999,  genre varchar(255)
+									 																	DEFAULT 'Комедия')
   RETURNS TABLE (Id int
 	  		   , FilmName             text
                , Price                int
@@ -792,24 +808,24 @@ CREATE OR REPLACE FUNCTION SortFilms(minyear integer DEFAULT 0, maxyear integer 
 $func$
 BEGIN
 RETURN QUERY
-SELECT  f1."FilmId", f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
-       f2."Filmimage", EXTRACT(YEAR FROM f2."Dateofrelease")::integer, f2."Duration",
-	   (SELECT COUNT("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") AS "RateCount", (SELECT ROUND(AVG("Rate")::decimal,2) FROM "Rating" WHERE "FilmId"=f1."FilmId") as "Rate"
-FROM   "FilmInfo" f1
-  JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
-  WHERE f1."Price"    >= @minprice    AND
-        f1."Price"    <= @maxprice    AND
-		EXTRACT(YEAR FROM f2."Dateofrelease") >= @minyear AND
-		EXTRACT(YEAR FROM f2."Dateofrelease") <= @maxyear AND
-		f2."Duration" >= @minduration AND
-        f2."Duration" <= @maxduration AND
-		(SELECT AVG("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") >= @minrate     AND
-        (SELECT AVG("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") <= @maxrate     AND
-		f1."FilmId" IN (
-			SELECT "FilmId" FROM "FilmGenres"
-		       WHERE "GenresId" IN (
-				   SELECT "GenreId" FROM "Genres"
-				     WHERE "Genre" = genre));
+	SELECT  f1."FilmId", f1."FilmName",  f1."Price",         f1."InformationAboutFilm",
+		   f2."Filmimage", EXTRACT(YEAR FROM f2."Dateofrelease")::integer, f2."Duration",
+		   (SELECT COUNT("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") AS "RateCount", (SELECT ROUND(AVG("Rate")::decimal,2) FROM "Rating" WHERE "FilmId"=f1."FilmId") as "Rate"
+	FROM   "FilmInfo" f1
+	  JOIN "Filmdata" f2 ON f2."FilmId" = f1."FilmId"
+	  WHERE f1."Price"    >= @minprice    AND
+			f1."Price"    <= @maxprice    AND
+			EXTRACT(YEAR FROM f2."Dateofrelease") >= @minyear AND
+			EXTRACT(YEAR FROM f2."Dateofrelease") <= @maxyear AND
+			f2."Duration" >= @minduration AND
+			f2."Duration" <= @maxduration AND
+			(SELECT AVG("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") >= @minrate     AND
+			(SELECT AVG("Rate") FROM "Rating" WHERE "FilmId"=f1."FilmId") <= @maxrate     AND
+			f1."FilmId" IN (
+				SELECT "FilmId" FROM "FilmGenres"
+				   WHERE "GenresId" IN (
+					   SELECT "GenreId" FROM "Genres"
+						 WHERE "Genre" = genre));
 END
 $func$  LANGUAGE plpgsql;
 
@@ -820,20 +836,11 @@ CREATE OR REPLACE FUNCTION CheckNick(nickname varchar(255)) RETURNS int AS $$
 	WHERE "Login" LIKE nickname;
 $$ LANGUAGE SQL;
 
-select * from checknick('Dukrainets')
 
 CREATE OR REPLACE FUNCTION CheckGenre(genre varchar(255)) RETURNS int AS $$
     SELECT COUNT(*) FROM "Genres"
 	WHERE "Genre" LIKE genre;
 $$ LANGUAGE SQL;
-
-
-
-SELECT * FROM "UserInformation"
-
-
-
-
 
 CREATE OR REPLACE PROCEDURE Registration(FirstName varchar(255) , SecondName varchar(255) ,
 						      Bdate    date,             Login varchar(255), Passw  varchar(255),
@@ -848,46 +855,30 @@ AS $$
 	VALUES ((SELECT "UserId" FROM "UserInformation" WHERE "Login"=Login), 8)
 $$;
 
-SELECT * FROM "UserInformation"
-
-
-
-CALL UpdateUserInfo()
 
 CREATE OR REPLACE PROCEDURE UpdateUserInfo(newFirstName varchar(255), newSecondName varchar(255),
-						      newBdate     date,         genre         varchar(255),
-							  login varchar(255))
+						      			   newBdate     date,         genre         varchar(255),
+							               login        varchar(255))
 LANGUAGE SQL
 AS $$
-UPDATE "User" 
-	  SET  "FirstName"    = newFirstName,
-	       "SecondName"   = newSecondName,
-		   "BDate"        = newBdate
-	   WHERE "UserId" IN(SELECT "UserId" FROM "UserInformation"
-						 WHERE "Login" = login);
+	UPDATE "User" 
+		  SET  "FirstName"    = newFirstName,
+			   "SecondName"   = newSecondName,
+			   "BDate"        = newBdate
+		   WHERE "UserId" IN(SELECT "UserId" FROM "UserInformation"
+							 WHERE "Login" = login);
 
-UPDATE "FavouriteGenres"
-	  SET  "GenresId" = (SELECT "GenreId" FROM "Genres"
-	  WHERE "Genre" = genre)
-	  WHERE "UserId" IN(SELECT "UserId" FROM "UserInformation"
-						 WHERE "Login" = login);
+	UPDATE "FavouriteGenres"
+		  SET  "GenresId" = (SELECT "GenreId" FROM "Genres"
+		  WHERE "Genre" = genre)
+		  WHERE "UserId" IN(SELECT "UserId" FROM "UserInformation"
+							WHERE "Login" = login);
 $$;
 
 
 CALL UpdateUserInfo('Dmytro2', 'Ukrainets2', '08.02.2002', 'Комедия', 'testcom4')
-SELECT * FROM Userinfo('testcom4')
-SELECT * FROM "UserInformation"
-SELECT * FROM "FavouriteGenres"
-INSERT INTO "Genres"("Genre") VALUES('Не указано')
-INSERT INTO "FavouriteGenres"("UserId", "GenresId") VALUES(6, 8), (7, 8), (8, 8), (9, 8), (10, 8), (11, 8),
-														 (12, 8), (13, 8), (14, 8), (15, 8), (16, 8), (17, 8),
-														 (18, 8), (19, 8), (20, 8), (21, 8), (22, 8), (23, 8),
-														 (24, 8),(25, 8)
-CREATE TABLE public.session (
-sid character varying PRIMARY KEY NOT NULL,
-sess json NOT NULL,
-expire timestamp(6) without time zone NOT NULL
-);
+
+
 CREATE OR REPLACE PROCEDURE moneyTransaction(userId int,   typeId int,
 								  amount money, transactionData date DEFAULT CURRENT_DATE)
 LANGUAGE SQL
@@ -900,9 +891,7 @@ AS $$
 			WHERE "UserId" = userId;
 
 $$;
-SELECT "UserId" FROM "UserInformation"
-				   WHERE "Login" = nick
-		SELECT * FROM "UserInformation"		   
+
 CALL moneyTransaction(2,1,'4.5'::float8::numeric::money)
 
 
@@ -916,11 +905,10 @@ AS $$
 					  	WHERE "UserId" = userId) - 
 					   (SELECT "Price" FROM "FilmInfo"
 					    WHERE "FilmId" = filmId))
-			WHERE "UserId" = userId;
+		WHERE "UserId" = userId;
 
 $$;
 
-CALL buyFilm(2,2)
 
 CREATE OR REPLACE PROCEDURE addComment(userId int,   filmId int, com varchar(255))
 LANGUAGE SQL
@@ -930,18 +918,16 @@ AS $$
 $$;
 
 
-
-
 CREATE OR REPLACE PROCEDURE addNewFilm(filmName      varchar(255), price     money,        infoFilm  text,
 									   filmreference varchar(255), filmImage varchar(255), dateofrel date,
 									   duration      int)
 LANGUAGE SQL
 AS $$
-INSERT INTO "Filmdata" ("Filmreference", "Filmimage", "Dateofrelease", "Duration")
-  VALUES (filmreference, filmImage, dateofrel, duration);
-  
-INSERT INTO "FilmInfo" ("FilmName", "Price", "InformationAboutFilm")
-  VALUES  (filmName, price,infoFilm );
+	INSERT INTO "Filmdata" ("Filmreference", "Filmimage", "Dateofrelease", "Duration")
+	  VALUES (filmreference, filmImage, dateofrel, duration);
+
+	INSERT INTO "FilmInfo" ("FilmName", "Price", "InformationAboutFilm")
+	  VALUES  (filmName, price,infoFilm );
 $$;
 
 
@@ -953,15 +939,15 @@ $$ LANGUAGE SQL;
 CREATE OR REPLACE PROCEDURE filmRait(filmID int, userId int, rait int)
 AS $$
 BEGIN
-IF CheckNumRaitsOfFilm(filmID) > 0 THEN
-    UPDATE "Rating" 
-	SET  "Rate"    = rait
-	WHERE "FilmId" = filmID AND
-	"UserId"       = userId;
-ELSIF CheckNumRaitsOfFilm(filmID) = 0 THEN
-	INSERT INTO "Rating" ("FilmId", "UserId", "Rate")
-  	VALUES (filmID, userId, rait);
-	END IF;
+	IF CheckNumRaitsOfFilm(filmID) > 0 THEN
+		UPDATE "Rating" 
+		SET  "Rate"    = rait
+		WHERE "FilmId" = filmID AND
+		"UserId"       = userId;
+	ELSIF CheckNumRaitsOfFilm(filmID) = 0 THEN
+		INSERT INTO "Rating" ("FilmId", "UserId", "Rate")
+		VALUES (filmID, userId, rait);
+		END IF;
 END
 $$ LANGUAGE plpgsql;
 
@@ -971,35 +957,13 @@ CREATE OR REPLACE FUNCTION getRaitOfFilm(filmID int) RETURNS float AS $$
 	WHERE "FilmId" = filmID;
 $$ LANGUAGE SQL;
 
-
-
-CREATE TABLE "Rooms"(
-	roomId varchar(255),
-	film varchar(255)
-) WITH (
-  OIDS = FALSE
-);
-CREATE TABLE "UsersRoom"(
-	socketId varchar(255),
-	username varchar(255),
-	room varchar(255)
-) WITH (
-  OIDS = FALSE
-);
-
-
-ALTER TABLE "Comments" ADD COLUMN CommentDate timestamp DEFAULT LOCALTIMESTAMP;
-SELECT * FROM "Rooms"
-SELECT * FROM "Comments"
-
-
 CREATE OR REPLACE PROCEDURE DeleteUser(Login varchar(255))
 LANGUAGE SQL
 AS $$
 	DELETE FROM "FavouriteGenres"
-	WHERE "UserId" = (SELECT "UserId" FROM "UserInformation" WHERE "Login"=Login);
+		WHERE "UserId" = (SELECT "UserId" FROM "UserInformation" WHERE "Login"=Login);
 	DELETE FROM "User"
-	WHERE "UserId" = (SELECT "UserId" FROM "UserInformation" WHERE "Login"=Login);
+		WHERE "UserId" = (SELECT "UserId" FROM "UserInformation" WHERE "Login"=Login);
 	DELETE FROM "UserInformation"
-	WHERE "Login"=Login;
+		WHERE "Login"=Login;
 $$;
