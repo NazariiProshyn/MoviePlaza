@@ -12,7 +12,7 @@ export const search = (
     rate_to = null
 ) => {
     fetch(
-        `https://movieplazaback.herokuapp.com/catalog?value=${searchValue}&genre=${genre}&yearfrom=${year_from}&yearto=${year_to}&lenfrom=${len_from}&lento=${len_to}&pricefrom=${price_from}&priceto=${price_to}&ratefrom=${rate_from}&rateto=${rate_to}`
+        `https://movieplaza.herokuapp.com/catalog?value=${searchValue}&genre=${genre}&yearfrom=${year_from}&yearto=${year_to}&lenfrom=${len_from}&lento=${len_to}&pricefrom=${price_from}&priceto=${price_to}&ratefrom=${rate_from}&rateto=${rate_to}`
     )
         .then((res) => {
             return res.json();
@@ -21,7 +21,7 @@ export const search = (
 };
 
 export const getfilms = (setFilms) => {
-    fetch('https://movieplazaback.herokuapp.com/catalog')
+    fetch('https://movieplaza.herokuapp.com/catalog')
         .then((res) => {
             return res.json();
         })
