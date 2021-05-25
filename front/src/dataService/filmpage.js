@@ -42,5 +42,20 @@ export const addNewComment = (comment, userId) => {
     });
 };
 
-const methods = { getLogin, setFilmPage, addNewComment, setFilmComments };
+export const setRate = (rate, userId) => {
+    fetch('https://movieplaza.herokuapp.com/setrate', {
+        method: 'post',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            rate: Number(rate),
+            userid: userId,
+            filmid: Number(window.location.pathname.split('/')[2]),
+        }),
+    });
+};
+
+const methods = { getLogin, setFilmPage, addNewComment, setFilmComments, setRate };
 export default methods;

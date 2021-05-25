@@ -59,6 +59,7 @@ app.register(require('./src/routes/registration'));
 app.register(require('./src/routes/commentadd'));
 app.register(require('./src/routes/update_user'));
 app.register(require('./src/routes/setrate'));
+app.register(require('./src/routes/getrate'));
 const sock = require('./src/sockets')(app);
 app.ready(sock);
 
