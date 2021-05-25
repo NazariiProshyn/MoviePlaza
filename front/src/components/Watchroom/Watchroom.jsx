@@ -132,7 +132,8 @@ const createMessage = (username, pict, text) => {
     const message_avatar_image = document.createElement('img');
     console.log(username);
     message_avatar_image.className = w['message-avatar__image'];
-    message_avatar_image.src = 'https://movieplaza.herokuapp.com/images/' + pict;
+    message_avatar_image.src =
+        'https://movieplaza.herokuapp.com/images/' + pict;
     message_avatar_image.alt = 'avatar';
     message_avatar.appendChild(message_avatar_image);
     message.appendChild(message_avatar);

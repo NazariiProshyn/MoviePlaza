@@ -9,11 +9,7 @@ const Slider = () => {
             <div className={s.slider}>
                 <div className={s['image-wrapper']}>
                     {/*<Link to="/catalog/filmname">*/}
-                    <img
-                        src={slide}
-                        alt="logo"
-                        className={s['slider-image']}
-                    />
+                    <img src={slide} alt="logo" className={s['slider-image']} />
                     {/*</Link>*/}
                     <div className={s['slider-buttons']}>
                         <div id={s['slider-buttons__left']}>&#10094;</div>

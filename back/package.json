@@ -10,7 +10,7 @@
         "start": "node index.js",
         "lint": "eslint app.js index.js src/",
         "lint:fix": "eslint --fix app.js index.js src/",
-        "format": "prettier --write app.js package.json .eslintrc.json src/",
+        "format": "prettier --write app.js index.js package.json .eslintrc.json src/",
         "check-format": "prettier --check app.js index.js package.json .eslintrc.json src/"
     },
     "author": "",
