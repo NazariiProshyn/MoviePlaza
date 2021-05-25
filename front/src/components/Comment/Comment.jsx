@@ -30,9 +30,9 @@ function Comment({ comments }) {
                           ' ' +
                           new Date().toLocaleTimeString('ua-UA')
                         : comments.commentdate
-                            .split('T')
-                            .join(' ')
-                            .split('.')[0]}
+                              .split('T')
+                              .join(' ')
+                              .split('.')[0]}
                 </p>
             </div>
             <div className={c.comment}>
