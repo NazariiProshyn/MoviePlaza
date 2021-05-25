@@ -1,5 +1,5 @@
 export const getUserData = (setUser, username) => {
-    fetch('http://localhost:3001/profile/' + username.user)
+    fetch('https://movieplazaback.herokuapp.com/profile/' + username.user)
         .then((res) => res.json())
         .then((res) => {
             setUser(res);
@@ -7,7 +7,7 @@ export const getUserData = (setUser, username) => {
 };
 
 export const getLogin = (setIsLogin) => {
-    fetch('http://localhost:3001/', {
+    fetch('https://movieplazaback.herokuapp.com/', {
         withCredentials: true,
         credentials: 'include',
     })
@@ -18,7 +18,7 @@ export const getLogin = (setIsLogin) => {
 };
 
 export const setProfileInfo = (isLogin) => {
-    fetch('http://localhost:3001/updateprofile', {
+    fetch('https://movieplazaback.herokuapp.com/updateprofile', {
         method: 'post',
         headers: {
             Accept: 'application/json',

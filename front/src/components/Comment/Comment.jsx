@@ -5,7 +5,7 @@ import { setUsersComments } from '../../dataService/comment';
 import { getImage } from '../../dataService/getimage';
 
 function Comment({ comments }) {
-    const HOSTNAME = 'http://localhost:3001';
+    const HOSTNAME = 'https://movieplazaback.herokuapp.com';
     const [user, setUser] = useState({});
 
     // Отримуємо інформацію про користувача
@@ -30,9 +30,9 @@ function Comment({ comments }) {
                           ' ' +
                           new Date().toLocaleTimeString('ua-UA')
                         : comments.commentdate
-                              .split('T')
-                              .join(' ')
-                              .split('.')[0]}
+                            .split('T')
+                            .join(' ')
+                            .split('.')[0]}
                 </p>
             </div>
             <div className={c.comment}>

@@ -42,7 +42,7 @@ export const Socket = (io, vars, functions) => {
         console.log(`Client connected: ${socket.id}`);
     });
     socket.on('change_src', (src) => {
-        setSource(`http://localhost:3001/videos/${src}.mp4`);
+        setSource(`https://movieplazaback.herokuapp.com/videos/${src}.mp4`);
         document.getElementById('videoPlayer').load();
     });
     // send message to chat
@@ -94,7 +94,6 @@ export const Socket = (io, vars, functions) => {
     });
     video.onseeking = () => {
         seeked = true;
-        //console.log('seeked-onseek');
         socket.emit('seeked', video.currentTime);
     };
     // disconnect

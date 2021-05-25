@@ -1,5 +1,5 @@
 export const getLogin = (setIsLogin, setUserId) => {
-    fetch('http://localhost:3001/', {
+    fetch('https://movieplazaback.herokuapp.com/', {
         withCredentials: true,
         credentials: 'include',
     })
@@ -12,7 +12,7 @@ export const getLogin = (setIsLogin, setUserId) => {
 };
 
 export const setFilmPage = (setFilm) => {
-    fetch('http://localhost:3001' + window.location.pathname)
+    fetch('https://movieplazaback.herokuapp.com' + window.location.pathname)
         .then((res) => res.json())
         .then((res) => {
             setFilm(res);
@@ -20,7 +20,7 @@ export const setFilmPage = (setFilm) => {
 };
 
 export const setFilmComments = (setComments) => {
-    fetch('http://localhost:3001' + window.location.pathname)
+    fetch('https://movieplazaback.herokuapp.com' + window.location.pathname)
         .then((res) => res.json())
         .then((res) => {
             setComments(res.comments);
@@ -28,7 +28,7 @@ export const setFilmComments = (setComments) => {
 };
 
 export const addNewComment = (comment, userId) => {
-    fetch('http://localhost:3001/commentadd', {
+    fetch('https://movieplazaback.herokuapp.com/commentadd', {
         method: 'post',
         headers: {
             Accept: 'application/json',

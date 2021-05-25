@@ -6,7 +6,7 @@ export const handleSignup = (
     values
 ) => {
     if (window.location.pathname === '/login') {
-        fetch('http://localhost:3001/login', {
+        fetch('https://movieplazaback.herokuapp.com/login', {
             method: 'post',
             headers: {
                 Accept: 'application/json',
@@ -41,7 +41,7 @@ export const handleSignup = (
         ) {
             alert('Всі поля повинні бути заповнені!');
         } else {
-            fetch('http://localhost:3001/registration', {
+            fetch('https://movieplazaback.herokuapp.com/registration', {
                 method: 'post',
                 headers: {
                     Accept: 'application/json',

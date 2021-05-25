@@ -6,7 +6,7 @@ import { getImage } from '../../dataService/getimage';
 const FilmPage = (filmpage_data) => {
     const film = filmpage_data.data;
     const isLogin = filmpage_data.login_data;
-    const HOSTNAME = 'http://localhost:3001';
+    const HOSTNAME = 'https://movieplazaback.herokuapp.com';
 
     return (
         <div className="Filmpage">

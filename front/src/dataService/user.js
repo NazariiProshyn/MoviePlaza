@@ -1,5 +1,5 @@
 const getUser = () => {
-    return fetch('http://localhost:3001/', {
+    return fetch('https://movieplazaback.herokuapp.com/', {
         withCredentials: true,
         credentials: 'include',
     }).then((res) => res.json());

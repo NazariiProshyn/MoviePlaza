@@ -1,5 +1,5 @@
 export const setLogin = (setIsLogin) => {
-    fetch('http://localhost:3001/', {
+    fetch('https://movieplazaback.herokuapp.com/', {
         withCredentials: true,
         credentials: 'include',
     })
@@ -10,7 +10,7 @@ export const setLogin = (setIsLogin) => {
 };
 
 export const Logout = () => {
-    fetch('http://localhost:3001/logout', {
+    fetch('https://movieplazaback.herokuapp.com/logout', {
         withCredentials: true,
         credentials: 'include',
     });
