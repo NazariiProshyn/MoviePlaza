@@ -56,6 +56,24 @@ export const setRate = (rate, userId) => {
         }),
     });
 };
+export const userRate = async (
+    setUserRate,
+) => {
+    const userid = await fetch('https://movieplaza.herokuapp.com/', {
+        withCredentials: true,
+        credentials: 'include',
+    }).then((res) => res.json());
+    console.log(userid);
+    const film = Number(window.location.pathname.split('/')[2]);
+    fetch(
+        `https://movieplaza.herokuapp.com/filmuserrate?userid=${userid.id}&filmid=${film}`
+    )
+        .then((res) => {
+            return res.json();
+        })
+        .then((res) => setUserRate(res.Rate));
+};
 
-const methods = { getLogin, setFilmPage, addNewComment, setFilmComments, setRate };
+
+const methods = { getLogin, setFilmPage, addNewComment, setFilmComments, setRate, userRate};
 export default methods;

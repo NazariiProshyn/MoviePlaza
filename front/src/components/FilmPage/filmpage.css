@@ -178,3 +178,16 @@ a.disabled {
     border-color: black;
     border-width: 1px;
 }
+
+.userrate b {
+    margin-right: 5px;
+}
+.userrate {
+    margin-bottom: 10px;
+}
+.userrate::after {
+    content: '★';
+    color: gold;
+    margin-left: 3px;
+    font-size: x-large;
+}

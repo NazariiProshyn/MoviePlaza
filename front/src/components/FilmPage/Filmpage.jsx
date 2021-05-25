@@ -1,20 +1,22 @@
 import './filmpage.css';
 import { Link } from 'react-router-dom';
-
+import { useState, useEffect } from 'react';
 import { getImage } from '../../dataService/getimage';
-import { setRate } from '../../dataService/filmpage';
+import { setRate, userRate } from '../../dataService/filmpage';
 
 const FilmPage = (filmpage_data) => {
+    const [userRates, setUserRate] = useState('');
     const film = filmpage_data.data;
     const isLogin = filmpage_data.login_data;
-    //const userId = filmpage_data.data.userId;
     const HOSTNAME = 'https://movieplaza.herokuapp.com';
     const HandleRate = (event)=>{
-        console.log(event.target.value);
-        console.log(filmpage_data);
-        console.log(isLogin.userId);
+        setUserRate(event.target.value);
         setRate(event.target.value, isLogin.userId);
     };
+    useEffect(() => {
+        userRate(setUserRate);
+    },[]);
+
     return (
         <div className="Filmpage">
             <h1>{film.filmname}</h1>
@@ -48,6 +50,7 @@ const FilmPage = (filmpage_data) => {
                     <div className="rate">{film.rate}</div>
                 </div>
                 {isLogin.userId ? (
+                    <div>
                     <div className="yourRate">
                         <p>Ваша оцінка: </p>
                         <div className="rating-area">
@@ -57,6 +60,7 @@ const FilmPage = (filmpage_data) => {
                                 name="rating"
                                 value="5"
                                 onClick={HandleRate}
+                                
                             />
                             <label htmlFor="star-5" title="Оцінка «5»"></label>
                             <input
@@ -65,6 +69,7 @@ const FilmPage = (filmpage_data) => {
                                 name="rating"
                                 value="4"
                                 onClick={HandleRate}
+                               
                             />
                             <label htmlFor="star-4" title="Оцінка «4»"></label>
                             <input
@@ -73,6 +78,7 @@ const FilmPage = (filmpage_data) => {
                                 name="rating"
                                 value="3"
                                 onClick={HandleRate}
+                              
                             />
                             <label htmlFor="star-3" title="Оцінка «3»"></label>
                             <input
@@ -81,6 +87,7 @@ const FilmPage = (filmpage_data) => {
                                 name="rating"
                                 value="2"
                                 onClick={HandleRate}
+                               
                             />
                             <label htmlFor="star-2" title="Оцінка «2»"></label>
                             <input
@@ -89,9 +96,14 @@ const FilmPage = (filmpage_data) => {
                                 name="rating"
                                 value="1"
                                 onClick={HandleRate}
+                                
                             />
                             <label htmlFor="star-1" title="Оцінка «1»"></label>
                         </div>
+                    </div>
+                    <div className='userrate'>
+                        <b>Поточна оцінка</b>{userRates}
+                    </div>
                     </div>
                 ) : (
                     ''
