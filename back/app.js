@@ -58,6 +58,7 @@ app.register(require('./src/routes/videos'));
 app.register(require('./src/routes/registration'));
 app.register(require('./src/routes/commentadd'));
 app.register(require('./src/routes/update_user'));
+app.register(require('./src/routes/setrate'));
 const sock = require('./src/sockets')(app);
 app.ready(sock);
 

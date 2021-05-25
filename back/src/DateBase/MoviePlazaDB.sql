@@ -939,12 +939,12 @@ $$ LANGUAGE SQL;
 CREATE OR REPLACE PROCEDURE filmRait(filmID int, userId int, rait int)
 AS $$
 BEGIN
-	IF CheckNumRaitsOfFilm(filmID) > 0 THEN
+	IF CheckAccRaitOnFilm(filmID, userId) > 0 THEN
 		UPDATE "Rating" 
 		SET  "Rate"    = rait
 		WHERE "FilmId" = filmID AND
 		"UserId"       = userId;
-	ELSIF CheckNumRaitsOfFilm(filmID) = 0 THEN
+	ELSIF CheckAccRaitOnFilm(filmID, userId) = 0 THEN
 		INSERT INTO "Rating" ("FilmId", "UserId", "Rate")
 		VALUES (filmID, userId, rait);
 		END IF;
