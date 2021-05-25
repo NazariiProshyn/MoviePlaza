@@ -6,16 +6,19 @@ import { setRate, userRate } from '../../dataService/filmpage';
 
 const FilmPage = (filmpage_data) => {
     const [userRates, setUserRate] = useState('');
+    const [filmrate, setFilmRate] = useState();
     const film = filmpage_data.data;
     const isLogin = filmpage_data.login_data;
     const HOSTNAME = 'https://movieplaza.herokuapp.com';
     const HandleRate = (event)=>{
         setUserRate(event.target.value);
         setRate(event.target.value, isLogin.userId);
+        setFilmRate(((Number(filmpage_data.data.rate)*(Number(filmpage_data.data.numofvoices))+Number(event.target.value))/((Number(filmpage_data.data.numofvoices)+1))).toFixed(2));
     };
     useEffect(() => {
         userRate(setUserRate);
-    },[]);
+        setFilmRate(filmpage_data.data.rate);
+    },[filmpage_data.data.rate]);
 
     return (
         <div className="Filmpage">
@@ -47,7 +50,7 @@ const FilmPage = (filmpage_data) => {
                 <div className="filmRate">
                     <p>Оцінка фільма: </p>
                     <div className="star"></div>
-                    <div className="rate">{film.rate}</div>
+                    <div className="rate">{filmrate||filmpage_data.data.rate}</div>
                 </div>
                 {isLogin.userId ? (
                     <div>
