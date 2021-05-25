@@ -18,7 +18,8 @@
     "jest": {
         "testEnvironment": "node",
         "coveragePathIgnorePatterns": [
-            "/node_modules/"
+            "/node_modules/",
+            "src/sockets.js"
         ]
     },
     "dependencies": {
