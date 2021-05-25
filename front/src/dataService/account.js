@@ -1,5 +1,5 @@
 export const getUserData = (setUser, username) => {
-    fetch('https://movieplazaback.herokuapp.com/profile/' + username.user)
+    fetch('https://movieplaza.herokuapp.com/profile/' + username.user)
         .then((res) => res.json())
         .then((res) => {
             setUser(res);
@@ -7,7 +7,7 @@ export const getUserData = (setUser, username) => {
 };
 
 export const getLogin = (setIsLogin) => {
-    fetch('https://movieplazaback.herokuapp.com/', {
+    fetch('https://movieplaza.herokuapp.com/', {
         withCredentials: true,
         credentials: 'include',
     })
@@ -18,7 +18,7 @@ export const getLogin = (setIsLogin) => {
 };
 
 export const setProfileInfo = (isLogin) => {
-    fetch('https://movieplazaback.herokuapp.com/updateprofile', {
+    fetch('https://movieplaza.herokuapp.com/updateprofile', {
         method: 'post',
         headers: {
             Accept: 'application/json',

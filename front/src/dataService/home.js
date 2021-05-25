@@ -1,5 +1,5 @@
 export const getfilms = (setData) => {
-    fetch('https://movieplazaback.herokuapp.com/newfilms', {
+    fetch('https://movieplaza.herokuapp.com/newfilms', {
         withCredentials: true,
     })
         .then((response) => {

@@ -5,7 +5,7 @@ import { setUsersComments } from '../../dataService/comment';
 import { getImage } from '../../dataService/getimage';
 
 function Comment({ comments }) {
-    const HOSTNAME = 'https://movieplazaback.herokuapp.com';
+    const HOSTNAME = 'https://movieplaza.herokuapp.com';
     const [user, setUser] = useState({});
 
     // Отримуємо інформацію про користувача

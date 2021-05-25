@@ -10,7 +10,7 @@ import { getSource } from '../../dataService/getsource';
 
 const Watchroom = () => {
     // Установлюємо звідки беремо дані
-    const ENDPOINT = 'https://movieplazaback.herokuapp.com';
+    const ENDPOINT = 'https://movieplaza.herokuapp.com';
     const [films, setFilms] = useState([]);
     const [videosource, setSource] = useState('');
     const [currSocket, setSocket] = useState();
@@ -132,7 +132,7 @@ const createMessage = (username, pict, text) => {
     const message_avatar_image = document.createElement('img');
     console.log(username);
     message_avatar_image.className = w['message-avatar__image'];
-    message_avatar_image.src = 'https://movieplazaback.herokuapp.com/images/' + pict;
+    message_avatar_image.src = 'https://movieplaza.herokuapp.com/images/' + pict;
     message_avatar_image.alt = 'avatar';
     message_avatar.appendChild(message_avatar_image);
     message.appendChild(message_avatar);

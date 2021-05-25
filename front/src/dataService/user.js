@@ -1,5 +1,5 @@
 const getUser = () => {
-    return fetch('https://movieplazaback.herokuapp.com/', {
+    return fetch('https://movieplaza.herokuapp.com/', {
         withCredentials: true,
         credentials: 'include',
     }).then((res) => res.json());

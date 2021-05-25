@@ -10,7 +10,7 @@ import {
 import { getImage } from '../../dataService/getimage';
 
 const Account = (username) => {
-    const HOSTNAME = 'https://movieplazaback.herokuapp.com';
+    const HOSTNAME = 'https://movieplaza.herokuapp.com';
     // Інформація про сторінку користувача
     const [user, setUser] = useState({
         firstname: '',

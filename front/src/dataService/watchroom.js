@@ -42,7 +42,7 @@ export const Socket = (io, vars, functions) => {
         console.log(`Client connected: ${socket.id}`);
     });
     socket.on('change_src', (src) => {
-        setSource(`https://movieplazaback.herokuapp.com/videos/${src}.mp4`);
+        setSource(`https://movieplaza.herokuapp.com/videos/${src}.mp4`);
         document.getElementById('videoPlayer').load();
     });
     // send message to chat

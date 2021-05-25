@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { getImage } from '../../dataService/getimage';
 
 function Films({ work, iswatchroom = false, watchnow }) {
-    const HOSTNAME = 'https://movieplazaback.herokuapp.com';
+    const HOSTNAME = 'https://movieplaza.herokuapp.com';
 
     const watch = () => {
         watchnow(work.filmreference);
