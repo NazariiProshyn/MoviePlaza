@@ -46,7 +46,7 @@ const joinuser = async (username, room, socket) => {
 
 const chat_message = async (message, socket, app) => {
     const user = await getCurrentUser(socket.id, pool);
-    const user_data = await getUserByLogin(user.username);
+    const user_data = await getUserByLogin(user.username, pool);
     let picture = 'user.png';
 
     if (user_data.userimage) {
