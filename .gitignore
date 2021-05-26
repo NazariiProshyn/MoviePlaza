@@ -4,9 +4,8 @@
 /node_modules
 /.pnp
 
-back/videos/FilmName7.mp4
-back/videos/FilmName9.mp4
-back/videos/testvideo.mp4
+/videos
+videos/
 .pnp.js
 
 
