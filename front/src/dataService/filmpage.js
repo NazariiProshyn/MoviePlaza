@@ -56,9 +56,7 @@ export const setRate = (rate, userId) => {
         }),
     });
 };
-export const userRate = async (
-    setUserRate,
-) => {
+export const userRate = async (setUserRate) => {
     const userid = await fetch('https://movieplaza.herokuapp.com/', {
         withCredentials: true,
         credentials: 'include',
@@ -74,6 +72,12 @@ export const userRate = async (
         .then((res) => setUserRate(res.Rate));
 };
 
-
-const methods = { getLogin, setFilmPage, addNewComment, setFilmComments, setRate, userRate};
+const methods = {
+    getLogin,
+    setFilmPage,
+    addNewComment,
+    setFilmComments,
+    setRate,
+    userRate,
+};
 export default methods;

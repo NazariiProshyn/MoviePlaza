@@ -6,7 +6,6 @@ export const Socket = (io, vars, functions) => {
     const room = vars.room;
     let username = vars.username;
     let playPromise = vars.playPromise;
-    let seeked = vars.seeked;
 
     const setSocket = functions.setSocket;
     const setSource = functions.setSource;
@@ -38,17 +37,19 @@ export const Socket = (io, vars, functions) => {
         video.removeEventListener('play', play);
         video.removeEventListener('pause', stop);
         video.currentTime = video.currentTime + 0;
-        setTimeout(()=>{
+        setTimeout(() => {
             video.addEventListener('play', play);
             video.addEventListener('pause', stop);
-        }, 100);
+        }, 1000);
     });
     socket.on('connect', () => {
         video.muted = true;
         console.log(`Client connected: ${socket.id}`);
     });
     socket.on('change_src', (src) => {
-        setSource(`https://res.cloudinary.com/movieplaza/video/upload/${src}.mp4`);
+        setSource(
+            `https://res.cloudinary.com/movieplaza/video/upload/${src}.mp4`
+        );
         document.getElementById('videoPlayer').load();
     });
     // send message to chat
@@ -67,20 +68,12 @@ export const Socket = (io, vars, functions) => {
 
     // stop video
     const stop = () => {
-        if (!seeked) {
-            socket.emit('stop_video');
-        } else {
-            seeked = false;
-            video.play();
-        }
+        socket.emit('stop_video');
     };
     socket.on('stop_video', () => {
         if (playPromise !== undefined) {
             playPromise.then((_) => {
                 video.pause();
-                if (seeked) {
-                    seeked = false;
-                }
             });
         }
     });
@@ -92,22 +85,16 @@ export const Socket = (io, vars, functions) => {
             video.currentTime !== time &&
             Math.abs(video.currentTime - time) >= 0.5
         ) {
-            if (!seeked) {
-                //video.currentTime = time;
-                seeked = true;
-                console.log('seeked-change');
-            }
             video.removeEventListener('play', play);
             video.removeEventListener('pause', stop);
             video.currentTime = time;
-            setTimeout(()=>{
+            setTimeout(() => {
                 video.addEventListener('play', play);
                 video.addEventListener('pause', stop);
             }, 1000);
         }
     });
     video.onseeking = () => {
-        seeked = true;
         socket.emit('seeked', video.currentTime);
     };
     // disconnect
