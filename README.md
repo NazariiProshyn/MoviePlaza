@@ -20,4 +20,4 @@
     -HTML;
     -JS;
     -React;
-    -WebRTC.
+    -Socket.io.
