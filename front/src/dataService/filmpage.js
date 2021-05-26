@@ -5,7 +5,6 @@ export const getLogin = (setIsLogin, setUserId) => {
     })
         .then((res) => res.json())
         .then((res) => {
-            console.log(res);
             setIsLogin(res.name);
             setUserId(res.id);
         });
@@ -56,12 +55,12 @@ export const setRate = (rate, userId) => {
         }),
     });
 };
-export const userRate = async (setUserRate) => {
+export const getUserRate = async (UserRate) => {
     const userid = await fetch('https://movieplaza.herokuapp.com/', {
         withCredentials: true,
         credentials: 'include',
     }).then((res) => res.json());
-    console.log(userid);
+
     const film = Number(window.location.pathname.split('/')[2]);
     fetch(
         `https://movieplaza.herokuapp.com/filmuserrate?userid=${userid.id}&filmid=${film}`
@@ -69,7 +68,7 @@ export const userRate = async (setUserRate) => {
         .then((res) => {
             return res.json();
         })
-        .then((res) => setUserRate(res.Rate));
+        .then((res) => UserRate(res.Rate));
 };
 
 const methods = {
@@ -78,6 +77,6 @@ const methods = {
     addNewComment,
     setFilmComments,
     setRate,
-    userRate,
+    getUserRate,
 };
 export default methods;

@@ -22,21 +22,26 @@ function Comment({ comments }) {
                     alt={comments.userid}
                 />
             </div>
-            <div className={c.author}>
-                <p className={c.login}>{user.login}</p>
-                <p className={c.date}>
-                    {comments.commentdate === ''
-                        ? new Date().toLocaleDateString().split('.').join('-') +
-                          ' ' +
-                          new Date().toLocaleTimeString('ua-UA')
-                        : comments.commentdate
-                              .split('T')
-                              .join(' ')
-                              .split('.')[0]}
-                </p>
-            </div>
-            <div className={c.comment}>
-                <p>{comments.comments}</p>
+            <div className={c['comment-content']}>
+                <div className={c.author}>
+                    <span className={c.login}>{user.login}</span>
+                    <span className={c.date}>
+                        {comments.commentdate === ''
+                            ? new Date()
+                                  .toLocaleDateString()
+                                  .split('.')
+                                  .join('-') +
+                              ' ' +
+                              new Date().toLocaleTimeString('ua-UA')
+                            : comments.commentdate
+                                  .split('T')
+                                  .join(' ')
+                                  .split('.')[0]}
+                    </span>
+                </div>
+                <div className={c.comment}>
+                    <div className={c['comment-text']}>{comments.comments}</div>
+                </div>
             </div>
         </div>
     );
