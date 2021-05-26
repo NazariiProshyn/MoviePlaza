@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import './comments.css';
+import c from './comments.module.css';
 import Comment from '../../Comment/Comment';
 import { addNewComment, setFilmComments } from '../../../dataService/filmpage';
 
@@ -16,42 +16,58 @@ const Comments = (filmpage_data) => {
 
     const addComment = () => {
         const comment = document.getElementById('addComment').value;
-
-        // Функція яка додає новий коментар до фільму та зберігає його на сервері
-        addNewComment(comment, userId);
-        setComments((oldcomment) => [
-            { comments: comment, userid: userId, commentdate: '' },
-            ...oldcomment,
-        ]);
-        document.getElementById('addComment').value = '';
+        if (comment !== '') {
+            // Функція яка додає новий коментар до фільму та зберігає його на сервері
+            addNewComment(comment, userId);
+            setComments((oldcomment) => [
+                { comments: comment, userid: userId, commentdate: '' },
+                ...oldcomment,
+            ]);
+            document.getElementById('addComment').value = '';
+        } else {
+            alert('Comment should not be empty!');
+        }
     };
 
     return (
-        <div className="filmComment">
-            <p className="commentP">Коментарі:</p>
-            {isLogin ? (
-                <div className="commentSection" id={isLogin}>
-                    <textarea id="addComment"></textarea>
-                    <button
-                        type="submit"
-                        id="addCommentBtn"
-                        onClick={addComment}
-                    >
-                        Додати коментар
-                    </button>
-                </div>
-            ) : (
-                ''
-            )}
+        <div className={c['film-comments']}>
             <div className="container">
-                {comments.map((comment) => (
-                    <div
-                        className="commentcont"
-                        key={comment.userid + comment.comments}
-                    >
-                        <Comment comments={comment} />
+                <div className={c['comments-wrapper']}>
+                    <p className={c['comments-heading']}>Коментарі:</p>
+                    {isLogin ? (
+                        <div className={c['add-comment-section']} id={isLogin}>
+                            <input
+                                className={c['add-comment']}
+                                id="addComment"
+                                placeholder="Текст коментаря..."
+                            ></input>
+                            <button
+                                className={c['add-comment__btn']}
+                                type="submit"
+                                id="addCommentBtn"
+                                onClick={addComment}
+                            >
+                                Додати коментар
+                            </button>
+                        </div>
+                    ) : (
+                        ''
+                    )}
+                    <div className={c['comment-container']}>
+                        {comments.map((comment) => (
+                            <div
+                                className={c['comment-content']}
+                                key={
+                                    comment.userid +
+                                    comment.comments +
+                                    comment.commentdate
+                                }
+                            >
+                                <Comment comments={comment} />
+                            </div>
+                        ))}
                     </div>
-                ))}
+                </div>
             </div>
         </div>
     );
