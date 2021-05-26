@@ -17,7 +17,7 @@ const Watchroom = () => {
 
     // Функція яка задає джерело відеоданих
     const watchnow = (filmname) => {
-        setSource(getSource(ENDPOINT, filmname));
+        setSource(getSource('https://res.cloudinary.com/movieplaza/video/upload', filmname));
         document.getElementById('videoPlayer').load();
         emitOnSourceChange(currSocket, filmname);
         window.scrollTo({
