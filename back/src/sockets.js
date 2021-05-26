@@ -1,4 +1,3 @@
-const axios = require('axios');
 const {
     getFilm,
     changefilm,
@@ -6,6 +5,7 @@ const {
     getCurrentUser,
     userLeave,
 } = require('./queries/users');
+const { getUserByLogin } = require('./queries/users_queries');
 const pool = require('./queries/pool');
 
 function watchroomsocket(app) {
@@ -46,9 +46,7 @@ const joinuser = async (username, room, socket) => {
 
 const chat_message = async (message, socket, app) => {
     const user = await getCurrentUser(socket.id, pool);
-    const user_data = await axios
-        .get('https://movieplaza.herokuapp.com/profile/' + user.username)
-        .then((res) => res.data);
+    const user_data = await getUserByLogin(user.username);
     let picture = 'user.png';
 
     if (user_data.userimage) {
