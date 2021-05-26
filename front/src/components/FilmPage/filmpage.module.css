@@ -107,6 +107,7 @@
     border-radius: 5px;
     transition: all 0.25s;
     outline: none;
+    pointer-events: none;
 }
 
 .watchroom-link {

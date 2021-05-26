@@ -8,7 +8,7 @@ const FilmPage = (filmpage_data) => {
     const [userRate, setUserRate] = useState('');
 
     const film = filmpage_data.data;
-    const isLogin = filmpage_data.login_data;
+    const isLogin = filmpage_data.login_data.isLogin;
 
     const HOSTNAME = 'https://movieplaza.herokuapp.com';
 
@@ -18,11 +18,13 @@ const FilmPage = (filmpage_data) => {
     };
 
     useEffect(() => {
-        getUserRate(setUserRate);
-        if (userRate) {
-            document.getElementById('star-' + userRate).checked = true;
+        if (isLogin) {
+            getUserRate(setUserRate);
+            if (userRate) {
+                document.getElementById('star-' + userRate).checked = true;
+            }
         }
-    }, [userRate]);
+    }, [isLogin, userRate]);
 
     return (
         <div className="Filmpage">
