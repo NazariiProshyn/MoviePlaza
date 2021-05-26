@@ -64,34 +64,6 @@ describe('routes test', () => {
 
         done();
     });
-    test('film is awailable', async (done) => {
-        const res = await request(app.server).get('/videos/FilmName1.mp4');
-        expect(res.statusCode).toEqual(200);
-        expect(res.body).toBeDefined();
-        expect(res.headers['content-type']).toEqual('video/mp4');
-        expect(res.headers['accept-ranges']).toEqual('bytes');
-        done();
-    });
-    test('film-part is awailable', async (done) => {
-        const res = await request(app.server)
-            .get('/videos/FilmName1.mp4')
-            .set('Range', 'bytes=0-300');
-        expect(res.statusCode).toEqual(206);
-        expect(res.body).toBeDefined();
-        expect(res.headers['content-type']).toEqual('video/mp4');
-        expect(res.headers['accept-ranges']).toEqual('bytes');
-        done();
-    });
-    test('film-part end is awailable', async (done) => {
-        const res = await request(app.server)
-            .get('/videos/FilmName1.mp4')
-            .set('Range', 'bytes=300-');
-        expect(res.statusCode).toEqual(206);
-        expect(res.body).toBeDefined();
-        expect(res.headers['content-type']).toEqual('video/mp4');
-        expect(res.headers['accept-ranges']).toEqual('bytes');
-        done();
-    });
     test('filmpage is awailable', async (done) => {
         const res = await request(app.server).get('/catalog/1');
         expect(res.statusCode).toEqual(200);
